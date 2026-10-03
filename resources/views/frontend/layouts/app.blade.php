@@ -272,6 +272,7 @@
                         <a href="{{ route('page.syarat') }}">Syarat dan Ketentuan</a>
                         <a href="{{ route('sitemap') }}">Sitemap</a>
                         <a href="{{ route('feed') }}">RSS Feed</a>
+                        <a href="{{ route('admin.login') }}" style="color: #CBD5E1;"><i class="fas fa-lock" style="font-size:0.7rem; color:var(--primary-red)"></i> Masuk Redaksi</a>
                     </div>
                 </div>
             </div>
