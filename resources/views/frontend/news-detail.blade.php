@@ -26,7 +26,7 @@
       "name": "HALO SULBAR",
       "logo": {
         "@@type": "ImageObject",
-        "url": "{{ asset('assets/images/sulbar_panorama.jpg') }}"
+        "url": "{{ asset('assets/images/logo.png') }}"
       }
   },
   "description": "{{ addslashes($article->excerpt) }}"

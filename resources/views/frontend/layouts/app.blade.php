@@ -33,8 +33,11 @@
     {{-- Font Awesome 6 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-transparent.png') }}">
+
     {{-- Core Stylesheet --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?v={{ file_exists(public_path('assets/css/style.css')) ? filemtime(public_path('assets/css/style.css')) : time() }}">
 
     {{-- Schema.org NewsArticle or WebSite --}}
     @yield('schema_markup')
@@ -92,11 +95,10 @@
         <div class="container">
             <div class="branding-header-inner">
                 <div class="brand-logo-wrap">
-                    <a href="{{ route('home') }}" class="brand-logo-text">
-                        <span class="halo">HALO</span>
-                        <span class="sulbar">SULBAR</span>
+                    <a href="{{ route('home') }}" class="brand-logo-img-link" title="HALO SULBAR - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
+                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-light">
+                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-dark">
                     </a>
-                    <div class="brand-tagline">{{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}</div>
                 </div>
             </div>
         </div>
@@ -205,12 +207,10 @@
             <div class="footer-inner-grid">
                 {{-- Col 1: Brand & About --}}
                 <div class="footer-col">
-                    <div class="brand-logo-wrap">
-                        <a href="{{ route('home') }}" class="brand-logo-text">
-                            <span class="halo" style="color: #60A5FA;">HALO</span>
-                            <span class="sulbar" style="color: var(--primary-red);">SULBAR</span>
+                    <div class="brand-logo-wrap" style="margin-bottom: 0.85rem;">
+                        <a href="{{ route('home') }}" class="brand-logo-img-link">
+                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" style="height: 52px; width: auto; object-fit: contain;">
                         </a>
-                        <div class="brand-tagline" style="color: #94A3B8;">{{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}</div>
                     </div>
                     <p class="footer-about-text">
                         {{ $siteSettings['footer_about'] ?? 'HALO SULBAR adalah media siber profesional independen yang menyajikan informasi aktual seputar politik, ekonomi, hukum, pendidikan, wisata dan budaya di Sulawesi Barat.' }}
@@ -284,10 +284,9 @@
     <div class="mobile-drawer">
         <div class="mobile-drawer-header">
             <div class="brand-logo-wrap">
-                <span class="brand-logo-text">
-                    <span class="halo" style="font-size: 1.25rem; color:#60A5FA;">HALO</span>
-                    <span class="sulbar" style="font-size: 1.6rem; color:var(--primary-red);">SULBAR</span>
-                </span>
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 44px; width: auto; object-fit: contain;">
+                </a>
             </div>
             <button class="mobile-drawer-close"><i class="fas fa-times"></i></button>
         </div>

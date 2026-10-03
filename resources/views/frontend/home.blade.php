@@ -10,7 +10,7 @@
   "name": "HALO SULBAR",
   "alternateName": "HaloSulbar",
   "url": "{{ url('/') }}",
-  "logo": "{{ asset('assets/images/sulbar_panorama.jpg') }}",
+  "logo": "{{ asset('assets/images/logo.png') }}",
   "slogan": "Suara Sulbar, Untuk Semua",
   "description": "Portal berita terkini dan terpercaya Sulawesi Barat.",
   "sameAs": [

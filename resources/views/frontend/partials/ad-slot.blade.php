@@ -21,10 +21,7 @@
                     <div class="ad-banner-inner">
                         <div class="ad-banner-content">
                             <div class="ad-logo-box">
-                                <div class="brand-logo-text">
-                                    <span class="halo">HALO</span>
-                                    <span class="sulbar">SULBAR</span>
-                                </div>
+                                <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 36px; width: auto; object-fit: contain;">
                             </div>
                             <div class="ad-info-text">
                                 <h4>SPACE BANNER 728 × 90</h4>
@@ -39,10 +36,7 @@
             @elseif($ad->position === 'sidebar_right')
                 <div class="ad-sidebar-300">
                     <div class="ad-sidebar-content">
-                        <div class="brand-logo-text">
-                            <span class="halo" style="font-size: 1.5rem; color: #FFFFFF;">HALO</span>
-                            <span class="sulbar" style="font-size: 2.2rem; color: var(--primary-red);">SULBAR</span>
-                        </div>
+                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 46px; width: auto; object-fit: contain; margin-bottom: 0.65rem;">
                         <div class="ad-sidebar-title">SPACE IKLAN</div>
                         <div class="ad-sidebar-size">300 × 600</div>
                         <div class="ad-sidebar-icon">
@@ -60,10 +54,7 @@
                 <div class="ad-banner-970">
                     <div class="ad-banner-970-inner">
                         <div class="ad-banner-970-content">
-                            <div class="brand-logo-text">
-                                <span class="halo" style="font-size: 1.6rem; color: #FFFFFF;">HALO</span>
-                                <span class="sulbar" style="font-size: 2.4rem; color: var(--primary-red);">SULBAR</span>
-                            </div>
+                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 48px; width: auto; object-fit: contain;">
                             <div class="ad-info-text">
                                 <h3 style="font-size: 1.6rem; font-weight: 800; letter-spacing: 0.5px;">BANNER IKLAN 970 × 250</h3>
                                 <div class="ad-banner-features">

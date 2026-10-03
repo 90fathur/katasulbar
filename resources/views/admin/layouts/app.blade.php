@@ -14,6 +14,9 @@
     {{-- Font Awesome 6 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-transparent.png') }}">
+
     {{-- Admin CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}?v={{ file_exists(public_path('assets/css/admin.css')) ? filemtime(public_path('assets/css/admin.css')) : time() }}">
 
@@ -27,11 +30,10 @@
         {{-- SIDEBAR --}}
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="admin-sidebar-brand">
-                <div>
-                    <span class="admin-brand-halo">HALO</span>
-                    <span class="admin-brand-sulbar">SULBAR</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 26px; width: auto; object-fit: contain;">
+                </a>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
                     <span class="admin-badge-panel">ADMIN</span>
                     <button class="admin-sidebar-close" id="adminSidebarClose" aria-label="Tutup Menu" style="background:none; border:none; color:#CBD5E1; font-size:1rem; cursor:pointer; padding: 0.2rem;">
                         <i class="fas fa-times"></i>
@@ -138,9 +140,10 @@
                     <button class="admin-menu-toggle" aria-label="Toggle Menu">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <span class="admin-topbar-title">
-                        Portal Berita HALO SULBAR
-                    </span>
+                    <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.45rem; text-decoration: none;">
+                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="HALO SULBAR" style="height: 22px; width: auto; object-fit: contain;">
+                        <span class="admin-topbar-title">Admin Panel</span>
+                    </a>
                 </div>
 
                 <div class="admin-topbar-right">

@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-transparent.png') }}">
+
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
 
     <style>
@@ -44,11 +47,8 @@
 
     <div class="login-box">
         <div class="login-header">
-            <div style="text-transform: uppercase; line-height: 1;">
-                <span style="font-size: 1.6rem; font-weight: 500; color: #60A5FA;">HALO</span>
-                <span style="font-size: 2.2rem; font-weight: 900; color: var(--admin-red);">SULBAR</span>
-            </div>
-            <div style="font-size: 0.8125rem; font-weight: 600; color: #CBD5E1; margin-top: 0.4rem;">
+            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 52px; width: auto; object-fit: contain; margin-bottom: 0.5rem;">
+            <div style="font-size: 0.75rem; font-weight: 600; color: #CBD5E1;">
                 Sistem Manajemen Portal Berita
             </div>
         </div>

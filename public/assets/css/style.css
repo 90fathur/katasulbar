@@ -267,40 +267,56 @@ button, input, textarea, select {
 
 .brand-logo-wrap {
     display: flex;
-    flex-direction: column;
+    align-items: center;
 }
 
-.brand-logo-text {
-    line-height: 0.95;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
+.brand-logo-img-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
 }
 
-.brand-logo-text .halo {
+.main-site-logo {
+    height: 70px;
+    width: auto;
+    max-width: 280px;
+    object-fit: contain;
     display: block;
-    font-size: 2.25rem;
-    font-weight: 500;
-    color: var(--deep-blue);
+    transition: transform 0.2s ease;
 }
 
-.brand-logo-text .sulbar {
-    display: block;
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--primary-red);
-    letter-spacing: -1px;
+.brand-logo-img-link:hover .main-site-logo {
+    transform: scale(1.02);
 }
 
-[data-theme="dark"] .brand-logo-text .halo {
-    color: #60A5FA;
+.logo-dark {
+    display: none !important;
 }
 
-.brand-tagline {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-top: 0.25rem;
-    letter-spacing: 0.2px;
+.logo-light {
+    display: block !important;
+}
+
+[data-theme="dark"] .logo-light {
+    display: none !important;
+}
+
+[data-theme="dark"] .logo-dark {
+    display: block !important;
+}
+
+@media (max-width: 768px) {
+    .main-site-logo {
+        height: 52px;
+        max-width: 210px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-site-logo {
+        height: 44px;
+        max-width: 175px;
+    }
 }
 
 /* ==========================================================================
