@@ -40,8 +40,10 @@ class SettingController extends Controller
         // Handle Site Logo Upload
         if ($request->hasFile('site_logo')) {
             $request->validate([
-                'site_logo' => 'image|mimes:png,jpg,jpeg,webp|max:4096',
+                'site_logo' => 'image|mimes:png,jpg,jpeg,webp|max:10240',
             ]);
+
+            @ini_set('memory_limit', '1024M');
 
             $file = $request->file('site_logo');
             $destPath = public_path('assets/images/logo.png');
@@ -73,6 +75,8 @@ class SettingController extends Controller
             return;
         }
 
+        @ini_set('memory_limit', '1024M');
+
         $info = @getimagesize($srcPath);
         if (! $info) {
             return;
@@ -92,18 +96,22 @@ class SettingController extends Controller
         $w = imagesx($src);
         $h = imagesy($src);
 
-        // Find bounding box (non-white)
+        // Find bounding box with adaptive step sampling (fast and memory friendly)
+        $step = max(2, (int) round(max($w, $h) / 350));
         $minX = $w;
         $minY = $h;
         $maxX = 0;
         $maxY = 0;
-        $hasNonWhite = false;
+        $hasContent = false;
 
-        for ($x = 0; $x < $w; $x += 2) {
-            for ($y = 0; $y < $h; $y += 2) {
+        for ($x = 0; $x < $w; $x += $step) {
+            for ($y = 0; $y < $h; $y += $step) {
                 $rgb = imagecolorat($src, $x, $y);
                 $c = imagecolorsforindex($src, $rgb);
-                if ($c['red'] < 245 || $c['green'] < 245 || $c['blue'] < 245) {
+                $isTransparent = ($c['alpha'] ?? 0) > 115;
+                $isWhite = $c['red'] > 240 && $c['green'] > 240 && $c['blue'] > 240;
+
+                if (! $isTransparent && ! $isWhite) {
                     if ($x < $minX) {
                         $minX = $x;
                     }
@@ -116,86 +124,102 @@ class SettingController extends Controller
                     if ($y > $maxY) {
                         $maxY = $y;
                     }
-                    $hasNonWhite = true;
+                    $hasContent = true;
                 }
             }
         }
 
-        if (! $hasNonWhite || $minX >= $maxX || $minY >= $maxY) {
+        if (! $hasContent || $minX >= $maxX || $minY >= $maxY) {
             $minX = 0;
             $minY = 0;
             $maxX = $w - 1;
             $maxY = $h - 1;
         }
 
-        $contentW = $maxX - $minX + 1;
-        $contentH = $maxY - $minY + 1;
-        $pad = 16;
-        $croppedW = $contentW + ($pad * 2);
-        $croppedH = $contentH + ($pad * 2);
+        // Add 2% breathing padding
+        $pad = max(4, (int) round(($maxX - $minX) * 0.02));
+        $minX = max(0, $minX - $pad);
+        $minY = max(0, $minY - $pad);
+        $maxX = min($w - 1, $maxX + $pad);
+        $maxY = min($h - 1, $maxY + $pad);
 
-        // 1. Cropped clean white version
-        $cropped = imagecreatetruecolor($croppedW, $croppedH);
-        $white = imagecolorallocate($cropped, 255, 255, 255);
-        imagefilledrectangle($cropped, 0, 0, $croppedW, $croppedH, $white);
-        imagecopy($cropped, $src, $pad, $pad, $minX, $minY, $contentW, $contentH);
-        imagepng($cropped, public_path('assets/images/logo.png'), 9);
+        $cropW = $maxX - $minX + 1;
+        $cropH = $maxY - $minY + 1;
 
-        // 2. Transparent version
-        $transImg = imagecreatetruecolor($croppedW, $croppedH);
-        imagealphablending($transImg, false);
-        imagesavealpha($transImg, true);
-        $transparent = imagecolorallocatealpha($transImg, 0, 0, 0, 127);
-        imagefilledrectangle($transImg, 0, 0, $croppedW, $croppedH, $transparent);
+        // Target optimized web logo width
+        $targetW = min(800, $cropW);
+        $targetH = (int) round($cropH * ($targetW / $cropW));
 
-        for ($x = 0; $x < $croppedW; $x++) {
-            for ($y = 0; $y < $croppedH; $y++) {
-                $rgb = imagecolorat($cropped, $x, $y);
-                $c = imagecolorsforindex($cropped, $rgb);
+        // 1. Scaled White Base
+        $scaledBase = imagecreatetruecolor($targetW, $targetH);
+        $white = imagecolorallocate($scaledBase, 255, 255, 255);
+        imagefilledrectangle($scaledBase, 0, 0, $targetW, $targetH, $white);
+        imagecopyresampled($scaledBase, $src, 0, 0, $minX, $minY, $targetW, $targetH, $cropW, $cropH);
+        imagepng($scaledBase, public_path('assets/images/logo.png'), 8);
+
+        // 2. Transparent Version
+        $trans = imagecreatetruecolor($targetW, $targetH);
+        imagealphablending($trans, false);
+        imagesavealpha($trans, true);
+        $transColor = imagecolorallocatealpha($trans, 0, 0, 0, 127);
+        imagefilledrectangle($trans, 0, 0, $targetW, $targetH, $transColor);
+
+        for ($x = 0; $x < $targetW; $x++) {
+            for ($y = 0; $y < $targetH; $y++) {
+                $rgb = imagecolorat($scaledBase, $x, $y);
+                $c = imagecolorsforindex($scaledBase, $rgb);
                 $brightness = ($c['red'] * 0.299 + $c['green'] * 0.587 + $c['blue'] * 0.114);
 
-                if ($c['red'] > 248 && $c['green'] > 248 && $c['blue'] > 248) {
-                    imagesetpixel($transImg, $x, $y, $transparent);
-                } elseif ($c['red'] > 220 && $c['green'] > 220 && $c['blue'] > 220) {
-                    $alpha = (int) (127 * (($brightness - 220) / 35.0));
+                if ($c['red'] > 245 && $c['green'] > 245 && $c['blue'] > 245) {
+                    imagesetpixel($trans, $x, $y, $transColor);
+                } elseif ($c['red'] > 215 && $c['green'] > 215 && $c['blue'] > 215) {
+                    $alpha = (int) (127 * (($brightness - 215) / 35.0));
                     $alpha = max(0, min(127, $alpha));
-                    $color = imagecolorallocatealpha($transImg, $c['red'], $c['green'], $c['blue'], $alpha);
-                    imagesetpixel($transImg, $x, $y, $color);
+                    $col = imagecolorallocatealpha($trans, $c['red'], $c['green'], $c['blue'], $alpha);
+                    imagesetpixel($trans, $x, $y, $col);
                 } else {
-                    $color = imagecolorallocatealpha($transImg, $c['red'], $c['green'], $c['blue'], 0);
-                    imagesetpixel($transImg, $x, $y, $color);
+                    $col = imagecolorallocatealpha($trans, $c['red'], $c['green'], $c['blue'], 0);
+                    imagesetpixel($trans, $x, $y, $col);
                 }
             }
         }
-        imagepng($transImg, public_path('assets/images/logo-transparent.png'), 9);
+        imagepng($trans, public_path('assets/images/logo-transparent.png'), 8);
 
-        // 3. Dark background version
-        $darkBgImg = imagecreatetruecolor($croppedW, $croppedH);
-        imagealphablending($darkBgImg, false);
-        imagesavealpha($darkBgImg, true);
-        imagefilledrectangle($darkBgImg, 0, 0, $croppedW, $croppedH, $transparent);
+        // 3. Dark Background Version
+        $darkBg = imagecreatetruecolor($targetW, $targetH);
+        imagealphablending($darkBg, false);
+        imagesavealpha($darkBg, true);
+        imagefilledrectangle($darkBg, 0, 0, $targetW, $targetH, $transColor);
 
-        for ($x = 0; $x < $croppedW; $x++) {
-            for ($y = 0; $y < $croppedH; $y++) {
-                $rgb = imagecolorat($transImg, $x, $y);
-                $c = imagecolorsforindex($transImg, $rgb);
-                if ($c['alpha'] == 127) {
-                    imagesetpixel($darkBgImg, $x, $y, $transparent);
+        for ($x = 0; $x < $targetW; $x++) {
+            for ($y = 0; $y < $targetH; $y++) {
+                $rgb = imagecolorat($trans, $x, $y);
+                $c = imagecolorsforindex($trans, $rgb);
+
+                if (($c['alpha'] ?? 0) >= 120) {
+                    imagesetpixel($darkBg, $x, $y, $transColor);
 
                     continue;
                 }
-                if ($c['red'] < 60 && $c['green'] < 90 && $c['blue'] > 50) {
-                    $whiteColor = imagecolorallocatealpha($darkBgImg, 255, 255, 255, $c['alpha']);
-                    imagesetpixel($darkBgImg, $x, $y, $whiteColor);
-                } elseif ($c['red'] < 70 && $c['green'] < 70 && $c['blue'] < 70) {
-                    $tagColor = imagecolorallocatealpha($darkBgImg, 203, 213, 225, $c['alpha']);
-                    imagesetpixel($darkBgImg, $x, $y, $tagColor);
+
+                // If navy / blue tint (HALO), make clean white
+                if ($c['blue'] > $c['red'] && $c['red'] < 110) {
+                    $col = imagecolorallocatealpha($darkBg, 255, 255, 255, $c['alpha']);
+                    imagesetpixel($darkBg, $x, $y, $col);
+                } elseif ($c['red'] < 100 && $c['green'] < 100 && $c['blue'] < 100) {
+                    $col = imagecolorallocatealpha($darkBg, 226, 232, 240, $c['alpha']);
+                    imagesetpixel($darkBg, $x, $y, $col);
                 } else {
-                    $keepColor = imagecolorallocatealpha($darkBgImg, $c['red'], $c['green'], $c['blue'], $c['alpha']);
-                    imagesetpixel($darkBgImg, $x, $y, $keepColor);
+                    $col = imagecolorallocatealpha($darkBg, $c['red'], $c['green'], $c['blue'], $c['alpha']);
+                    imagesetpixel($darkBg, $x, $y, $col);
                 }
             }
         }
-        imagepng($darkBgImg, public_path('assets/images/logo-dark-bg.png'), 9);
+        imagepng($darkBg, public_path('assets/images/logo-dark-bg.png'), 8);
+
+        imagedestroy($src);
+        imagedestroy($scaledBase);
+        imagedestroy($trans);
+        imagedestroy($darkBg);
     }
 }
