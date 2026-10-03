@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\Setting;
 use App\Models\Video;
+use App\Services\WeatherService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -41,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
                     $breakingNews = BreakingNews::active()->get();
                     $ads = Advertisement::active()->get()->groupBy('position');
                     $sidebarVideos = Video::standard()->orderByDesc('views')->take(4)->get();
+                    $currentWeather = WeatherService::getSulbarWeather();
 
                     $view->with([
                         'siteSettings' => $settings,
@@ -49,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
                         'breakingNews' => $breakingNews,
                         'ads' => $ads,
                         'sidebarVideos' => $sidebarVideos,
+                        'currentWeather' => $currentWeather,
                     ]);
                 }
             } catch (\Throwable $e) {
@@ -59,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
                     'breakingNews' => collect(),
                     'ads' => collect(),
                     'sidebarVideos' => collect(),
+                    'currentWeather' => WeatherService::getSulbarWeather(),
                 ]);
             }
         });

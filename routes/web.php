@@ -20,6 +20,7 @@ use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\VideoController;
+use App\Services\WeatherService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,7 @@ Route::get('/kategori/{slug}', [NewsController::class, 'category'])->name('categ
 Route::get('/tag/{slug}', [NewsController::class, 'tag'])->name('tag.show');
 Route::get('/cari', [NewsController::class, 'search'])->name('news.search');
 Route::get('/api/live-search', [NewsController::class, 'liveSearch'])->name('news.live_search');
+Route::get('/api/weather', fn () => response()->json(WeatherService::getSulbarWeather()))->name('api.weather');
 Route::get('/iklan/click/{ad}', [NewsController::class, 'adClick'])->name('ad.click');
 
 // Videos & Shorts (Sections 10, 31, 32, 36)

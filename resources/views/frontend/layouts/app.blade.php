@@ -56,9 +56,49 @@
                         <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                     </div>
                     <span class="top-info-divider">•</span>
-                    <div class="top-info-item">
-                        <i class="fas fa-cloud-sun"></i>
-                        <span>{{ $siteSettings['weather_label'] ?? '28°C' }}</span>
+                    @php
+                        $weather = $currentWeather ?? \App\Services\WeatherService::getSulbarWeather();
+                    @endphp
+                    <div class="top-info-item weather-widget" id="weatherWidget" tabindex="0" title="Klik / Arahkan kursor untuk melihat cuaca 6 kabupaten di Sulawesi Barat">
+                        <i class="{{ $weather['icon'] ?? 'fas fa-cloud-sun' }}" style="color: {{ $weather['color'] ?? '#38BDF8' }}; font-size: 0.85rem;"></i>
+                        <span class="weather-temp-label" style="font-weight: 700;">{{ $weather['temp_label'] ?? '29°C' }}</span>
+                        <span class="weather-cond-label" style="opacity: 0.85; font-size: 0.72rem;">{{ $weather['condition'] ?? 'Cerah Berawan' }}</span>
+                        <i class="fas fa-chevron-down weather-chevron" style="font-size: 0.55rem; margin-left: 2px; opacity: 0.7;"></i>
+
+                        {{-- Realtime weather dropdown for 6 regencies in Sulbar --}}
+                        <div class="weather-popup">
+                            <div class="weather-popup-header">
+                                <div class="weather-popup-title">
+                                    <i class="fas fa-temperature-high" style="color:var(--primary-red)"></i>
+                                    <strong>Cuaca Sulawesi Barat (Realtime)</strong>
+                                </div>
+                                <span class="weather-popup-badge">{{ $weather['updated_at'] ?? 'Hari ini' }}</span>
+                            </div>
+
+                            <div class="weather-grid">
+                                @foreach(($weather['regencies'] ?? []) as $reg)
+                                    <div class="weather-city-card {{ ($reg['is_capital'] ?? false) ? 'is-capital' : '' }}">
+                                        <div class="weather-city-top">
+                                            <span class="weather-city-name">
+                                                {{ $reg['name'] }}
+                                                @if($reg['is_capital'] ?? false)
+                                                    <span style="font-size: 0.55rem; color: var(--primary-red); font-weight: 600;">(Ibukota)</span>
+                                                @endif
+                                            </span>
+                                            <i class="{{ $reg['icon'] }}" style="color: {{ $reg['color'] }}; font-size: 0.8rem;"></i>
+                                        </div>
+                                        <div class="weather-city-bottom">
+                                            <span class="weather-city-temp">{{ $reg['temp_label'] }}</span>
+                                            <span class="weather-city-desc">{{ $reg['condition'] }}</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="weather-popup-footer">
+                                <span><i class="fas fa-satellite-dish" style="color:#10B981"></i> Data Satelit BMKG & Open-Meteo • Realtime</span>
+                            </div>
+                        </div>
                     </div>
                     <span class="top-info-divider">•</span>
                     <div class="top-info-item location">
