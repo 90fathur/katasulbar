@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Advertisement;
+use App\Models\BreakingNews;
+use App\Models\Category;
+use App\Models\Setting;
+use App\Models\Video;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +27,34 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrapFive();
+
+        View::composer('frontend.*', function ($view) {
+            try {
+                if (Schema::hasTable('settings')) {
+                    $settings = Setting::pluck('value', 'key')->all();
+                    $navCategories = Category::where('is_active', true)->orderBy('order')->get();
+                    $breakingNews = BreakingNews::active()->get();
+                    $ads = Advertisement::active()->get()->groupBy('position');
+                    $sidebarVideos = Video::standard()->orderByDesc('views')->take(4)->get();
+
+                    $view->with([
+                        'siteSettings' => $settings,
+                        'navCategories' => $navCategories,
+                        'breakingNews' => $breakingNews,
+                        'ads' => $ads,
+                        'sidebarVideos' => $sidebarVideos,
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                $view->with([
+                    'siteSettings' => [],
+                    'navCategories' => collect(),
+                    'breakingNews' => collect(),
+                    'ads' => collect(),
+                    'sidebarVideos' => collect(),
+                ]);
+            }
+        });
     }
 }

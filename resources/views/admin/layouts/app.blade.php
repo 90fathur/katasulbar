@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Admin Panel - HALO SULBAR')</title>
+
+    {{-- Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Font Awesome 6 --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    {{-- Admin CSS --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+
+    @stack('styles')
+</head>
+<body>
+
+    <div class="admin-wrapper">
+        {{-- SIDEBAR --}}
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-brand">
+                <div>
+                    <span class="admin-brand-halo">HALO</span>
+                    <span class="admin-brand-sulbar">SULBAR</span>
+                </div>
+                <span class="admin-badge-panel">ADMIN</span>
+            </div>
+
+            <nav class="admin-sidebar-nav">
+                <div class="admin-nav-category">Utama</div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </div>
+
+                <div class="admin-nav-category">Konten Editorial</div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.articles.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.articles.index') }}">
+                        <i class="fas fa-newspaper"></i> Berita & Artikel
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}">
+                        <i class="fas fa-folder"></i> Kategori
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.tags.index') }}">
+                        <i class="fas fa-tags"></i> Tag
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.videos.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.videos.index') }}">
+                        <i class="fab fa-youtube"></i> Video & Shorts
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.breaking-news.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.breaking-news.index') }}">
+                        <i class="fas fa-bolt"></i> Breaking News
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.comments.index') }}">
+                        <i class="far fa-comments"></i> Komentar
+                        @php
+                            $pCount = \App\Models\Comment::where('status', 'pending')->count();
+                        @endphp
+                        @if($pCount > 0)
+                            <span class="admin-nav-badge">{{ $pCount }}</span>
+                        @endif
+                    </a>
+                </div>
+
+                <div class="admin-nav-category">Media & Monetisasi</div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.advertisements.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.advertisements.index') }}">
+                        <i class="fas fa-ad"></i> Iklan & Banner
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.media.index') }}">
+                        <i class="far fa-images"></i> Media Library
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.newsletters.index') }}">
+                        <i class="far fa-envelope"></i> Newsletter
+                    </a>
+                </div>
+
+                <div class="admin-nav-category">Sistem & Pengaturan</div>
+                @if(Auth::user()->canManageAll())
+                    <div class="admin-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.users.index') }}">
+                            <i class="fas fa-users-cog"></i> Pengguna & Role
+                        </a>
+                    </div>
+                    <div class="admin-nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.settings.index') }}">
+                            <i class="fas fa-sliders-h"></i> Pengaturan & SEO
+                        </a>
+                    </div>
+                @endif
+                <div class="admin-nav-item {{ request()->routeIs('admin.activity_logs.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.activity_logs.index') }}">
+                        <i class="fas fa-history"></i> Activity Log
+                    </a>
+                </div>
+
+                <div class="admin-nav-category">Akses Cepat</div>
+                <div class="admin-nav-item">
+                    <a href="{{ route('home') }}" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Lihat Website
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        {{-- MAIN CONTENT --}}
+        <div class="admin-main">
+            {{-- Topbar --}}
+            <header class="admin-topbar">
+                <div class="admin-topbar-left">
+                    <button class="admin-menu-toggle" aria-label="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <span style="font-weight: 700; color: var(--admin-navy); font-size: 0.875rem;">
+                        Portal Berita HALO SULBAR
+                    </span>
+                </div>
+
+                <div class="admin-topbar-right">
+                    <div class="admin-user-menu">
+                        <div class="admin-user-avatar">
+                            {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
+                        </div>
+                        <div class="admin-user-info">
+                            <div class="admin-user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
+                            <div class="admin-user-role">{{ Auth::user()->role_label ?? 'Administrator' }}</div>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="admin-btn admin-btn-secondary admin-btn-sm" title="Keluar">
+                            <i class="fas fa-sign-out-alt"></i> Keluar
+                        </button>
+                    </form>
+                </div>
+            </header>
+
+            {{-- Body Content --}}
+            <main class="admin-content">
+                {{-- Flash Notifications --}}
+                @if(session('success'))
+                    <div class="admin-alert admin-alert-success">
+                        <i class="fas fa-check-circle"></i> {{ session('success') }}
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="admin-alert admin-alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                    </div>
+                @endif
+                @if($errors->any())
+                    <div class="admin-alert admin-alert-danger">
+                        <ul style="margin-left: 1rem; list-style: disc;">
+                            @foreach($errors->all() as $err)
+                                <li>{{ $err }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @yield('content')
+            </main>
+        </div>
+    </div>
+
+    {{-- Admin JS --}}
+    <script src="{{ asset('assets/js/admin.js') }}"></script>
+    @stack('scripts')
+</body>
+</html>
