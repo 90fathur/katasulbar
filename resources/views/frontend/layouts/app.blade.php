@@ -118,35 +118,89 @@
                     </a>
 
                     <ul class="nav-menu-list">
-                        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                            <a href="{{ route('home') }}" class="nav-link">Beranda</a>
-                        </li>
+                        @if(isset($navMenus) && $navMenus->count() > 0)
+                            @foreach($navMenus as $menu)
+                                @php
+                                    $hasChildren = $menu->activeChildren->isNotEmpty();
+                                    $currentUrl = url()->current();
+                                    $isActive = ($menu->final_url !== '#' && $currentUrl === $menu->final_url) ||
+                                                ($menu->type === 'category' && $menu->category && request()->is('kategori/' . $menu->category->slug . '*')) ||
+                                                ($menu->url && $menu->url !== '/' && $menu->url !== '#' && request()->is(trim($menu->url, '/') . '*'));
+                                    if (!$isActive && $hasChildren) {
+                                        foreach($menu->activeChildren as $c) {
+                                            if (($c->final_url !== '#' && $currentUrl === $c->final_url) ||
+                                                ($c->type === 'category' && $c->category && request()->is('kategori/' . $c->category->slug . '*')) ||
+                                                ($c->url && $c->url !== '/' && $c->url !== '#' && request()->is(trim($c->url, '/') . '*'))) {
+                                                $isActive = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                @endphp
+                                <li class="nav-item {{ $hasChildren ? 'has-dropdown' : '' }} {{ $isActive ? 'active' : '' }}">
+                                    <a href="{{ $menu->final_url }}" class="nav-link" target="{{ $menu->target ?: '_self' }}">
+                                        @if($menu->icon)
+                                            <i class="{{ $menu->icon }}" style="font-size:0.8rem; margin-right:2px;"></i>
+                                        @endif
+                                        <span>{{ $menu->title }}</span>
+                                        @if($menu->badge)
+                                            <span class="nav-badge-video" style="background-color: {{ $menu->badge_color ?: 'var(--primary-red)' }}">{{ $menu->badge }}</span>
+                                        @endif
+                                        @if($hasChildren)
+                                            <i class="fas fa-chevron-down nav-dropdown-arrow" style="font-size:0.65rem; margin-left: 3px;"></i>
+                                        @endif
+                                    </a>
 
-                        @foreach($navCategories as $cat)
-                            <li class="nav-item {{ request()->is('kategori/' . $cat->slug) ? 'active' : '' }}">
-                                <a href="{{ route('category.show', $cat->slug) }}" class="nav-link">
-                                    {{ $cat->name }}
-                                    @if($cat->children && $cat->children->count())
-                                        <i class="fas fa-chevron-down" style="font-size:0.65rem"></i>
+                                    @if($hasChildren)
+                                        <div class="nav-dropdown">
+                                            @foreach($menu->activeChildren as $child)
+                                                <a href="{{ $child->final_url }}" class="nav-dropdown-link" target="{{ $child->target ?: '_self' }}">
+                                                    <span class="nav-dropdown-title">
+                                                        @if($child->icon)
+                                                            <i class="{{ $child->icon }}" style="margin-right: 6px; font-size: 0.8rem; opacity: 0.85;"></i>
+                                                        @endif
+                                                        {{ $child->title }}
+                                                    </span>
+                                                    @if($child->badge)
+                                                        <span class="nav-badge-video" style="background-color: {{ $child->badge_color ?: 'var(--primary-red)' }}; font-size: 0.55rem; padding: 0.1rem 0.35rem; margin-left: auto;">{{ $child->badge }}</span>
+                                                    @endif
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     @endif
-                                </a>
-
-                                @if($cat->children && $cat->children->count())
-                                    <div class="nav-dropdown">
-                                        @foreach($cat->children as $sub)
-                                            <a href="{{ route('category.show', $sub->slug) }}" class="nav-dropdown-link">{{ $sub->name }}</a>
-                                        @endforeach
-                                    </div>
-                                @endif
+                                </li>
+                            @endforeach
+                        @else
+                            <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}" class="nav-link">Beranda</a>
                             </li>
-                        @endforeach
 
-                        {{-- Menu Video (Section 31) --}}
-                        <li class="nav-item {{ request()->is('video*') ? 'active' : '' }}">
-                            <a href="{{ route('video.index') }}" class="nav-link">
-                                Video <span class="nav-badge-video">NEW</span>
-                            </a>
-                        </li>
+                            @foreach($navCategories as $cat)
+                                <li class="nav-item {{ request()->is('kategori/' . $cat->slug) ? 'active' : '' }}">
+                                    <a href="{{ route('category.show', $cat->slug) }}" class="nav-link">
+                                        {{ $cat->name }}
+                                        @if($cat->children && $cat->children->count())
+                                            <i class="fas fa-chevron-down" style="font-size:0.65rem"></i>
+                                        @endif
+                                    </a>
+
+                                    @if($cat->children && $cat->children->count())
+                                        <div class="nav-dropdown">
+                                            @foreach($cat->children as $sub)
+                                                <a href="{{ route('category.show', $sub->slug) }}" class="nav-dropdown-link">{{ $sub->name }}</a>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </li>
+                            @endforeach
+
+                            {{-- Menu Video (Section 31) --}}
+                            <li class="nav-item {{ request()->is('video*') ? 'active' : '' }}">
+                                <a href="{{ route('video.index') }}" class="nav-link">
+                                    Video <span class="nav-badge-video">NEW</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
 
@@ -299,25 +353,89 @@
         </form>
 
         <ul class="mobile-menu-list">
-            <li class="mobile-menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                <a href="{{ route('home') }}"><i class="fas fa-home" style="margin-right: 0.5rem"></i> Beranda</a>
-            </li>
-            @foreach($navCategories as $cat)
-                <li class="mobile-menu-item {{ request()->is('kategori/' . $cat->slug) ? 'active' : '' }}">
-                    <a href="{{ route('category.show', $cat->slug) }}">{{ $cat->name }}</a>
+            @if(isset($navMenus) && $navMenus->count() > 0)
+                @foreach($navMenus as $menu)
+                    @php
+                        $hasChildren = $menu->activeChildren->isNotEmpty();
+                        $currentUrl = url()->current();
+                        $isActive = ($menu->final_url !== '#' && $currentUrl === $menu->final_url) ||
+                                    ($menu->type === 'category' && $menu->category && request()->is('kategori/' . $menu->category->slug . '*')) ||
+                                    ($menu->url && $menu->url !== '/' && $menu->url !== '#' && request()->is(trim($menu->url, '/') . '*'));
+                        if (!$isActive && $hasChildren) {
+                            foreach($menu->activeChildren as $c) {
+                                if (($c->final_url !== '#' && $currentUrl === $c->final_url) ||
+                                    ($c->type === 'category' && $c->category && request()->is('kategori/' . $c->category->slug . '*')) ||
+                                    ($c->url && $c->url !== '/' && $c->url !== '#' && request()->is(trim($c->url, '/') . '*'))) {
+                                    $isActive = true;
+                                    break;
+                                }
+                            }
+                        }
+                    @endphp
+                    <li class="mobile-menu-item {{ $hasChildren ? 'has-dropdown' : '' }} {{ $isActive ? 'active' : '' }}">
+                        <div class="mobile-menu-link-row">
+                            <a href="{{ $menu->final_url }}" target="{{ $menu->target ?: '_self' }}" class="mobile-menu-link">
+                                @if($menu->icon)
+                                    <i class="{{ $menu->icon }}" style="margin-right: 0.5rem"></i>
+                                @endif
+                                <span>{{ $menu->title }}</span>
+                                @if($menu->badge)
+                                    <span class="nav-badge-video" style="background-color: {{ $menu->badge_color ?: 'var(--primary-red)' }}; font-size: 0.55rem; padding: 0.1rem 0.35rem; margin-left: 0.35rem;">{{ $menu->badge }}</span>
+                                @endif
+                            </a>
+                            @if($hasChildren)
+                                <button type="button" class="mobile-submenu-toggle" aria-label="Toggle {{ $menu->title }}">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            @endif
+                        </div>
+                        @if($hasChildren)
+                            <ul class="mobile-submenu-list">
+                                @foreach($menu->activeChildren as $child)
+                                    @php
+                                        $childActive = ($child->final_url !== '#' && url()->current() === $child->final_url) ||
+                                                       ($child->type === 'category' && $child->category && request()->is('kategori/' . $child->category->slug . '*'));
+                                    @endphp
+                                    <li class="mobile-submenu-item {{ $childActive ? 'active' : '' }}">
+                                        <a href="{{ $child->final_url }}" target="{{ $child->target ?: '_self' }}">
+                                            @if($child->icon)
+                                                <i class="{{ $child->icon }}" style="margin-right: 0.5rem; opacity: 0.7;"></i>
+                                            @else
+                                                <i class="fas fa-angle-right" style="margin-right: 0.4rem; opacity: 0.5; font-size: 0.75rem;"></i>
+                                            @endif
+                                            <span>{{ $child->title }}</span>
+                                            @if($child->badge)
+                                                <span class="nav-badge-video" style="background-color: {{ $child->badge_color ?: 'var(--primary-red)' }}; font-size: 0.5rem; padding: 0.05rem 0.3rem; margin-left: auto;">{{ $child->badge }}</span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+                @endforeach
+            @else
+                <li class="mobile-menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}"><i class="fas fa-home" style="margin-right: 0.5rem"></i> Beranda</a>
                 </li>
-            @endforeach
-            <li class="mobile-menu-item {{ request()->is('video*') ? 'active' : '' }}">
-                <a href="{{ route('video.index') }}"><i class="fas fa-play-circle" style="color:var(--primary-red); margin-right: 0.5rem"></i> Video Berita</a>
+                @foreach($navCategories as $cat)
+                    <li class="mobile-menu-item {{ request()->is('kategori/' . $cat->slug) ? 'active' : '' }}">
+                        <a href="{{ route('category.show', $cat->slug) }}">{{ $cat->name }}</a>
+                    </li>
+                @endforeach
+                <li class="mobile-menu-item {{ request()->is('video*') ? 'active' : '' }}">
+                    <a href="{{ route('video.index') }}"><i class="fas fa-play-circle" style="color:var(--primary-red); margin-right: 0.5rem"></i> Video Berita</a>
+                </li>
+            @endif
+            <li class="mobile-menu-divider" style="height: 1px; background: rgba(255,255,255,0.1); margin: 0.75rem 0;"></li>
+            <li class="mobile-menu-item">
+                <a href="{{ route('page.tentang') }}"><i class="fas fa-info-circle" style="margin-right: 0.5rem"></i> Tentang Kami</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="{{ route('page.tentang') }}">Tentang Kami</a>
+                <a href="{{ route('page.redaksi') }}"><i class="fas fa-users" style="margin-right: 0.5rem"></i> Redaksi</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="{{ route('page.redaksi') }}">Redaksi</a>
-            </li>
-            <li class="mobile-menu-item">
-                <a href="{{ route('page.kontak') }}">Kontak & Pasang Iklan</a>
+                <a href="{{ route('page.kontak') }}"><i class="fas fa-envelope" style="margin-right: 0.5rem"></i> Kontak & Pasang Iklan</a>
             </li>
         </ul>
     </div>

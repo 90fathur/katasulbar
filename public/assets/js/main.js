@@ -243,6 +243,18 @@ function initMobileDrawer() {
     toggleBtn.addEventListener('click', openDrawer);
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
     backdrop.addEventListener('click', closeDrawer);
+
+    // Mobile submenu accordion toggles
+    drawer.querySelectorAll('.mobile-submenu-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const parentItem = btn.closest('.mobile-menu-item');
+            if (parentItem) {
+                parentItem.classList.toggle('open');
+            }
+        });
+    });
 }
 
 /* -------------------------------------------------------------------------- */

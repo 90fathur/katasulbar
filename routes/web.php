@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
@@ -97,6 +98,10 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(funct
 
     // Breaking News Ticker
     Route::resource('breaking-news', BreakingNewsController::class)->except(['show', 'create', 'edit']);
+
+    // Navigation Menus & Dropdown
+    Route::resource('menus', MenuController::class)->except(['show', 'create', 'edit']);
+    Route::post('/menus/{menu}/toggle', [MenuController::class, 'toggle'])->name('menus.toggle');
 
     // Comment Moderation
     Route::get('/comments', [AdminCommentController::class, 'index'])->name('comments.index');

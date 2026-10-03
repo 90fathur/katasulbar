@@ -60,6 +60,11 @@
                         <i class="fas fa-folder"></i> Kategori
                     </a>
                 </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.menus.index') }}">
+                        <i class="fas fa-compass"></i> Menu Navigasi
+                    </a>
+                </div>
                 <div class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.tags.index') }}">
                         <i class="fas fa-tags"></i> Tag
