@@ -3,14 +3,35 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Mobile Sidebar Toggle
+    // 1. Mobile Sidebar Toggle & Backdrop
     const toggleBtn = document.querySelector('.admin-menu-toggle');
-    const sidebar = document.querySelector('.admin-sidebar');
-    if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-        });
-    }
+    const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.getElementById('adminSidebarBackdrop');
+    const closeBtn = document.getElementById('adminSidebarClose');
+
+    const openSidebar = () => {
+        sidebar?.classList.add('show');
+        backdrop?.classList.add('show');
+    };
+
+    const closeSidebar = () => {
+        sidebar?.classList.remove('show');
+        backdrop?.classList.remove('show');
+    };
+
+    toggleBtn?.addEventListener('click', () => {
+        if (sidebar?.classList.contains('show')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    });
+
+    closeBtn?.addEventListener('click', closeSidebar);
+    backdrop?.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSidebar();
+    });
 
     // 2. Slug Auto-generation
     const titleInput = document.getElementById('articleTitle');

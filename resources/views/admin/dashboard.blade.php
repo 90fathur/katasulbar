@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Dashboard Redaksi</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Selamat datang kembali, <strong>{{ Auth::user()->name }}</strong> ({{ Auth::user()->role_label }}). Berikut ringkasan performa portal Halo Sulbar hari ini.
         </p>
     </div>
@@ -131,27 +131,29 @@
             </div>
         </div>
         <div class="admin-card-body" style="padding: 0;">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Kategori</th>
-                        <th>Jumlah Berita</th>
-                        <th>Total Pembaca</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($topCategories as $cat)
+            <div class="admin-table-wrap" style="border: none; border-radius: 0;">
+                <table class="admin-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: {{ $cat->color }}; margin-right: 6px;"></span>
-                                <strong>{{ $cat->name }}</strong>
-                            </td>
-                            <td>{{ $cat->published_articles_count }} berita</td>
-                            <td><span class="badge badge-success">{{ number_format($cat->total_views) }} view</span></td>
+                            <th>Kategori</th>
+                            <th>Jumlah Berita</th>
+                            <th>Total Pembaca</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($topCategories as $cat)
+                            <tr>
+                                <td>
+                                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: {{ $cat->color }}; margin-right: 6px;"></span>
+                                    <strong>{{ $cat->name }}</strong>
+                                </td>
+                                <td>{{ $cat->published_articles_count }} berita</td>
+                                <td><span class="badge badge-success">{{ number_format($cat->total_views) }} view</span></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -175,30 +177,32 @@
             <a href="{{ route('admin.articles.index') }}" style="font-size: 0.75rem; color: var(--admin-red); font-weight: 700;">Lihat Semua</a>
         </div>
         <div class="admin-card-body" style="padding: 0;">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Judul Berita</th>
-                        <th>Kategori</th>
-                        <th>Pembaca</th>
-                        <th>Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($topArticles as $art)
+            <div class="admin-table-wrap" style="border: none; border-radius: 0;">
+                <table class="admin-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <a href="{{ route('news.show', $art->slug) }}" target="_blank" style="font-weight: 600; color: var(--admin-navy);">
-                                    {{ Str::limit($art->title, 45) }}
-                                </a>
-                            </td>
-                            <td><span class="badge badge-info">{{ $art->category ? $art->category->name : 'Sulbar' }}</span></td>
-                            <td><strong>{{ number_format($art->views_count) }}</strong></td>
-                            <td style="color: var(--admin-text-muted);">{{ $art->published_at ? $art->published_at->format('d/m/Y') : '-' }}</td>
+                            <th style="min-width: 200px;">Judul Berita</th>
+                            <th>Kategori</th>
+                            <th>Pembaca</th>
+                            <th>Tanggal</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($topArticles as $art)
+                            <tr>
+                                <td style="min-width: 200px;">
+                                    <a href="{{ route('news.show', $art->slug) }}" target="_blank" style="font-weight: 600; color: var(--admin-navy);">
+                                        {{ Str::limit($art->title, 45) }}
+                                    </a>
+                                </td>
+                                <td><span class="badge badge-info">{{ $art->category ? $art->category->name : 'Sulbar' }}</span></td>
+                                <td><strong>{{ number_format($art->views_count) }}</strong></td>
+                                <td style="color: var(--admin-text-muted);">{{ $art->published_at ? $art->published_at->format('d/m/Y') : '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

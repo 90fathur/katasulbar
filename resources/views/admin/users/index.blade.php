@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Pengguna & Peran Redaksi</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Kelola struktur peran hak akses tim redaksi (Super Admin, Administrator, Pemred, Editor, Reporter, Kontributor).
         </p>
     </div>
@@ -17,16 +17,19 @@
 
 <div class="admin-card">
     <div class="admin-table-wrap">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+        </div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Nama Pengguna</th>
-                    <th>Email</th>
-                    <th>Role / Peran</th>
-                    <th>Status</th>
-                    <th>Artikel Ditulis</th>
-                    <th>Video Dibuat</th>
-                    <th style="width: 120px; text-align: right;">Aksi</th>
+                    <th style="min-width: 170px;">Nama Pengguna</th>
+                    <th style="min-width: 160px;">Email</th>
+                    <th style="min-width: 110px;">Role / Peran</th>
+                    <th style="min-width: 80px;">Status</th>
+                    <th style="min-width: 90px;">Artikel Ditulis</th>
+                    <th style="min-width: 90px;">Video Dibuat</th>
+                    <th style="width: 100px; text-align: right;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

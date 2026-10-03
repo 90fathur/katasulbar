@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Manajemen Berita & Artikel</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Kelola seluruh publikasi berita, headline carousel, breaking news ticker, dan artikel pilihan redaksi.
         </p>
     </div>
@@ -16,13 +16,13 @@
 </div>
 
 {{-- Filter Card --}}
-<div class="admin-card" style="margin-bottom: 1.25rem;">
-    <div class="admin-card-body" style="padding: 1rem;">
-        <form action="{{ route('admin.articles.index') }}" method="GET" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-            <div style="flex: 1; min-width: 200px;">
+<div class="admin-card" style="margin-bottom: 0.85rem;">
+    <div class="admin-card-body" style="padding: 0.65rem 0.85rem;">
+        <form action="{{ route('admin.articles.index') }}" method="GET" class="admin-filter-form">
+            <div class="admin-filter-search">
                 <input type="text" name="search" class="form-control" placeholder="Cari judul berita..." value="{{ $search }}">
             </div>
-            <div style="width: 160px;">
+            <div class="admin-filter-select">
                 <select name="category_id" class="form-control">
                     <option value="">Semua Kategori</option>
                     @foreach($categories as $c)
@@ -30,7 +30,7 @@
                     @endforeach
                 </select>
             </div>
-            <div style="width: 140px;">
+            <div class="admin-filter-select">
                 <select name="status" class="form-control">
                     <option value="">Semua Status</option>
                     <option value="published" {{ $status === 'published' ? 'selected' : '' }}>Published</option>
@@ -39,12 +39,14 @@
                     <option value="archived" {{ $status === 'archived' ? 'selected' : '' }}>Archived</option>
                 </select>
             </div>
-            <button type="submit" class="admin-btn admin-btn-navy">
-                <i class="fas fa-filter"></i> Filter
-            </button>
-            @if($search || $categoryId || $status)
-                <a href="{{ route('admin.articles.index') }}" class="admin-btn admin-btn-secondary">Reset</a>
-            @endif
+            <div class="admin-filter-actions">
+                <button type="submit" class="admin-btn admin-btn-navy">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+                @if($search || $categoryId || $status)
+                    <a href="{{ route('admin.articles.index') }}" class="admin-btn admin-btn-secondary">Reset</a>
+                @endif
+            </div>
         </form>
     </div>
 </div>
@@ -52,33 +54,41 @@
 {{-- Articles Table --}}
 <div class="admin-card">
     <div class="admin-table-wrap">
-        <table class="admin-table">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat seluruh kolom tabel</span>
+            <span style="font-size: 0.58rem; color: #94A3B8;">&laquo; scroll &raquo;</span>
+        </div>
+        <table class="admin-table articles-table">
             <thead>
                 <tr>
-                    <th style="width: 70px;">Foto</th>
-                    <th>Judul Berita</th>
-                    <th>Kategori</th>
-                    <th>Penulis</th>
-                    <th style="text-align: center;">Headline</th>
-                    <th style="text-align: center;">Breaking</th>
-                    <th style="text-align: center;">Pilihan Redaksi</th>
-                    <th>Status</th>
-                    <th>Pembaca</th>
-                    <th style="width: 120px; text-align: right;">Aksi</th>
+                    <th style="width: 55px;">Foto</th>
+                    <th style="min-width: 280px;">Judul Berita</th>
+                    <th style="width: 90px;">Kategori</th>
+                    <th style="width: 100px;">Penulis</th>
+                    <th style="width: 75px; text-align: center;">Headline</th>
+                    <th style="width: 75px; text-align: center;">Breaking</th>
+                    <th style="width: 90px; text-align: center;">Pilihan</th>
+                    <th style="width: 80px;">Status</th>
+                    <th style="width: 75px;">Pembaca</th>
+                    <th style="width: 85px; text-align: right;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($articles as $art)
                     <tr>
                         <td>
-                            <img src="{{ $art->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" alt="" style="width: 60px; height: 42px; border-radius: 4px; object-fit: cover;">
+                            <img src="{{ $art->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" alt="" style="width: 50px; height: 35px; border-radius: 3px; object-fit: cover;">
                         </td>
-                        <td>
-                            <a href="{{ route('news.show', $art->slug) }}" target="_blank" style="font-weight: 700; color: var(--admin-navy);">
+                        <td class="col-title" style="min-width: 280px;">
+                            <a href="{{ route('news.show', $art->slug) }}" target="_blank" style="font-weight: 700; color: var(--admin-navy); line-height: 1.35; display: block;">
                                 {{ $art->title }}
                             </a>
-                            <div style="font-size: 0.7rem; color: var(--admin-text-muted); margin-top: 2px;">
-                                Terbit: {{ $art->published_at ? $art->published_at->format('d/m/Y H:i') : 'Draft' }}
+                            <div style="font-size: 0.65rem; color: var(--admin-text-muted); margin-top: 3px; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                <span><i class="far fa-clock"></i> {{ $art->published_at ? $art->published_at->format('d/m/Y H:i') : 'Draft' }}</span>
+                                <span class="mobile-inline-actions">
+                                    &bull; <a href="{{ route('admin.articles.edit', $art->id) }}" style="color: var(--admin-navy); font-weight: 600;"><i class="fas fa-edit"></i> Edit</a>
+                                    &bull; <a href="{{ route('news.show', $art->slug) }}" target="_blank" style="color: var(--admin-red); font-weight: 600;"><i class="fas fa-external-link-alt"></i> Buka</a>
+                                </span>
                             </div>
                         </td>
                         <td>
@@ -86,7 +96,7 @@
                                 {{ $art->category ? $art->category->name : 'Sulbar' }}
                             </span>
                         </td>
-                        <td style="color: var(--admin-text-main); font-weight: 600;">
+                        <td style="color: var(--admin-text-main); font-weight: 600; white-space: nowrap;">
                             {{ $art->author ? $art->author->name : '-' }}
                         </td>
 

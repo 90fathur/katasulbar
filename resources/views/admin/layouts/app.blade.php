@@ -15,21 +15,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     {{-- Admin CSS --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}?v={{ file_exists(public_path('assets/css/admin.css')) ? filemtime(public_path('assets/css/admin.css')) : time() }}">
 
     @stack('styles')
 </head>
 <body>
 
+    <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
     <div class="admin-wrapper">
         {{-- SIDEBAR --}}
-        <aside class="admin-sidebar">
+        <aside class="admin-sidebar" id="adminSidebar">
             <div class="admin-sidebar-brand">
                 <div>
                     <span class="admin-brand-halo">HALO</span>
                     <span class="admin-brand-sulbar">SULBAR</span>
                 </div>
-                <span class="admin-badge-panel">ADMIN</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="admin-badge-panel">ADMIN</span>
+                    <button class="admin-sidebar-close" id="adminSidebarClose" aria-label="Tutup Menu" style="background:none; border:none; color:#CBD5E1; font-size:1rem; cursor:pointer; padding: 0.2rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
 
             <nav class="admin-sidebar-nav">
@@ -131,7 +138,7 @@
                     <button class="admin-menu-toggle" aria-label="Toggle Menu">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <span style="font-weight: 700; color: var(--admin-navy); font-size: 0.875rem;">
+                    <span class="admin-topbar-title">
                         Portal Berita HALO SULBAR
                     </span>
                 </div>
@@ -150,7 +157,7 @@
                     <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="admin-btn admin-btn-secondary admin-btn-sm" title="Keluar">
-                            <i class="fas fa-sign-out-alt"></i> Keluar
+                            <i class="fas fa-sign-out-alt"></i> <span class="btn-logout-text">Keluar</span>
                         </button>
                     </form>
                 </div>

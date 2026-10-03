@@ -6,14 +6,14 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Moderasi Komentar Pembaca</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Tinjau, setujui, tolak, atau tandai spam pada tanggapan pembaca sebelum ditampilkan di situs berita.
         </p>
     </div>
 </div>
 
 {{-- Status Filter Tabs --}}
-<div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+<div style="display: flex; gap: 0.4rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
     <a href="{{ route('admin.comments.index', ['status' => 'all']) }}" class="admin-btn {{ $status === 'all' ? 'admin-btn-navy' : 'admin-btn-secondary' }}">
         Semua ({{ $counts['all'] }})
     </a>
@@ -33,15 +33,18 @@
 
 <div class="admin-card">
     <div class="admin-table-wrap">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+        </div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th style="width: 180px;">Nama Pengirim</th>
-                    <th>Isi Komentar</th>
-                    <th>Pada Berita</th>
-                    <th>Status</th>
-                    <th>Waktu</th>
-                    <th style="width: 180px; text-align: right;">Aksi Moderasi</th>
+                    <th style="min-width: 150px;">Nama Pengirim</th>
+                    <th style="min-width: 250px;">Isi Komentar</th>
+                    <th style="min-width: 180px;">Pada Berita</th>
+                    <th style="min-width: 80px;">Status</th>
+                    <th style="min-width: 110px;">Waktu</th>
+                    <th style="width: 160px; text-align: right;">Aksi Moderasi</th>
                 </tr>
             </thead>
             <tbody>

@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Manajemen Iklan & Banner</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Atur penempatan slot banner horizontal, iklan sidebar 300x600, iklan dalam artikel, dan pantau tracking impresi/klik.
         </p>
     </div>
@@ -17,17 +17,20 @@
 
 <div class="admin-card">
     <div class="admin-table-wrap">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+        </div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Judul Iklan</th>
-                    <th>Posisi Slot</th>
-                    <th>Jenis Iklan</th>
-                    <th>Impresi (View)</th>
-                    <th>Klik</th>
-                    <th>CTR</th>
-                    <th>Status</th>
-                    <th style="width: 120px; text-align: right;">Aksi</th>
+                    <th style="min-width: 180px;">Judul Iklan</th>
+                    <th style="min-width: 140px;">Posisi Slot</th>
+                    <th style="min-width: 90px;">Jenis Iklan</th>
+                    <th style="min-width: 100px;">Impresi (View)</th>
+                    <th style="min-width: 70px;">Klik</th>
+                    <th style="min-width: 70px;">CTR</th>
+                    <th style="min-width: 80px;">Status</th>
+                    <th style="width: 100px; text-align: right;">Aksi</th>
                 </tr>
             </thead>
             <tbody>

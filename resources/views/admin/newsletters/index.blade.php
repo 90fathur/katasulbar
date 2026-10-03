@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Pelanggan Newsletter</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Daftar alamat email pembaca yang berlangganan kabar berita Halo Sulbar.
         </p>
     </div>
@@ -17,13 +17,16 @@
 
 <div class="admin-card">
     <div class="admin-table-wrap">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+        </div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th style="width: 60px;">No</th>
-                    <th>Alamat Email</th>
-                    <th>Status</th>
-                    <th>Tanggal Mendaftar</th>
+                    <th style="width: 50px;">No</th>
+                    <th style="min-width: 200px;">Alamat Email</th>
+                    <th style="min-width: 90px;">Status</th>
+                    <th style="min-width: 140px;">Tanggal Mendaftar</th>
                     <th style="width: 80px; text-align: right;">Aksi</th>
                 </tr>
             </thead>

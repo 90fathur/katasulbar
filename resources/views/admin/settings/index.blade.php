@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Pengaturan Website & SEO</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Konfigurasi identitas portal berita, kontak redaksi, media sosial, dan meta SEO.
         </p>
     </div>

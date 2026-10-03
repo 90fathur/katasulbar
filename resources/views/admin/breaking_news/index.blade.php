@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Breaking News Ticker</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Kelola teks berjalan berita kilat / breaking news di bawah bilah navigasi utama.
         </p>
     </div>
@@ -75,13 +75,16 @@
                 <div class="admin-card-title"><i class="fas fa-list" style="color:var(--admin-navy)"></i> Daftar Breaking News Aktif ({{ $breakingNews->count() }})</div>
             </div>
             <div class="admin-table-wrap">
+                <div class="table-scroll-hint">
+                    <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+                </div>
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th style="width: 50px;">Urutan</th>
-                            <th>Judul Breaking News</th>
-                            <th>Tautan</th>
-                            <th>Status</th>
+                            <th style="min-width: 220px;">Judul Breaking News</th>
+                            <th style="min-width: 140px;">Tautan</th>
+                            <th style="min-width: 80px;">Status</th>
                             <th style="width: 80px; text-align: right;">Aksi</th>
                         </tr>
                     </thead>

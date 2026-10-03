@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Kategori Berita</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Kelola kategori utama dan subkategori berita yang tampil pada navbar dan beranda.
         </p>
     </div>
@@ -80,15 +80,18 @@
                 <div class="admin-card-title"><i class="fas fa-list" style="color:var(--admin-navy)"></i> Daftar Kategori ({{ $categories->count() }})</div>
             </div>
             <div class="admin-table-wrap">
+                <div class="table-scroll-hint">
+                    <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+                </div>
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th style="width: 50px;">Urutan</th>
-                            <th>Nama Kategori</th>
-                            <th>Slug</th>
-                            <th>Warna</th>
-                            <th>Jumlah Berita</th>
-                            <th style="width: 100px; text-align: right;">Aksi</th>
+                            <th style="min-width: 140px;">Nama Kategori</th>
+                            <th style="min-width: 110px;">Slug</th>
+                            <th style="min-width: 90px;">Warna</th>
+                            <th style="min-width: 90px;">Jumlah Berita</th>
+                            <th style="width: 80px; text-align: right;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Log Aktivitas Sistem</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Catatan jejak audit aktivitas penulisan, pengubahan, penerbitan, dan moderasi konten.
         </p>
     </div>
@@ -14,14 +14,17 @@
 
 <div class="admin-card">
     <div class="admin-table-wrap">
+        <div class="table-scroll-hint">
+            <span><i class="fas fa-arrows-alt-h"></i> Geser horizontal untuk melihat tabel</span>
+        </div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th style="width: 160px;">Pengguna</th>
-                    <th>Aksi</th>
-                    <th>Keterangan Aktivitas</th>
-                    <th>Alamat IP</th>
-                    <th>Waktu Kejadian</th>
+                    <th style="min-width: 150px;">Pengguna</th>
+                    <th style="min-width: 90px;">Aksi</th>
+                    <th style="min-width: 250px;">Keterangan Aktivitas</th>
+                    <th style="min-width: 100px;">Alamat IP</th>
+                    <th style="min-width: 120px;">Waktu Kejadian</th>
                 </tr>
             </thead>
             <tbody>

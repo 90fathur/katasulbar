@@ -6,36 +6,40 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Media Library</h1>
-        <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
+        <p class="admin-page-subtitle">
             Pusat penyimpanan aset foto, grafis, dokumen PDF, dan file multimedia liputan berita.
         </p>
     </div>
 </div>
 
 {{-- Upload Card --}}
-<div class="admin-card" style="margin-bottom: 1.5rem;">
+<div class="admin-card" style="margin-bottom: 0.85rem;">
     <div class="admin-card-header">
         <div class="admin-card-title"><i class="fas fa-cloud-upload-alt" style="color:var(--admin-red)"></i> Unggah File Baru</div>
     </div>
-    <div class="admin-card-body">
-        <form action="{{ route('admin.media.upload') }}" method="POST" enctype="multipart/form-data" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+    <div class="admin-card-body" style="padding: 0.65rem 0.85rem;">
+        <form action="{{ route('admin.media.upload') }}" method="POST" enctype="multipart/form-data" class="admin-filter-form">
             @csrf
-            <input type="file" name="files[]" multiple required class="form-control" style="flex: 1; min-width: 250px;" accept="image/*,video/*,application/pdf">
-            <button type="submit" class="admin-btn admin-btn-primary">
-                <i class="fas fa-upload"></i> Unggah File
-            </button>
+            <div class="admin-filter-search">
+                <input type="file" name="files[]" multiple required class="form-control" accept="image/*,video/*,application/pdf" style="padding: 0.15rem 0.4rem; height: 28px;">
+            </div>
+            <div class="admin-filter-actions">
+                <button type="submit" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-upload"></i> Unggah File
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
 {{-- Filter Card --}}
-<div class="admin-card" style="margin-bottom: 1.5rem;">
-    <div class="admin-card-body" style="padding: 1rem;">
-        <form action="{{ route('admin.media.index') }}" method="GET" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-            <div style="flex: 1; min-width: 200px;">
+<div class="admin-card" style="margin-bottom: 0.85rem;">
+    <div class="admin-card-body" style="padding: 0.65rem 0.85rem;">
+        <form action="{{ route('admin.media.index') }}" method="GET" class="admin-filter-form">
+            <div class="admin-filter-search">
                 <input type="text" name="search" class="form-control" placeholder="Cari nama file media..." value="{{ $search }}">
             </div>
-            <div style="width: 160px;">
+            <div class="admin-filter-select">
                 <select name="type" class="form-control">
                     <option value="">Semua Format</option>
                     <option value="image" {{ $type === 'image' ? 'selected' : '' }}>Foto / Gambar</option>
@@ -43,10 +47,12 @@
                     <option value="document" {{ $type === 'document' ? 'selected' : '' }}>Dokumen PDF</option>
                 </select>
             </div>
-            <button type="submit" class="admin-btn admin-btn-navy"><i class="fas fa-filter"></i> Filter</button>
-            @if($search || $type)
-                <a href="{{ route('admin.media.index') }}" class="admin-btn admin-btn-secondary">Reset</a>
-            @endif
+            <div class="admin-filter-actions">
+                <button type="submit" class="admin-btn admin-btn-navy"><i class="fas fa-filter"></i> Filter</button>
+                @if($search || $type)
+                    <a href="{{ route('admin.media.index') }}" class="admin-btn admin-btn-secondary">Reset</a>
+                @endif
+            </div>
         </form>
     </div>
 </div>
