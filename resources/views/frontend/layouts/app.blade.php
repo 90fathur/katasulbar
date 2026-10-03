@@ -151,6 +151,7 @@
                 {{-- Nav Search Box --}}
                 <div class="nav-search-wrap">
                     <form action="{{ route('news.search') }}" method="GET" class="nav-search-form">
+                        <i class="fas fa-search nav-search-icon-left"></i>
                         <input type="text" name="q" class="nav-search-input" placeholder="Cari berita..." value="{{ request('q') }}" autocomplete="off">
                         <button type="submit" class="nav-search-btn" title="Cari">
                             <i class="fas fa-search"></i>
