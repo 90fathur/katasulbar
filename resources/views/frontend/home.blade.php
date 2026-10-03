@@ -89,8 +89,8 @@
                 @endforeach
             </div>
 
-            {{-- Col 3: Sidebar Terpopuler Widget & 300x600 Ad --}}
-            <div class="hero-sidebar-wrap">
+            {{-- Col 3: Sidebar Terpopuler Widget --}}
+            <div class="hero-widget-wrap">
                 <div class="widget-box">
                     <div class="tab-header">
                         <button class="tab-btn active" data-tab="tab-terpopuler">Terpopuler</button>
@@ -108,7 +108,7 @@
                                     <div class="popular-info">
                                         <a href="{{ route('news.show', $item->slug) }}" class="popular-title">{{ $item->title }}</a>
                                         <div class="popular-meta">
-                                            <span><i class="far fa-eye"></i> {{ $item->formatted_views }} dibaca</span>
+                                            <span><i class="far fa-eye"></i> {{ $item->formatted_views }}</span>
                                             <span>•</span>
                                             <span>{{ $item->published_at ? $item->published_at->format('d M') : '' }}</span>
                                         </div>
@@ -157,8 +157,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {{-- Space Iklan Sidebar 300x600 --}}
+            {{-- Col 4: Space Iklan Sidebar 300x600 --}}
+            <div class="hero-ad-wrap">
                 @include('frontend.partials.ad-slot', ['position' => 'sidebar_right'])
             </div>
 
@@ -184,8 +186,8 @@
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr; gap: 1.25rem;" class="berita-terkini-container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
-                @foreach($recentArticles->take(5) as $art)
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
+                @foreach($recentArticles->take(3) as $art)
                     <article class="news-card">
                         <div class="news-card-thumb-wrap">
                             <span class="news-card-category" style="background-color: {{ $art->category ? $art->category->color : 'var(--primary-red)' }}">
