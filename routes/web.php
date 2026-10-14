@@ -135,3 +135,36 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(funct
     // Activity Log
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity_logs.index');
 });
+
+// Helper setup untuk cPanel shared hosting tanpa terminal
+Route::get('/cpanel-setup', function (\Illuminate\Http\Request $request) {
+    if ($request->query('key') !== 'katasulbar2026') {
+        abort(403, 'Akses ditolak. Parameter key salah.');
+    }
+
+    $results = [];
+
+    // 1. Hubungkan storage link
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        $results['storage_link'] = 'Berhasil dihubungkan';
+    } catch (\Throwable $e) {
+        $results['storage_link'] = 'Catatan: ' . $e->getMessage();
+    }
+
+    // 2. Clear & optimize cache
+    try {
+        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+        $results['cache_cleared'] = 'Cache berhasil dibersihkan';
+    } catch (\Throwable $e) {
+        $results['cache_cleared'] = $e->getMessage();
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Konfigurasi cPanel Kata Sulbar selesai!',
+        'details' => $results,
+        'app_env' => config('app.env'),
+        'app_url' => config('app.url'),
+    ]);
+});
