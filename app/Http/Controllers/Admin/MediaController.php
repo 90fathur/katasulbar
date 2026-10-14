@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Media;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,44 +42,64 @@ class MediaController extends Controller
     public function upload(Request $request): RedirectResponse|JsonResponse
     {
         $request->validate([
-            'files.*' => 'required|file|mimes:jpg,jpeg,png,webp,gif,mp4,webm,pdf|max:10240',
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,webm,pdf|max:10240',
+            'file' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,webm,pdf|max:10240',
         ]);
 
         $uploaded = [];
+        $filesToProcess = [];
 
         if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $originalName = $file->getClientOriginalName();
-                $mime = $file->getMimeType();
-                $size = $file->getSize();
-                $path = $file->store('media', 'public');
+            $filesToProcess = $request->file('files');
+        } elseif ($request->hasFile('file')) {
+            $filesToProcess = [$request->file('file')];
+        }
 
-                $dimensions = null;
-                if (str_starts_with($mime, 'image/')) {
-                    $imageInfo = @getimagesize($file->getRealPath());
-                    if ($imageInfo) {
-                        $dimensions = "{$imageInfo[0]}x{$imageInfo[1]}";
-                    }
-                }
+        foreach ($filesToProcess as $file) {
+            $originalName = $file->getClientOriginalName();
+            $mime = $file->getMimeType();
+            $path = $file->store('media', 'public');
 
-                $media = Media::create([
-                    'name' => pathinfo($originalName, PATHINFO_FILENAME),
-                    'file_name' => $originalName,
-                    'file_path' => $path,
-                    'mime_type' => $mime,
-                    'file_size' => $size,
-                    'dimensions' => $dimensions,
-                    'uploader_id' => Auth::id(),
-                ]);
-
-                $uploaded[] = $media;
+            $fullPath = storage_path('app/public/'.$path);
+            if (str_starts_with($mime, 'image/')) {
+                ImageOptimizer::optimizeForWeb($fullPath);
             }
 
+            $size = file_exists($fullPath) ? filesize($fullPath) : $file->getSize();
+
+            $dimensions = null;
+            if (str_starts_with($mime, 'image/')) {
+                $imageInfo = @getimagesize($fullPath);
+                if ($imageInfo) {
+                    $dimensions = "{$imageInfo[0]}x{$imageInfo[1]}";
+                }
+            }
+
+            $media = Media::create([
+                'name' => pathinfo($originalName, PATHINFO_FILENAME),
+                'file_name' => $originalName,
+                'file_path' => $path,
+                'mime_type' => $mime,
+                'file_size' => $size,
+                'dimensions' => $dimensions,
+                'uploader_id' => Auth::id(),
+            ]);
+
+            $uploaded[] = $media;
+        }
+
+        if (count($uploaded) > 0) {
             ActivityLog::log('Upload Media', 'Mengunggah '.count($uploaded).' file ke media library');
         }
 
-        if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'files' => $uploaded]);
+        if ($request->expectsJson() || $request->ajax()) {
+            $firstUrl = ! empty($uploaded) ? asset('storage/'.$uploaded[0]->file_path) : null;
+
+            return response()->json([
+                'success' => true,
+                'files' => $uploaded,
+                'url' => $firstUrl,
+            ]);
         }
 
         return redirect()->route('admin.media.index')->with('success', 'File berhasil diunggah.');

@@ -1,4 +1,4 @@
-﻿@extends('admin.layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'Tulis Berita Baru - KATA SULBAR Admin')
 
@@ -218,6 +218,30 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 <script>
 $(document).ready(function() {
+    function uploadSummernoteImage(file, editor) {
+        let data = new FormData();
+        data.append("file", file);
+        data.append("_token", "{{ csrf_token() }}");
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "{{ route('admin.media.upload') }}",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.url) {
+                    $(editor).summernote('insertImage', response.url, function($image) {
+                        $image.addClass('img-fluid');
+                    });
+                }
+            },
+            error: function() {
+                alert('Gagal mengunggah gambar ke server. Pastikan ukuran file di bawah 10MB.');
+            }
+        });
+    }
+
     $('#summernoteEditor').summernote({
         placeholder: 'Tuliskan naskah berita lengkap di sini. Gunakan heading, bold, quote, atau embed media...',
         tabsize: 2,
@@ -230,7 +254,14 @@ $(document).ready(function() {
             ['table', ['table']],
             ['insert', ['link', 'picture', 'video']],
             ['view', ['fullscreen', 'codeview']]
-        ]
+        ],
+        callbacks: {
+            onImageUpload: function(files) {
+                for (let i = 0; i < files.length; i++) {
+                    uploadSummernoteImage(files[i], this);
+                }
+            }
+        }
     });
 });
 </script>

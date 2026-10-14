@@ -195,6 +195,13 @@ Route::get('/cpanel-setup', function (Request $request) {
         @unlink(base_path('bootstrap/cache/packages.php'));
         Artisan::call('optimize:clear');
         $results['cache_cleared'] = 'Cache dan config bootstrap berhasil dibersihkan';
+
+        if ($request->boolean('optimize')) {
+            Artisan::call('config:cache');
+            Artisan::call('route:cache');
+            Artisan::call('view:cache');
+            $results['optimized'] = 'Config, routes, dan views berhasil di-cache untuk performa maksimal';
+        }
     } catch (Throwable $e) {
         $results['cache_cleared'] = $e->getMessage();
     }
