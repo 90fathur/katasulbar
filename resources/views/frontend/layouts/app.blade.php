@@ -63,14 +63,42 @@
 
     @stack('styles')
 
+    {{-- Anti-Copy & Hak Cipta Protection Styling --}}
     <style>
-        body {
-            -webkit-user-select: none;
-            /* Safari */
-            -ms-user-select: none;
-            /* Internet Explorer/Edge */
-            user-select: none;
-            /* Standard */
+        body, .site-wrapper, main, article, section, p, h1, h2, h3, h4, h5, h6, span, div, a, li, ul, ol {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
+        }
+
+        img {
+            -webkit-user-drag: none !important;
+            -khtml-user-drag: none !important;
+            -moz-user-drag: none !important;
+            -o-user-drag: none !important;
+            user-drag: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
+            pointer-events: auto;
+        }
+
+        /* Izinkan seleksi & pengetikan normal pada input form (pencarian, komentar, newsletter) */
+        input, textarea, select, [contenteditable="true"] {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+            -webkit-touch-callout: default !important;
+        }
+
+        /* Proteksi cetak / print preview */
+        @media print {
+            body {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -515,35 +543,110 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     @stack('scripts')
 
+    {{-- Anti-Copy & Hak Cipta Protection Toast & Script --}}
+    <div id="antiCopyToast" style="display:none; position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(10px); background:rgba(15,23,42,0.96); backdrop-filter:blur(10px); color:#fff; padding:12px 24px; border-radius:50px; font-size:0.85rem; font-weight:600; box-shadow:0 12px 30px rgba(0,0,0,0.4); z-index:999999; border:1px solid rgba(239,68,68,0.7); align-items:center; gap:10px; transition:opacity 0.25s ease, transform 0.25s ease; opacity:0; pointer-events:none;">
+        <i class="fas fa-shield-alt" style="color:#ef4444; font-size:1.1rem;"></i>
+        <span id="antiCopyToastMsg">Konten dilindungi hak cipta © KataSulbar. Dilarang menyalin berita.</span>
+    </div>
+
     <script>
-        // 1. Menonaktifkan klik kanan
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+        (function() {
+            let toastTimer = null;
+            function showCopyAlert(message) {
+                const toast = document.getElementById('antiCopyToast');
+                const msg = document.getElementById('antiCopyToastMsg');
+                if (!toast) return;
+                if (message) msg.innerText = message;
+                toast.style.display = 'flex';
+                setTimeout(function() {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateX(-50%) translateY(0)';
+                }, 10);
 
-        // 2. Menonaktifkan shortcut keyboard (Ctrl+C, Ctrl+U, Ctrl+S, Ctrl+P, F12, dll)
-        document.addEventListener('keydown', function(e) {
-            // Cek tombol F12
-            if (e.key === 'F12') {
-                e.preventDefault();
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(function() {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(-50%) translateY(10px)';
+                    setTimeout(function() { toast.style.display = 'none'; }, 250);
+                }, 2500);
             }
-            // Cek kombinasi Ctrl + Shift + I, J, C atau Ctrl + U / C / S / P
-            if (e.ctrlKey && (
-                    e.key.toLowerCase() === 'u' ||
-                    e.key.toLowerCase() === 'c' ||
-                    e.key.toLowerCase() === 's' ||
-                    e.key.toLowerCase() === 'p' ||
-                    e.key.toLowerCase() === 'a' ||
-                    (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase()))
-                )) {
-                e.preventDefault();
-            }
-        });
 
-        // 3. Mencegah drag and drop teks
-        document.addEventListener('dragstart', function(e) {
-            e.preventDefault();
-        });
+            // 1. Menonaktifkan klik kanan di luar input form
+            document.addEventListener('contextmenu', function(e) {
+                if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.isContentEditable) {
+                    e.preventDefault();
+                    showCopyAlert('Klik kanan dinonaktifkan demi perlindungan hak cipta.');
+                }
+            });
+
+            // 2. Mencegah seleksi teks dengan mouse drag di luar form
+            document.addEventListener('selectstart', function(e) {
+                if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.isContentEditable) {
+                    e.preventDefault();
+                }
+            });
+
+            // 3. Mencegah aksi Copy & Cut ke clipboard
+            document.addEventListener('copy', function(e) {
+                if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.isContentEditable) {
+                    e.preventDefault();
+                    if (e.clipboardData) {
+                        e.clipboardData.setData('text/plain', 'Konten ini dilindungi hak cipta KataSulbar (https://katasulbar.id). Dilarang menyalin tanpa izin resmi.');
+                    }
+                    showCopyAlert('Konten dilindungi hak cipta © KataSulbar. Dilarang menyalin berita.');
+                }
+            });
+
+            document.addEventListener('cut', function(e) {
+                if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.isContentEditable) {
+                    e.preventDefault();
+                }
+            });
+
+            // 4. Mencegah drag and drop gambar / teks
+            document.addEventListener('dragstart', function(e) {
+                if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.isContentEditable) {
+                    e.preventDefault();
+                }
+            });
+
+            // 5. Menonaktifkan shortcut keyboard (Ctrl/Cmd + C, X, A, U, S, P, F12, DevTools)
+            document.addEventListener('keydown', function(e) {
+                const isInput = ['INPUT', 'TEXTAREA'].includes(e.target.tagName) || e.target.isContentEditable;
+                const key = e.key ? e.key.toLowerCase() : '';
+                const ctrlOrMeta = e.ctrlKey || e.metaKey;
+
+                // Tombol F12 (DevTools)
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    showCopyAlert('Akses Developer Tools dinonaktifkan.');
+                    return false;
+                }
+
+                if (ctrlOrMeta) {
+                    // Blokir View Source (Ctrl+U), Save Page (Ctrl+S), Print (Ctrl+P)
+                    if (key === 'u' || key === 's' || key === 'p') {
+                        e.preventDefault();
+                        showCopyAlert('Fitur ini dinonaktifkan untuk melindungi hak cipta konten.');
+                        return false;
+                    }
+
+                    // Blokir Inspect Element (Ctrl+Shift+I / J / C)
+                    if (e.shiftKey && ['i', 'j', 'c'].includes(key)) {
+                        e.preventDefault();
+                        showCopyAlert('Akses Developer Tools dinonaktifkan.');
+                        return false;
+                    }
+
+                    // Blokir Copy (Ctrl+C), Cut (Ctrl+X), Select All (Ctrl+A) hanya di luar input form
+                    if (!isInput && (key === 'c' || key === 'x' || key === 'a')) {
+                        e.preventDefault();
+                        showCopyAlert('Konten dilindungi hak cipta © KataSulbar. Dilarang menyalin berita.');
+                        return false;
+                    }
+                }
+            });
+        })();
     </script>
 
 </body>
