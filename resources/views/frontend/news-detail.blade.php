@@ -48,15 +48,101 @@
         <span style="color: var(--text-primary); font-weight: 600;">{{ Str::limit($article->title, 40) }}</span>
     </nav>
 
-    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;" class="detail-main-layout">
-        <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;" class="article-sidebar-grid">
-            <style>
-                @media (min-width: 992px) {
-                    .article-sidebar-grid {
-                        grid-template-columns: 8fr 4fr !important;
-                    }
-                }
-            </style>
+    <style>
+        .article-sidebar-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+        @media (min-width: 992px) {
+            .article-sidebar-grid {
+                grid-template-columns: minmax(0, 8.5fr) minmax(0, 3.5fr) !important;
+            }
+        }
+        .article-main-body {
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .article-sidebar {
+            min-width: 0;
+            max-width: 100%;
+        }
+        .article-main-image-wrap {
+            margin: 1.5rem 0;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .article-main-image {
+            width: 100%;
+            height: auto;
+            max-height: 580px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+            background: #F8FAFC;
+        }
+        [data-theme="dark"] .article-main-image {
+            background: #0F172A;
+        }
+        .article-body-content {
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        .article-body-content::after,
+        .article-body-content p::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .article-body-content img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px;
+            margin: 1rem auto;
+            display: block;
+        }
+        .article-body-content img[style*="float: left"],
+        .article-body-content img[style*="float:left"],
+        .article-body-content .note-float-left {
+            float: left !important;
+            margin: 0.5rem 1.5rem 1rem 0 !important;
+            max-width: 45% !important;
+            border-radius: 8px !important;
+            display: inline-block !important;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .article-body-content img[style*="float: right"],
+        .article-body-content img[style*="float:right"],
+        .article-body-content .note-float-right {
+            float: right !important;
+            margin: 0.5rem 0 1rem 1.5rem !important;
+            max-width: 45% !important;
+            border-radius: 8px !important;
+            display: inline-block !important;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .article-body-content img[style*="float: left"],
+            .article-body-content img[style*="float:left"],
+            .article-body-content img[style*="float: right"],
+            .article-body-content img[style*="float:right"],
+            .article-body-content .note-float-left,
+            .article-body-content .note-float-right {
+                float: none !important;
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 1rem auto !important;
+            }
+        }
+    </style>
+
+    <div class="article-sidebar-grid">
 
             {{-- Main Article Content Column --}}
             <article class="article-main-body">
@@ -362,8 +448,6 @@
                     </div>
                 @endif
             </aside>
-
-        </div>
     </div>
 
 </div>
