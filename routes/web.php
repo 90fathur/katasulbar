@@ -21,6 +21,7 @@ use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\VideoController;
+use App\Services\ImageOptimizer;
 use App\Services\WeatherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -207,6 +208,25 @@ Route::get('/cpanel-setup', function (Request $request) {
         }
     } catch (Throwable $e) {
         $results['sessions_table'] = 'Catatan sessions: '.$e->getMessage();
+    }
+
+    // 4. Auto-compress existing article images exceeding 300KB for WhatsApp
+    try {
+        $articleDir = storage_path('app/public/articles');
+        $optimizedCount = 0;
+        if (is_dir($articleDir)) {
+            $files = glob($articleDir.'/*.{jpg,jpeg,png,webp}', GLOB_BRACE) ?: [];
+            foreach ($files as $img) {
+                if (filesize($img) > 300000) {
+                    if (ImageOptimizer::optimizeForWeb($img)) {
+                        $optimizedCount++;
+                    }
+                }
+            }
+        }
+        $results['images_optimized'] = "{$optimizedCount} gambar berhasil dikompres untuk WhatsApp (< 300KB)";
+    } catch (Throwable $e) {
+        $results['images_optimized'] = $e->getMessage();
     }
 
     return response()->json([

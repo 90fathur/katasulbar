@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -94,6 +95,7 @@ class ArticleController extends Controller
         // Handle uploaded file
         if ($request->hasFile('thumbnail_file')) {
             $path = $request->file('thumbnail_file')->store('articles', 'public');
+            ImageOptimizer::optimizeForWeb(storage_path('app/public/'.$path));
             $validated['thumbnail'] = asset('storage/'.$path);
         }
 
@@ -175,6 +177,7 @@ class ArticleController extends Controller
 
         if ($request->hasFile('thumbnail_file')) {
             $path = $request->file('thumbnail_file')->store('articles', 'public');
+            ImageOptimizer::optimizeForWeb(storage_path('app/public/'.$path));
             $validated['thumbnail'] = asset('storage/'.$path);
         }
 

@@ -11,13 +11,20 @@
     <meta name="keywords" content="@yield('meta_keywords', $siteSettings['site_keywords'] ?? 'kata sulbar, berita sulbar, sulawesi barat, mamuju, polewali mandar, majene, mamasa, pasangkayu, mamuju tengah')">
     <link rel="canonical" href="{{ url()->current() }}">
 
-    {{-- Open Graph / Facebook --}}
+    {{-- Open Graph / Facebook / WhatsApp --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua')">
     <meta property="og:description" content="@yield('meta_description', $siteSettings['site_description'] ?? '')">
     <meta property="og:image" content="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta property="og:image:secure_url" content="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="@yield('title', 'KATA SULBAR')">
     <meta property="og:site_name" content="KATA SULBAR">
+    <link rel="image_src" href="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta itemprop="image" content="@yield('og_image', asset('assets/images/logo.png'))">
 
     {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
