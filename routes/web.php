@@ -143,13 +143,30 @@ Route::get('/cpanel-setup', function (\Illuminate\Http\Request $request) {
     }
 
     $results = [];
+    $target = storage_path('app/public');
 
-    // 1. Hubungkan storage link
-    try {
-        \Illuminate\Support\Facades\Artisan::call('storage:link');
-        $results['storage_link'] = 'Berhasil dihubungkan';
-    } catch (\Throwable $e) {
-        $results['storage_link'] = 'Catatan: ' . $e->getMessage();
+    // 1. Hubungkan storage link untuk public dan public_html
+    $destinations = [
+        'public' => public_path('storage'),
+        'public_html' => base_path('../public_html/storage'),
+    ];
+
+    foreach ($destinations as $name => $dest) {
+        if (!file_exists($dest)) {
+            if (function_exists('symlink')) {
+                @symlink($target, $dest);
+                if (file_exists($dest)) {
+                    $results['storage_' . $name] = 'Symlink berhasil dibuat ke ' . $dest;
+                    continue;
+                }
+            }
+            if (is_dir(dirname($dest))) {
+                @mkdir($dest, 0755, true);
+                $results['storage_' . $name] = 'Direktori storage dibuat di ' . $dest;
+            }
+        } else {
+            $results['storage_' . $name] = 'Storage link sudah ada di ' . $dest;
+        }
     }
 
     // 2. Clear & optimize cache
