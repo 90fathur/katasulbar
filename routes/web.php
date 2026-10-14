@@ -22,6 +22,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\VideoController;
 use App\Services\WeatherService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,6 +60,18 @@ Route::get('/kontak', fn () => app(PageController::class)->show('kontak'))->name
 Route::get('/kebijakan-privasi', fn () => app(PageController::class)->show('kebijakan-privasi'))->name('page.privasi');
 Route::get('/syarat-ketentuan', fn () => app(PageController::class)->show('syarat-ketentuan'))->name('page.syarat');
 Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show');
+
+// Fallback direct storage file server for shared hosting without symlink support
+Route::get('/storage/{path}', function (string $path) {
+    $filePath = storage_path('app/public/'.$path);
+    if (! file_exists($filePath)) {
+        abort(404);
+    }
+
+    return response()->file($filePath, [
+        'Cache-Control' => 'public, max-age=31536000',
+    ]);
+})->where('path', '.*')->name('storage.fallback');
 
 // SEO & Syndication
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
@@ -137,7 +151,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(funct
 });
 
 // Helper setup untuk cPanel shared hosting tanpa terminal
-Route::get('/cpanel-setup', function (\Illuminate\Http\Request $request) {
+Route::get('/cpanel-setup', function (Request $request) {
     if ($request->query('key') !== 'katasulbar2026') {
         abort(403, 'Akses ditolak. Parameter key salah.');
     }
@@ -152,28 +166,29 @@ Route::get('/cpanel-setup', function (\Illuminate\Http\Request $request) {
     ];
 
     foreach ($destinations as $name => $dest) {
-        if (!file_exists($dest)) {
+        if (! file_exists($dest)) {
             if (function_exists('symlink')) {
                 @symlink($target, $dest);
                 if (file_exists($dest)) {
-                    $results['storage_' . $name] = 'Symlink berhasil dibuat ke ' . $dest;
+                    $results['storage_'.$name] = 'Symlink berhasil dibuat ke '.$dest;
+
                     continue;
                 }
             }
             if (is_dir(dirname($dest))) {
                 @mkdir($dest, 0755, true);
-                $results['storage_' . $name] = 'Direktori storage dibuat di ' . $dest;
+                $results['storage_'.$name] = 'Direktori storage dibuat di '.$dest;
             }
         } else {
-            $results['storage_' . $name] = 'Storage link sudah ada di ' . $dest;
+            $results['storage_'.$name] = 'Storage link sudah ada di '.$dest;
         }
     }
 
     // 2. Clear & optimize cache
     try {
-        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+        Artisan::call('optimize:clear');
         $results['cache_cleared'] = 'Cache berhasil dibersihkan';
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         $results['cache_cleared'] = $e->getMessage();
     }
 
