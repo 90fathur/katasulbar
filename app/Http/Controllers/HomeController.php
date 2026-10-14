@@ -53,10 +53,7 @@ class HomeController extends Controller
         $usedIds = array_merge($heroIds, $companionArticles->pluck('id')->toArray());
 
         // 3. Tab Terpopuler, Terbaru, Komentar (Sidebar)
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        $popularArticles = Article::getPopularArticles(5, 30);
 
         $latestArticles = Article::with('category')
             ->published()

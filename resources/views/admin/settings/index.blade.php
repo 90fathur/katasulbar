@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Pengaturan Website & SEO - HALO SULBAR Admin')
+@section('title', 'Pengaturan Website & SEO - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
@@ -62,7 +62,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Nama Media Portal *</label>
-                        <input type="text" name="site_name" class="form-control" required value="{{ $settings['site_name'] ?? 'HALO SULBAR' }}">
+                        <input type="text" name="site_name" class="form-control" required value="{{ $settings['site_name'] ?? 'KATA SULBAR' }}">
                     </div>
 
                     <div class="form-group">

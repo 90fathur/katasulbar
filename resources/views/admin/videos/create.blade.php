@@ -1,13 +1,13 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Tambah Video Baru - HALO SULBAR Admin')
+@section('title', 'Tambah Video Baru - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Tambah Video Baru</h1>
         <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
-            Integrasikan video berita YouTube atau video vertikal YouTube Shorts ke dalam portal Halo Sulbar.
+            Integrasikan video berita YouTube atau video vertikal YouTube Shorts ke dalam portal Kata Sulbar.
         </p>
     </div>
     <a href="{{ route('admin.videos.index') }}" class="admin-btn admin-btn-secondary">

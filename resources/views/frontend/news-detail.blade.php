@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title', $article->meta_title ?: $article->title . ' - HALO SULBAR')
+@section('title', $article->meta_title ?: $article->title . ' - KATA SULBAR')
 @section('meta_description', $article->meta_description ?: $article->excerpt)
-@section('meta_keywords', $article->meta_keywords ?: 'halo sulbar, ' . ($article->category ? $article->category->name : 'berita'))
+@section('meta_keywords', $article->meta_keywords ?: 'kata sulbar, ' . ($article->category ? $article->category->name : 'berita'))
 @section('og_type', 'article')
 @section('og_image', $article->thumbnail ?: asset('assets/images/sulbar_panorama.jpg'))
 
@@ -19,11 +19,11 @@
   "dateModified": "{{ $article->updated_at->toIso8601String() }}",
   "author": [{
       "@@type": "Person",
-      "name": "{{ $article->author ? $article->author->name : 'Redaksi Halo Sulbar' }}"
+      "name": "{{ $article->author ? $article->author->name : 'Redaksi Kata Sulbar' }}"
   }],
   "publisher": {
       "@@type": "Organization",
-      "name": "HALO SULBAR",
+      "name": "KATA SULBAR",
       "logo": {
         "@@type": "ImageObject",
         "url": "{{ asset('assets/images/logo.png') }}"
@@ -144,7 +144,7 @@
                         <img src="https://ui-avatars.com/api/?name={{ urlencode($article->author->name) }}&background=062B56&color=fff&size=128" alt="{{ $article->author->name }}" class="author-profile-avatar">
                         <div class="author-profile-info">
                             <h4>{{ $article->author->name }}</h4>
-                            <div class="author-profile-role">{{ $article->author->role_label }} Halo Sulbar</div>
+                            <div class="author-profile-role">{{ $article->author->role_label }} Kata Sulbar</div>
                             <p class="author-profile-bio">{{ $article->author->bio ?? 'Jurnalis independen yang berdedikasi mengabarkan peristiwa aktual di Sulawesi Barat.' }}</p>
                         </div>
                     </div>
@@ -175,26 +175,37 @@
 
                 {{-- Berita Terkait (Related Articles) --}}
                 @if($relatedArticles->count() > 0)
-                    <section class="my-4">
-                        <div class="section-header">
-                            <h3 class="section-title">
+                    <section class="related-articles-section my-5">
+                        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 2px solid var(--primary-red); padding-bottom: 0.5rem;">
+                            <h3 class="section-title" style="font-size: 1.25rem; font-weight: 800; color: var(--navy-blue); margin: 0;">
                                 <i class="fas fa-newspaper" style="color:var(--primary-red)"></i> Berita Terkait
                             </h3>
+                            @if($article->category)
+                                <a href="{{ route('category.show', $article->category->slug) }}" class="view-all-link" style="font-size: 0.8125rem; font-weight: 700; color: var(--primary-red); text-decoration: none;">
+                                    Lihat {{ $article->category->name }} Lainnya <i class="fas fa-arrow-right"></i>
+                                </a>
+                            @endif
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem;">
+                        <div class="related-news-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem;">
                             @foreach($relatedArticles as $rel)
-                                <article class="news-card">
-                                    <div class="news-card-thumb-wrap">
+                                <article class="news-card" style="display: flex; flex-direction: column; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition);">
+                                    <div class="news-card-thumb-wrap" style="position: relative; overflow: hidden; aspect-ratio: 16/10;">
                                         <a href="{{ route('news.show', $rel->slug) }}">
-                                            <img src="{{ $rel->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" alt="{{ $rel->title }}" class="news-card-thumb" loading="lazy">
+                                            <img src="{{ $rel->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" alt="{{ $rel->title }}" class="news-card-thumb" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" loading="lazy">
                                         </a>
+                                        @if($rel->category)
+                                            <span class="news-card-badge" style="position: absolute; top: 8px; left: 8px; background: {{ $rel->category->color }}; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+                                                {{ $rel->category->name }}
+                                            </span>
+                                        @endif
                                     </div>
-                                    <div class="news-card-body">
-                                        <h4 class="news-card-title" style="font-size: 0.875rem;">
-                                            <a href="{{ route('news.show', $rel->slug) }}">{{ $rel->title }}</a>
+                                    <div class="news-card-body" style="padding: 0.85rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+                                        <h4 class="news-card-title" style="font-size: 0.875rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                            <a href="{{ route('news.show', $rel->slug) }}" style="color: var(--text-primary); text-decoration: none;">{{ $rel->title }}</a>
                                         </h4>
-                                        <div class="news-card-meta">
+                                        <div class="news-card-meta" style="font-size: 0.72rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between;">
                                             <span><i class="far fa-calendar-alt"></i> {{ $rel->published_at ? $rel->published_at->format('d M Y') : '' }}</span>
+                                            <span><i class="far fa-eye"></i> {{ $rel->formatted_views }}</span>
                                         </div>
                                     </div>
                                 </article>
@@ -281,8 +292,8 @@
 
             {{-- Sidebar Column --}}
             <aside class="article-sidebar">
-                {{-- Widget Tabbed Terpopuler --}}
-                <div class="widget-box mb-4">
+                {{-- Widget Tabbed Terpopuler & Terbaru --}}
+                <div class="widget-box">
                     <div class="tab-header">
                         <button class="tab-btn active" data-tab="side-terpopuler">Terpopuler</button>
                         <button class="tab-btn" data-tab="side-terbaru">Terbaru</button>
@@ -293,7 +304,7 @@
                             @foreach($popularArticles as $r => $p)
                                 <div class="popular-item">
                                     <div class="popular-rank">{{ sprintf('%02d', $r + 1) }}</div>
-                                    <img src="{{ $p->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" class="popular-thumb" alt="{{ $p->title }}">
+                                    <img src="{{ $p->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" class="popular-thumb" alt="{{ $p->title }}" loading="lazy">
                                     <div class="popular-info">
                                         <a href="{{ route('news.show', $p->slug) }}" class="popular-title">{{ $p->title }}</a>
                                         <div class="popular-meta">
@@ -310,7 +321,7 @@
                             @foreach($latestArticles as $r => $l)
                                 <div class="popular-item">
                                     <div class="popular-rank">{{ sprintf('%02d', $r + 1) }}</div>
-                                    <img src="{{ $l->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" class="popular-thumb" alt="{{ $l->title }}">
+                                    <img src="{{ $l->thumbnail ?: asset('assets/images/sulbar_panorama.jpg') }}" class="popular-thumb" alt="{{ $l->title }}" loading="lazy">
                                     <div class="popular-info">
                                         <a href="{{ route('news.show', $l->slug) }}" class="popular-title">{{ $l->title }}</a>
                                         <div class="popular-meta">
@@ -323,9 +334,14 @@
                     </div>
                 </div>
 
+                {{-- Space Iklan Sidebar 300x600 --}}
+                <div class="sidebar-ad-wrapper">
+                    @include('frontend.partials.ad-slot', ['position' => 'sidebar_right'])
+                </div>
+
                 {{-- Widget Video Terpopuler (Section 35) --}}
                 @if(isset($sidebarVideos) && $sidebarVideos->count() > 0)
-                    <div class="widget-box mb-4">
+                    <div class="widget-box">
                         <div style="padding: 0.85rem 1rem; border-bottom: 2px solid var(--primary-red); font-weight: 800; font-size: 0.9375rem; color: var(--navy-blue);">
                             <i class="fas fa-play-circle" style="color:var(--primary-red)"></i> Video Terpopuler
                         </div>
@@ -333,7 +349,7 @@
                             @foreach($sidebarVideos as $sv)
                                 <div class="video-side-card" data-video-id="{{ $sv->youtube_id }}" data-is-shorts="false">
                                     <div class="video-side-thumb-wrap" style="width: 100px; height: 65px;">
-                                        <img src="{{ $sv->thumbnail ?: 'https://img.youtube.com/vi/' . $sv->youtube_id . '/hqdefault.jpg' }}" alt="{{ $sv->title }}" class="video-side-thumb">
+                                        <img src="{{ $sv->thumbnail ?: 'https://img.youtube.com/vi/' . $sv->youtube_id . '/hqdefault.jpg' }}" alt="{{ $sv->title }}" class="video-side-thumb" loading="lazy">
                                         <span class="video-side-duration">{{ $sv->duration }}</span>
                                     </div>
                                     <div class="video-side-info">
@@ -345,9 +361,6 @@
                         </div>
                     </div>
                 @endif
-
-                {{-- Space Iklan Sidebar 300x600 --}}
-                @include('frontend.partials.ad-slot', ['position' => 'sidebar_right'])
             </aside>
 
         </div>

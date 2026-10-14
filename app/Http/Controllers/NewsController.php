@@ -47,7 +47,7 @@ class NewsController extends Controller
         $inArticleAd = Advertisement::forPosition('in_article')->first();
         $formattedContent = $this->injectAdIntoContent($article->content, $inArticleAd);
 
-        // Related articles
+        // Related articles: same category first, fallback to latest published
         $relatedArticles = Article::with('category')
             ->published()
             ->where('id', '!=', $article->id)
@@ -55,6 +55,17 @@ class NewsController extends Controller
             ->orderByDesc('published_at')
             ->take(4)
             ->get();
+
+        if ($relatedArticles->count() < 4) {
+            $excludeIds = $relatedArticles->pluck('id')->push($article->id)->all();
+            $moreRelated = Article::with('category')
+                ->published()
+                ->whereNotIn('id', $excludeIds)
+                ->orderByDesc('published_at')
+                ->take(4 - $relatedArticles->count())
+                ->get();
+            $relatedArticles = $relatedArticles->merge($moreRelated);
+        }
 
         // Prev and Next articles
         $prevArticle = Article::published()
@@ -67,11 +78,8 @@ class NewsController extends Controller
             ->orderBy('id')
             ->first();
 
-        // Sidebar popular
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        // Sidebar popular with guaranteed fallback
+        $popularArticles = Article::getPopularArticles(5, 30, $article->id);
 
         // Sidebar latest
         $latestArticles = Article::with('category')
@@ -80,6 +88,17 @@ class NewsController extends Controller
             ->orderByDesc('published_at')
             ->take(5)
             ->get();
+
+        if ($latestArticles->count() < 5) {
+            $excludeIds = $latestArticles->pluck('id')->push($article->id)->all();
+            $moreLatest = Article::with('category')
+                ->published()
+                ->whereNotIn('id', $excludeIds)
+                ->orderByDesc('id')
+                ->take(5 - $latestArticles->count())
+                ->get();
+            $latestArticles = $latestArticles->merge($moreLatest);
+        }
 
         return view('frontend.news-detail', compact(
             'article',
@@ -111,10 +130,7 @@ class NewsController extends Controller
 
         $articles = $query->paginate(9)->withQueryString();
 
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        $popularArticles = Article::getPopularArticles(5, 30);
 
         return view('frontend.category', compact('category', 'articles', 'popularArticles', 'sort'));
     }
@@ -129,10 +145,7 @@ class NewsController extends Controller
             ->orderByDesc('published_at')
             ->paginate(9);
 
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        $popularArticles = Article::getPopularArticles(5, 30);
 
         return view('frontend.tag', compact('tag', 'articles', 'popularArticles'));
     }
@@ -157,10 +170,7 @@ class NewsController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        $popularArticles = Article::getPopularArticles(5, 30);
 
         return view('frontend.search', compact('query', 'articles', 'popularArticles'));
     }
@@ -206,19 +216,25 @@ class NewsController extends Controller
 
     private function injectAdIntoContent(string $content, ?Advertisement $ad): string
     {
-        if (! $ad) {
+        if (! $ad || ! $ad->is_active) {
             return $content;
         }
 
         $targetParagraph = $ad->paragraph_position ?: 3;
         $paragraphs = explode('</p>', $content);
+        $pCount = count($paragraphs);
 
-        if (count($paragraphs) <= $targetParagraph) {
-            return $content;
+        if ($pCount <= 1) {
+            $adHtml = view('frontend.partials.ad-slot', ['ad' => $ad, 'slotClass' => 'ad-in-article my-4'])->render();
+
+            return $content.$adHtml;
         }
 
+        // Target insertion index (0-indexed)
+        $insertIndex = min(max(0, $pCount - 2), max(0, $targetParagraph - 1));
+
         $adHtml = view('frontend.partials.ad-slot', ['ad' => $ad, 'slotClass' => 'ad-in-article my-4'])->render();
-        $paragraphs[$targetParagraph - 1] .= '</p>'.$adHtml;
+        $paragraphs[$insertIndex] .= '</p>'.$adHtml;
 
         return implode('</p>', array_slice($paragraphs, 0, -1)).end($paragraphs);
     }

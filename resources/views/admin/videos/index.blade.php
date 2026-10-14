@@ -1,13 +1,13 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Manajemen Video & Shorts - HALO SULBAR Admin')
+@section('title', 'Manajemen Video & Shorts - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Galeri Video & YouTube Shorts</h1>
         <p class="admin-page-subtitle">
-            Kelola integrasi video YouTube, live streaming, dan video vertikal YouTube Shorts di Halo Sulbar.
+            Kelola integrasi video YouTube, live streaming, dan video vertikal YouTube Shorts di Kata Sulbar.
         </p>
     </div>
     <a href="{{ route('admin.videos.create') }}" class="admin-btn admin-btn-primary">

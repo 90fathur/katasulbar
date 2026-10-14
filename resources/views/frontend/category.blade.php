@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Berita ' . $category->name . ' - HALO SULBAR')
+@section('title', 'Berita ' . $category->name . ' - KATA SULBAR')
 @section('meta_description', $category->description ?? 'Kumpulan berita terkini seputar ' . $category->name . ' di Sulawesi Barat.')
 
 @section('content')

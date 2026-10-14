@@ -1195,9 +1195,12 @@ button, input, textarea, select {
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
-    height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.hero-widget-wrap .widget-box {
+    height: 100%;
 }
 
 /* Tabbed Header */
@@ -1233,21 +1236,32 @@ button, input, textarea, select {
 
 .tab-pane {
     display: none;
-    padding: 0.65rem 0.75rem;
+    padding: 0.85rem 1rem;
 }
 
 .tab-pane.active {
     display: flex;
     flex-direction: column;
+    min-height: 0;
+}
+
+.hero-widget-wrap .tab-pane {
+    padding: 0.65rem 0.75rem;
+}
+
+.hero-widget-wrap .tab-pane.active {
     justify-content: space-between;
     flex: 1;
-    min-height: 0;
 }
 
 /* Popular list items */
 .popular-list {
     display: flex;
     flex-direction: column;
+    gap: 0.85rem;
+}
+
+.hero-widget-wrap .popular-list {
     justify-content: space-between;
     flex: 1;
     min-height: 0;
@@ -1257,10 +1271,15 @@ button, input, textarea, select {
 .popular-item {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding-bottom: 0.35rem;
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border-color);
     transition: var(--transition);
+}
+
+.hero-widget-wrap .popular-item {
+    gap: 0.6rem;
+    padding-bottom: 0.35rem;
 }
 
 .popular-item:last-child {
@@ -1268,13 +1287,17 @@ button, input, textarea, select {
     padding-bottom: 0;
 }
 
+.popular-item:hover {
+    transform: translateX(3px);
+}
+
 .popular-rank {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 900;
     color: #FFFFFF;
-    background: var(--primary-red);
-    width: 24px;
-    height: 24px;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+    width: 26px;
+    height: 26px;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
@@ -1284,16 +1307,27 @@ button, input, textarea, select {
 }
 
 .popular-item:nth-child(n+4) .popular-rank {
-    background: var(--navy-blue);
-    box-shadow: none;
+    background: linear-gradient(135deg, var(--navy-blue) 0%, #1E3A8A 100%);
+    box-shadow: 0 2px 4px rgba(6, 43, 86, 0.2);
 }
 
 .popular-thumb {
-    width: 52px;
-    height: 42px;
+    width: 60px;
+    height: 48px;
     border-radius: var(--radius-sm);
     object-fit: cover;
     flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.popular-item:hover .popular-thumb {
+    transform: scale(1.04);
+}
+
+.hero-widget-wrap .popular-thumb {
+    width: 52px;
+    height: 42px;
 }
 
 .popular-info {
@@ -1302,15 +1336,22 @@ button, input, textarea, select {
 }
 
 .popular-title {
-    font-size: 0.78rem;
+    font-size: 0.8125rem;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.35;
     color: var(--text-primary);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.25rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 0.2s ease;
+}
+
+.hero-widget-wrap .popular-title {
+    font-size: 0.78rem;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
 }
 
 .popular-title:hover {
@@ -1318,11 +1359,44 @@ button, input, textarea, select {
 }
 
 .popular-meta {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
+}
+
+/* Sidebar Layout */
+.article-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-self: start;
+    width: 100%;
+}
+
+.ad-slot-sidebar-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.ad-slot-sidebar-right .ad-banner-link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.ad-slot-sidebar-right .ad-image-responsive {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
 .widget-footer-link {
@@ -1519,25 +1593,131 @@ button, input, textarea, select {
     justify-content: center;
 }
 
-/* Wide Banner 970x250 */
+/* Wide Banner 970x100 & Ad Slots */
+.ad-slot-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-banner-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    transition: var(--transition);
+}
+
+.ad-banner-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ad-image-responsive {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-md);
+}
+
+/* Banner Horizontal Top (Leaderboard & Billboard - Full Width Sejajar) */
+.ad-slot-horizontal-top {
+    width: 100%;
+    margin: 1.75rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-slot-horizontal-top .ad-banner-link {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    transition: var(--transition);
+}
+
+.ad-slot-horizontal-top .ad-banner-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ad-slot-horizontal-top .ad-image-responsive {
+    width: 100%;
+    height: 180px;
+    max-height: 180px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+/* Wide Banner (Home Bottom - Full Width Sejajar) */
+.ad-slot-home-bottom {
+    width: 100%;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-slot-home-bottom .ad-banner-link {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    transition: var(--transition);
+}
+
+.ad-slot-home-bottom .ad-banner-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ad-slot-home-bottom .ad-image-responsive {
+    width: 100%;
+    height: 180px;
+    max-height: 180px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+/* Wide Banner Placeholder Full Width */
 .ad-banner-970 {
     width: 100%;
+    max-width: 100%;
+    margin: 1.5rem auto;
     background: linear-gradient(135deg, var(--navy-blue-dark) 0%, var(--navy-blue) 60%, var(--deep-blue) 100%);
     border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
     position: relative;
-    margin: 2rem 0;
 }
 
 .ad-banner-970-inner {
-    padding: 2rem 2.5rem;
+    padding: 0.85rem 1.75rem;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
     color: #FFFFFF;
     position: relative;
     background-image: url('/assets/images/sulbar_panorama.jpg');
@@ -1560,26 +1740,8 @@ button, input, textarea, select {
     z-index: 2;
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
-}
-
-.ad-banner-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    font-size: 0.875rem;
-    color: #CBD5E1;
-}
-
-.ad-banner-features span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.ad-banner-features i {
-    color: var(--primary-red);
 }
 
 /* ==========================================================================
@@ -3144,7 +3306,12 @@ button, input, textarea, select {
     .ad-banner-970-inner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 1.5rem;
+        padding: 1rem 1.25rem;
+    }
+    .ad-slot-horizontal-top .ad-image-responsive,
+    .ad-slot-home-bottom .ad-image-responsive {
+        height: 130px;
+        max-height: 130px;
     }
     .article-main-title {
         font-size: 1.65rem;
@@ -3198,5 +3365,10 @@ button, input, textarea, select {
     .shorts-card {
         flex: 0 0 160px;
         scroll-snap-align: start;
+    }
+    .ad-slot-horizontal-top .ad-image-responsive,
+    .ad-slot-home-bottom .ad-image-responsive {
+        height: 85px;
+        max-height: 85px;
     }
 }

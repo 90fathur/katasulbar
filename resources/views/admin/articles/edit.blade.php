@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Edit Berita: ' . $article->title . ' - HALO SULBAR Admin')
+@section('title', 'Edit Berita: ' . $article->title . ' - KATA SULBAR Admin')
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">

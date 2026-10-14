@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Tag #' . $tag->name . ' - HALO SULBAR')
+@section('title', 'Tag #' . $tag->name . ' - KATA SULBAR')
 
 @section('content')
 <div class="container">

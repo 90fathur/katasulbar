@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Media Library - HALO SULBAR Admin')
+@section('title', 'Media Library - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">

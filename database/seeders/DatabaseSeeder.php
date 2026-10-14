@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         $superAdmin = User::updateOrCreate(
             ['email' => 'admin@halosulbar.com'],
             [
-                'name' => 'Redaksi Halo Sulbar',
+                'name' => 'Redaksi Kata Sulbar',
                 'password' => Hash::make('password'),
                 'role' => 'super_admin',
-                'bio' => 'Pemimpin Redaksi dan Administrator Utama Portal Berita Halo Sulbar.',
+                'bio' => 'Pemimpin Redaksi dan Administrator Utama Portal Berita Kata Sulbar.',
                 'phone' => '081142008899',
                 'status' => 'active',
             ]
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Andi Syarifuddin',
                 'password' => Hash::make('password'),
                 'role' => 'pemred',
-                'bio' => 'Pemimpin Redaksi Halo Sulbar dengan pengalaman jurnalisme lebih dari 15 tahun.',
+                'bio' => 'Pemimpin Redaksi Kata Sulbar dengan pengalaman jurnalisme lebih dari 15 tahun.',
                 'phone' => '081234567890',
                 'status' => 'active',
             ]
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Nur Azizah, S.I.Kom',
                 'password' => Hash::make('password'),
                 'role' => 'editor',
-                'bio' => 'Editor Desk Politik dan Pemerintahan Halo Sulbar.',
+                'bio' => 'Editor Desk Politik dan Pemerintahan Kata Sulbar.',
                 'phone' => '081298765432',
                 'status' => 'active',
             ]
@@ -84,23 +84,23 @@ class DatabaseSeeder extends Seeder
 
         // 2. Settings
         $settings = [
-            'site_name' => 'HALO SULBAR',
+            'site_name' => 'KATA SULBAR',
             'site_tagline' => 'Suara Sulbar, Untuk Semua',
             'site_description' => 'Portal Berita Terkini dan Terpercaya Sulawesi Barat. Menyajikan berita politik, ekonomi, hukum, wisata, dan suara rakyat dari 6 kabupaten Sulawesi Barat.',
-            'site_keywords' => 'halo sulbar, berita sulbar, sulawesi barat, mamuju, polewali mandar, majene, mamasa, pasangkayu, mamuju tengah, portal berita sulbar',
-            'contact_email' => 'redaksi@halosulbar.com',
+            'site_keywords' => 'kata sulbar, berita sulbar, sulawesi barat, mamuju, polewali mandar, majene, mamasa, pasangkayu, mamuju tengah, portal berita sulbar',
+            'contact_email' => 'redaksi@katasulbar.id',
             'contact_phone' => '+62 811-4200-8899',
             'contact_address' => 'Jl. Jenderal Sudirman No. 45, Simboro, Kec. Simboro dan Kepulauan, Kabupaten Mamuju, Sulawesi Barat 91511',
             'location_label' => 'Mamuju, Sulawesi Barat',
             'weather_label' => '28°C',
-            'facebook_url' => 'https://facebook.com/halosulbar',
-            'instagram_url' => 'https://instagram.com/halosulbar',
-            'youtube_url' => 'https://youtube.com/@halosulbar',
-            'tiktok_url' => 'https://tiktok.com/@halosulbar',
-            'twitter_url' => 'https://x.com/halosulbar',
-            'telegram_url' => 'https://t.me/halosulbar',
-            'whatsapp_channel' => 'https://whatsapp.com/channel/halosulbar',
-            'footer_about' => 'HALO SULBAR adalah media siber independen yang menyuarakan aspirasi masyarakat Sulawesi Barat secara objektif, berimbang, dan berintegritas tinggi untuk kemajuan Banua Malaqbiq.',
+            'facebook_url' => 'https://facebook.com/katasulbar',
+            'instagram_url' => 'https://instagram.com/katasulbar',
+            'youtube_url' => 'https://youtube.com/@katasulbar',
+            'tiktok_url' => 'https://tiktok.com/@katasulbar',
+            'twitter_url' => 'https://x.com/katasulbar',
+            'telegram_url' => 'https://t.me/katasulbar',
+            'whatsapp_channel' => 'https://whatsapp.com/channel/katasulbar',
+            'footer_about' => 'KATA SULBAR adalah media siber independen yang menyuarakan aspirasi masyarakat Sulawesi Barat secara objektif, berimbang, dan berintegritas tinggi untuk kemajuan Banua Malaqbiq.',
             'enable_dark_mode' => '1',
             'enable_comments' => '1',
             'auto_approve_comments' => '0',
@@ -200,7 +200,7 @@ class DatabaseSeeder extends Seeder
                 'caption' => 'Pemandangan landmark kota Mamuju dan jalan lingkar arteri pesisir Sulawesi Barat.',
                 'views_count' => 1240,
                 'excerpt' => 'Pemerintah Provinsi Sulawesi Barat terus memperkuat pembangunan infrastruktur sebagai upaya mendorong pertumbuhan ekonomi daerah dan meningkatkan konektivitas antarwilayah di enam kabupaten.',
-                'content' => '<p><strong>MAMUJU, HALO SULBAR</strong> — Pemerintah Provinsi Sulawesi Barat (Pemprov Sulbar) terus mempercepat pembangunan infrastruktur jalan, jembatan, dan sarana transportasi darat guna menopang percepatan ekonomi daerah. Kebijakan ini dinilai sangat strategis mengingat posisi Sulbar yang berhadapan langsung dengan Ibu Kota Nusantara (IKN) di Selat Makassar.</p>
+                'content' => '<p><strong>MAMUJU, KATA SULBAR</strong> — Pemerintah Provinsi Sulawesi Barat (Pemprov Sulbar) terus mempercepat pembangunan infrastruktur jalan, jembatan, dan sarana transportasi darat guna menopang percepatan ekonomi daerah. Kebijakan ini dinilai sangat strategis mengingat posisi Sulbar yang berhadapan langsung dengan Ibu Kota Nusantara (IKN) di Selat Makassar.</p>
 <p>Kepala Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) Sulbar menyampaikan bahwa fokus utama tahun ini meliputi pemeliharaan ruas jalan arteri lingkar luar Mamuju, penanganan titik longsor jalur Trans Sulawesi di perbatasan Majene-Mamuju, serta pembukaan akses jalan antar desa di dataran tinggi Mamasa.</p>
 <p>“Konektivitas adalah urat nadi perekonomian masyarakat petani dan nelayan kita di Banua Malaqbiq. Jika akses jalan mulus, maka distribusi hasil panen kakao, kelapa sawit, dan ikan tangkap akan jauh lebih cepat sampai ke pasar dan pelabuhan,” terangnya saat meninjau proyek di Simboro.</p>
 <p>Selain jalan raya, pembenahan pelabuhan laut Palipi di Polewali Mandar dan Pelabuhan Feri Simboro Mamuju juga terus dioptimalkan sebagai gerbang logistik penyuplai komoditas pangan menuju IKN Kalimantan Timur.</p>
@@ -433,7 +433,7 @@ class DatabaseSeeder extends Seeder
                     'published_at' => now()->subHours(rand(1, 48)),
                     'views_count' => $artData['views_count'],
                     'unique_views_count' => intval($artData['views_count'] * 0.8),
-                    'meta_title' => $artData['title'].' | HALO SULBAR',
+                    'meta_title' => $artData['title'].' | KATA SULBAR',
                     'meta_description' => $artData['excerpt'],
                     'meta_keywords' => implode(', ', $artData['tags']),
                 ]
@@ -463,7 +463,7 @@ class DatabaseSeeder extends Seeder
                     ['article_id' => $article->id, 'name' => 'Siti Marwah Mamuju'],
                     [
                         'email' => 'siti.marwah@yahoo.com',
-                        'content' => 'Terima kasih atas liputannya yang komprehensif dari redaksi Halo Sulbar. Informasi ini sangat bermanfaat bagi warga.',
+                        'content' => 'Terima kasih atas liputannya yang komprehensif dari redaksi Kata Sulbar. Informasi ini sangat bermanfaat bagi warga.',
                         'status' => 'approved',
                         'ip_address' => '127.0.0.1',
                     ]
@@ -609,7 +609,7 @@ class DatabaseSeeder extends Seeder
                     'show_homepage' => $v['show_homepage'],
                     'status' => 'published',
                     'published_at' => now()->subHours(rand(2, 72)),
-                    'meta_title' => $v['title'].' | Video Halo Sulbar',
+                    'meta_title' => $v['title'].' | Video Kata Sulbar',
                     'meta_description' => $v['description'],
                 ]
             );
@@ -643,7 +643,7 @@ class DatabaseSeeder extends Seeder
         );
 
         Advertisement::updateOrCreate(
-            ['title' => 'Banner Iklan Bawah 970 x 250'],
+            ['title' => 'Banner Iklan Bawah 970 x 100'],
             [
                 'position' => 'home_bottom',
                 'ad_type' => 'image',
@@ -674,17 +674,17 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Tentang Kami',
                 'slug' => 'tentang-kami',
-                'content' => '<h2>Tentang HALO SULBAR</h2><p><strong>HALO SULBAR</strong> dengan tagline <em>“Suara Sulbar, Untuk Semua”</em> adalah media siber profesional yang didirikan dengan semangat keterbukaan, independensi, dan keberpihakan pada kepentingan publik di Sulawesi Barat.</p><p>Kami berdedikasi mengabarkan setiap denyut dinamika masyarakat di 6 kabupaten: Mamuju, Majene, Polewali Mandar, Mamasa, Pasangkayu, dan Mamuju Tengah, menjembatani suara warga dan pemangku kebijakan dengan standar jurnalisme bermutu tinggi.</p>',
+                'content' => '<h2>Tentang KATA SULBAR</h2><p><strong>KATA SULBAR</strong> dengan tagline <em>“Suara Sulbar, Untuk Semua”</em> adalah media siber profesional yang didirikan dengan semangat keterbukaan, independensi, dan keberpihakan pada kepentingan publik di Sulawesi Barat.</p><p>Kami berdedikasi mengabarkan setiap denyut dinamika masyarakat di 6 kabupaten: Mamuju, Majene, Polewali Mandar, Mamasa, Pasangkayu, dan Mamuju Tengah, menjembatani suara warga dan pemangku kebijakan dengan standar jurnalisme bermutu tinggi.</p>',
             ],
             [
                 'title' => 'Struktur Redaksi',
                 'slug' => 'redaksi',
-                'content' => '<h2>Susunan Redaksi HALO SULBAR</h2><ul><li><strong>Pemimpin Umum:</strong> Andi Syarifuddin</li><li><strong>Pemimpin Redaksi / Penanggung Jawab:</strong> Andi Syarifuddin</li><li><strong>Sekretaris Redaksi:</strong> Nur Azizah, S.I.Kom</li><li><strong>Redaktur Pelaksana:</strong> Faisal Rasyid</li><li><strong>Tim Jurnalis & Koresponden:</strong> Wahyu Pratama (Polman), Hendra (Majene), Rian (Mamasa), Dewi Lestari (Pasangkayu), Ilham (Mateng)</li><li><strong>Tim Multimedia & TI:</strong> Halo Media Digital</li></ul>',
+                'content' => '<h2>Susunan Redaksi KATA SULBAR</h2><ul><li><strong>Pemimpin Umum:</strong> Andi Syarifuddin</li><li><strong>Pemimpin Redaksi / Penanggung Jawab:</strong> Andi Syarifuddin</li><li><strong>Sekretaris Redaksi:</strong> Nur Azizah, S.I.Kom</li><li><strong>Redaktur Pelaksana:</strong> Faisal Rasyid</li><li><strong>Tim Jurnalis & Koresponden:</strong> Wahyu Pratama (Polman), Hendra (Majene), Rian (Mamasa), Dewi Lestari (Pasangkayu), Ilham (Mateng)</li><li><strong>Tim Multimedia & TI:</strong> Kata Media Digital</li></ul>',
             ],
             [
                 'title' => 'Pedoman Media Siber',
                 'slug' => 'pedoman-media-siber',
-                'content' => '<h2>Pedoman Pemberitaan Media Siber</h2><p>HALO SULBAR berpegang teguh pada Kode Etik Jurnalistik dan Pedoman Pemberitaan Media Siber yang ditetapkan oleh Dewan Pers demi menjamin akurasi, keberimbangan, dan perlindungan hak privasi narasumber.</p>',
+                'content' => '<h2>Pedoman Pemberitaan Media Siber</h2><p>KATA SULBAR berpegang teguh pada Kode Etik Jurnalistik dan Pedoman Pemberitaan Media Siber yang ditetapkan oleh Dewan Pers demi menjamin akurasi, keberimbangan, dan perlindungan hak privasi narasumber.</p>',
             ],
             [
                 'title' => 'Kontak & Kerja Sama Iklan',
@@ -694,12 +694,12 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Kebijakan Privasi',
                 'slug' => 'kebijakan-privasi',
-                'content' => '<h2>Kebijakan Privasi</h2><p>Kami menghormati kerahasiaan data pembaca dan pengguna situs HALO SULBAR. Setiap data yang diperoleh melalui newsletter atau komentar dijaga dengan standar keamanan terbaik dan tidak akan diperjualbelikan kepada pihak ketiga.</p>',
+                'content' => '<h2>Kebijakan Privasi</h2><p>Kami menghormati kerahasiaan data pembaca dan pengguna situs KATA SULBAR. Setiap data yang diperoleh melalui newsletter atau komentar dijaga dengan standar keamanan terbaik dan tidak akan diperjualbelikan kepada pihak ketiga.</p>',
             ],
             [
                 'title' => 'Syarat dan Ketentuan',
                 'slug' => 'syarat-ketentuan',
-                'content' => '<h2>Syarat dan Ketentuan Layanan</h2><p>Seluruh konten berita, foto, grafis, dan video pada situs HALO SULBAR dilindungi undang-undang hak cipta. Pengutipan materi berita diperkenankan dengan mencantumkan tautan aktif ke sumber berita asli.</p>',
+                'content' => '<h2>Syarat dan Ketentuan Layanan</h2><p>Seluruh konten berita, foto, grafis, dan video pada situs KATA SULBAR dilindungi undang-undang hak cipta. Pengutipan materi berita diperkenankan dengan mencantumkan tautan aktif ke sumber berita asli.</p>',
             ],
         ];
 
@@ -710,7 +710,7 @@ class DatabaseSeeder extends Seeder
                     'title' => $p['title'],
                     'content' => $p['content'],
                     'is_active' => true,
-                    'meta_title' => $p['title'].' | HALO SULBAR',
+                    'meta_title' => $p['title'].' | KATA SULBAR',
                     'meta_description' => strip_tags(substr($p['content'], 0, 150)),
                 ]
             );

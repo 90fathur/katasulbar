@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', $page->meta_title ?: $page->title . ' - HALO SULBAR')
+@section('title', $page->meta_title ?: $page->title . ' - KATA SULBAR')
 @section('meta_description', $page->meta_description ?: Str::limit(strip_tags($page->content), 150))
 
 @section('content')
@@ -24,9 +24,16 @@
         {{-- Main Page Content --}}
         <div>
             <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 2rem; box-shadow: var(--shadow-sm);">
-                <h1 style="font-size: 2rem; font-weight: 800; color: var(--navy-blue); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--primary-red);">
-                    {{ $page->title }}
-                </h1>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--primary-red); flex-wrap: wrap; gap: 0.75rem;">
+                    <h1 style="font-size: 2rem; font-weight: 800; color: var(--navy-blue); margin: 0;">
+                        {{ $page->title }}
+                    </h1>
+                    @if(Auth::check() && Auth::user()->canManageAll())
+                        <a href="{{ route('admin.pages.edit', $page->id) }}" class="ad-banner-btn" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; background: var(--navy-blue);">
+                            <i class="fas fa-edit"></i> Edit Halaman Ini (Admin)
+                        </a>
+                    @endif
+                </div>
 
                 <div class="article-body-content">
                     {!! $page->content !!}

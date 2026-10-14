@@ -18,7 +18,7 @@ class HaloSulbarPortalTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('HALO');
+        $response->assertSee('KATA');
         $response->assertSee('SULBAR');
         $response->assertSee('Suara Sulbar, Untuk Semua');
         $response->assertSee('Berita Terkini');
@@ -66,7 +66,7 @@ class HaloSulbarPortalTest extends TestCase
     {
         $response = $this->get(route('video.index'));
         $response->assertStatus(200);
-        $response->assertSee('Galeri Video Halo Sulbar');
+        $response->assertSee('Galeri Video Kata Sulbar');
 
         $responseShorts = $this->get(route('video.index', ['tipe' => 'shorts']));
         $responseShorts->assertStatus(200);
@@ -148,7 +148,7 @@ class HaloSulbarPortalTest extends TestCase
      */
     public function test_authenticated_admin_can_access_dashboard_and_modules(): void
     {
-        $admin = User::where('email', 'admin@halosulbar.com')->first();
+        $admin = User::where('role', 'super_admin')->first() ?? User::where('email', 'admin@halosulbar.com')->first();
         $this->assertNotNull($admin);
 
         $response = $this->actingAs($admin)->get(route('admin.dashboard'));

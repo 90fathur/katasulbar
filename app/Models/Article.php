@@ -145,6 +145,53 @@ class Article extends Model
             ->orderByDesc('views_count');
     }
 
+    /**
+     * Get top popular published articles, with automatic fallback to all-time popular
+     * and latest published articles if recent popular count is below limit.
+     */
+    public static function getPopularArticles(int $limit = 5, int $days = 30, ?int $excludeId = null)
+    {
+        $query = static::with('category')->popular($days);
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+        $articles = $query->take($limit)->get();
+
+        if ($articles->count() < $limit) {
+            $excludeIds = $articles->pluck('id');
+            if ($excludeId) {
+                $excludeIds->push($excludeId);
+            }
+
+            $more = static::with('category')
+                ->published()
+                ->whereNotIn('id', $excludeIds)
+                ->orderByDesc('views_count')
+                ->take($limit - $articles->count())
+                ->get();
+
+            $articles = $articles->merge($more);
+        }
+
+        if ($articles->count() < $limit) {
+            $excludeIds = $articles->pluck('id');
+            if ($excludeId) {
+                $excludeIds->push($excludeId);
+            }
+
+            $more = static::with('category')
+                ->published()
+                ->whereNotIn('id', $excludeIds)
+                ->orderByDesc('published_at')
+                ->take($limit - $articles->count())
+                ->get();
+
+            $articles = $articles->merge($more);
+        }
+
+        return $articles;
+    }
+
     public function getEstimatedReadingTimeAttribute(): int
     {
         $words = str_word_count(strip_tags((string) $this->content));

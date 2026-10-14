@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Edit Video: ' . $video->title . ' - HALO SULBAR Admin')
+@section('title', 'Edit Video: ' . $video->title . ' - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">

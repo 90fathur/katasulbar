@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Admin\UserController;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Frontend Routes - HALO SULBAR ("Suara Sulbar, Untuk Semua")
+| Frontend Routes - KATA SULBAR ("Suara Sulbar, Untuk Semua")
 |--------------------------------------------------------------------------
 */
 
@@ -104,6 +105,10 @@ Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(funct
     // Navigation Menus & Dropdown
     Route::resource('menus', MenuController::class)->except(['show', 'create', 'edit']);
     Route::post('/menus/{menu}/toggle', [MenuController::class, 'toggle'])->name('menus.toggle');
+
+    // Institutional Pages (Redaksi, Tentang Kami, Kontak, dll)
+    Route::resource('pages', AdminPageController::class);
+    Route::post('/pages/{page}/toggle', [AdminPageController::class, 'toggle'])->name('pages.toggle');
 
     // Comment Moderation
     Route::get('/comments', [AdminCommentController::class, 'index'])->name('comments.index');

@@ -1,14 +1,14 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'HALO SULBAR - Suara Sulbar, Untuk Semua | Portal Berita Terkini Sulawesi Barat')
+@section('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua | Portal Berita Terkini Sulawesi Barat')
 
 @section('schema_markup')
 <script type="application/ld+json">
 {
   "@@context": "https://schema.org",
   "@@type": "NewsMediaOrganization",
-  "name": "HALO SULBAR",
-  "alternateName": "HaloSulbar",
+  "name": "KATA SULBAR",
+  "alternateName": "KataSulbar",
   "url": "{{ url('/') }}",
   "logo": "{{ asset('assets/images/logo.png') }}",
   "slogan": "Suara Sulbar, Untuk Semua",
@@ -362,7 +362,7 @@
                     </div>
                     <h4 class="newsletter-title">Dapatkan Berita Terbaru</h4>
                     <p class="newsletter-desc">
-                        Berlangganan newsletter Halo Sulbar untuk mendapatkan berita terkini langsung di email Anda setiap hari.
+                        Berlangganan newsletter Kata Sulbar untuk mendapatkan berita terkini langsung di email Anda setiap hari.
                     </p>
                     <form class="newsletter-form">
                         <input type="email" class="newsletter-input" placeholder="Masukkan email Anda..." required>
@@ -412,7 +412,7 @@
     </section>
 
     {{-- ====================================================================
-       8. BANNER IKLAN BAWAH HOMEPAGE 970x250 (Section 7)
+       8. BANNER IKLAN BAWAH HOMEPAGE 970x100 (Section 7)
        ==================================================================== --}}
     @include('frontend.partials.ad-slot', ['position' => 'home_bottom'])
 

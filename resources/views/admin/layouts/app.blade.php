@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Panel - HALO SULBAR')</title>
+    <title>@yield('title', 'Admin Panel - KATA SULBAR')</title>
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,7 @@
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="admin-sidebar-brand">
                 <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
-                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 26px; width: auto; object-fit: contain;">
+                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 26px; width: auto; object-fit: contain;">
                 </a>
                 <div style="display: flex; align-items: center; gap: 0.4rem;">
                     <span class="admin-badge-panel">ADMIN</span>
@@ -63,6 +63,11 @@
                 <div class="admin-nav-item {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.menus.index') }}">
                         <i class="fas fa-compass"></i> Menu Navigasi
+                    </a>
+                </div>
+                <div class="admin-nav-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.index') }}">
+                        <i class="fas fa-file-alt"></i> Halaman (Redaksi & Kontak)
                     </a>
                 </div>
                 <div class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
@@ -146,7 +151,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.45rem; text-decoration: none;">
-                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="HALO SULBAR" style="height: 22px; width: auto; object-fit: contain;">
+                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="KATA SULBAR" style="height: 22px; width: auto; object-fit: contain;">
                         <span class="admin-topbar-title">Admin Panel</span>
                     </a>
                 </div>

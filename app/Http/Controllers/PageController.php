@@ -15,10 +15,7 @@ class PageController extends Controller
     {
         $page = Page::where('slug', $slug)->where('is_active', true)->firstOrFail();
 
-        $popularArticles = Article::with('category')
-            ->popular(30)
-            ->take(5)
-            ->get();
+        $popularArticles = Article::getPopularArticles(5, 30);
 
         return view('frontend.page', compact('page', 'popularArticles'));
     }

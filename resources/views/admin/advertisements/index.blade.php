@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Manajemen Iklan & Banner - HALO SULBAR Admin')
+@section('title', 'Manajemen Iklan & Banner - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
@@ -53,7 +53,7 @@
                             @elseif($ad->position === 'sidebar_right')
                                 <span class="badge" style="background: var(--admin-navy); color: #fff;">Sidebar 300×600</span>
                             @elseif($ad->position === 'home_bottom')
-                                <span class="badge badge-success">Bottom 970×250</span>
+                                <span class="badge badge-success">Bottom 970×100</span>
                             @elseif($ad->position === 'in_article')
                                 <span class="badge badge-warning">Dalam Artikel (P:{{ $ad->paragraph_position ?? 3 }})</span>
                             @else

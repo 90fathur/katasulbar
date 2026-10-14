@@ -7,11 +7,11 @@
 @endphp
 
 @if($ad && $ad->is_active)
-    <div class="ad-slot-item {{ $slotClass }}">
+    <div class="ad-slot-item {{ $slotClass }} {{ $ad->position ? 'ad-slot-' . str_replace('_', '-', $ad->position) : '' }}">
         @if($ad->ad_type === 'code' && !empty($ad->ad_code))
             {!! $ad->ad_code !!}
         @elseif(!empty($ad->image_url))
-            <a href="{{ route('ad.click', $ad->id) }}" target="_blank" rel="noopener noreferrer">
+            <a href="{{ route('ad.click', $ad->id) }}" target="_blank" rel="noopener noreferrer" class="ad-banner-link">
                 <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="ad-image-responsive">
             </a>
         @else
@@ -21,7 +21,7 @@
                     <div class="ad-banner-inner">
                         <div class="ad-banner-content">
                             <div class="ad-logo-box">
-                                <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 36px; width: auto; object-fit: contain;">
+                                <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 36px; width: auto; object-fit: contain;">
                             </div>
                             <div class="ad-info-text">
                                 <h4>SPACE BANNER 728 × 90</h4>
@@ -36,7 +36,7 @@
             @elseif($ad->position === 'sidebar_right')
                 <div class="ad-sidebar-300">
                     <div class="ad-sidebar-content">
-                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 46px; width: auto; object-fit: contain; margin-bottom: 0.65rem;">
+                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 46px; width: auto; object-fit: contain; margin-bottom: 0.65rem;">
                         <div class="ad-sidebar-title">SPACE IKLAN</div>
                         <div class="ad-sidebar-size">300 × 600</div>
                         <div class="ad-sidebar-icon">
@@ -54,17 +54,15 @@
                 <div class="ad-banner-970">
                     <div class="ad-banner-970-inner">
                         <div class="ad-banner-970-content">
-                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 48px; width: auto; object-fit: contain;">
+                            <div class="ad-logo-box">
+                                <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 38px; width: auto; object-fit: contain;">
+                            </div>
                             <div class="ad-info-text">
-                                <h3 style="font-size: 1.6rem; font-weight: 800; letter-spacing: 0.5px;">BANNER IKLAN 970 × 250</h3>
-                                <div class="ad-banner-features">
-                                    <span><i class="fas fa-check-circle"></i> Tingkatkan brand awareness produk & instansi</span>
-                                    <span><i class="fas fa-check-circle"></i> Jangkau pembaca potensial se-Sulbar & nasional</span>
-                                    <span><i class="fas fa-check-circle"></i> Solusi promosi terpadu, efektif, dan terpercaya</span>
-                                </div>
+                                <h4 style="font-size: 1.15rem; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 0.2rem;">BANNER IKLAN 970 × 100</h4>
+                                <p style="font-size: 0.8125rem; color: #CBD5E1; margin: 0;">Promosikan bisnis, instansi atau produk unggulan Anda di sini</p>
                             </div>
                         </div>
-                        <a href="{{ route('page.kontak') }}" class="ad-banner-btn" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">
+                        <a href="{{ route('page.kontak') }}" class="ad-banner-btn">
                             Pasang Iklan Sekarang <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>

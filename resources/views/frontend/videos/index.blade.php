@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Video Berita & Liputan Khusus Sulawesi Barat - HALO SULBAR')
+@section('title', 'Video Berita & Liputan Khusus Sulawesi Barat - KATA SULBAR')
 @section('meta_description', 'Kumpulan galeri video berita, live streaming, dan video singkat YouTube Shorts seputar Sulawesi Barat.')
 
 @section('content')
@@ -10,7 +10,7 @@
     <nav class="breadcrumb-bar" aria-label="breadcrumb">
         <a href="{{ route('home') }}"><i class="fas fa-home"></i> Beranda</a>
         <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
-        <span style="color: var(--text-primary); font-weight: 600;">Video Halo Sulbar</span>
+        <span style="color: var(--text-primary); font-weight: 600;">Video Kata Sulbar</span>
     </nav>
 
     {{-- Video Portal Header Banner --}}
@@ -19,7 +19,7 @@
             <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: var(--primary-red); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 4px; text-transform: uppercase; margin-bottom: 0.6rem;">
                 <i class="fas fa-play"></i> Video Portal
             </div>
-            <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.4rem;">Galeri Video Halo Sulbar</h1>
+            <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.4rem;">Galeri Video Kata Sulbar</h1>
             <p style="font-size: 0.95rem; color: #CBD5E1; max-width: 650px;">
                 Saksikan liputan langsung, liputan investigasi, pesona wisata daerah, dan video singkat dari 6 kabupaten di Sulawesi Barat.
             </p>

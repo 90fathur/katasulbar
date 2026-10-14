@@ -6,22 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'HALO SULBAR - Suara Sulbar, Untuk Semua | Portal Berita Terkini Sulawesi Barat')</title>
+    <title>@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua | Portal Berita Terkini Sulawesi Barat')</title>
     <meta name="description" content="@yield('meta_description', $siteSettings['site_description'] ?? 'Portal Berita Terkini dan Terpercaya Sulawesi Barat. Menyajikan informasi aktual di 6 kabupaten Sulawesi Barat.')">
-    <meta name="keywords" content="@yield('meta_keywords', $siteSettings['site_keywords'] ?? 'halo sulbar, berita sulbar, sulawesi barat, mamuju, polewali mandar, majene, mamasa, pasangkayu, mamuju tengah')">
+    <meta name="keywords" content="@yield('meta_keywords', $siteSettings['site_keywords'] ?? 'kata sulbar, berita sulbar, sulawesi barat, mamuju, polewali mandar, majene, mamasa, pasangkayu, mamuju tengah')">
     <link rel="canonical" href="{{ url()->current() }}">
 
     {{-- Open Graph / Facebook --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'HALO SULBAR - Suara Sulbar, Untuk Semua')">
+    <meta property="og:title" content="@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua')">
     <meta property="og:description" content="@yield('meta_description', $siteSettings['site_description'] ?? '')">
     <meta property="og:image" content="@yield('og_image', asset('assets/images/sulbar_panorama.jpg'))">
-    <meta property="og:site_name" content="HALO SULBAR">
+    <meta property="og:site_name" content="KATA SULBAR">
 
     {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', 'HALO SULBAR - Suara Sulbar, Untuk Semua')">
+    <meta name="twitter:title" content="@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua')">
     <meta name="twitter:description" content="@yield('meta_description', $siteSettings['site_description'] ?? '')">
     <meta name="twitter:image" content="@yield('og_image', asset('assets/images/sulbar_panorama.jpg'))">
 
@@ -135,9 +135,9 @@
         <div class="container">
             <div class="branding-header-inner">
                 <div class="brand-logo-wrap">
-                    <a href="{{ route('home') }}" class="brand-logo-img-link" title="HALO SULBAR - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
-                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-light">
-                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-dark">
+                    <a href="{{ route('home') }}" class="brand-logo-img-link" title="KATA SULBAR - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
+                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-light">
+                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-dark">
                     </a>
                 </div>
             </div>
@@ -303,15 +303,15 @@
                 <div class="footer-col">
                     <div class="brand-logo-wrap" style="margin-bottom: 0.85rem;">
                         <a href="{{ route('home') }}" class="brand-logo-img-link">
-                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR - Suara Sulbar, Untuk Semua" style="height: 52px; width: auto; object-fit: contain;">
+                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" style="height: 52px; width: auto; object-fit: contain;">
                         </a>
                     </div>
                     <p class="footer-about-text">
-                        {{ $siteSettings['footer_about'] ?? 'HALO SULBAR adalah media siber profesional independen yang menyajikan informasi aktual seputar politik, ekonomi, hukum, pendidikan, wisata dan budaya di Sulawesi Barat.' }}
+                        {{ $siteSettings['footer_about'] ?? 'KATA SULBAR adalah media siber profesional independen yang menyajikan informasi aktual seputar politik, ekonomi, hukum, pendidikan, wisata dan budaya di Sulawesi Barat.' }}
                     </p>
                     <div class="footer-contact-info" style="font-size:0.8125rem; color:#94A3B8; line-height: 1.6;">
                         <div><i class="fas fa-map-marker-alt" style="color:var(--primary-red); width:18px;"></i> {{ $siteSettings['contact_address'] ?? 'Mamuju, Sulawesi Barat' }}</div>
-                        <div><i class="fas fa-envelope" style="color:var(--primary-red); width:18px;"></i> {{ $siteSettings['contact_email'] ?? 'redaksi@halosulbar.com' }}</div>
+                        <div><i class="fas fa-envelope" style="color:var(--primary-red); width:18px;"></i> {{ $siteSettings['contact_email'] ?? 'redaksi@katasulbar.com' }}</div>
                         <div><i class="fas fa-phone" style="color:var(--primary-red); width:18px;"></i> {{ $siteSettings['contact_phone'] ?? '+62 811-4200-8899' }}</div>
                     </div>
                 </div>
@@ -343,7 +343,7 @@
                 <div class="footer-col">
                     <h4 class="footer-col-title">Ikuti Kami</h4>
                     <p style="font-size:0.8125rem; color:#94A3B8; margin-bottom: 0.75rem;">
-                        Dapatkan pembaruan berita tercepat melalui akun media sosial resmi Halo Sulbar:
+                        Dapatkan pembaruan berita tercepat melalui akun media sosial resmi Kata Sulbar:
                     </p>
                     <div class="footer-social-wrap">
                         <a href="{{ $siteSettings['facebook_url'] ?? '#' }}" target="_blank" rel="noopener" class="footer-social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -359,7 +359,7 @@
             <div class="footer-bottom-bar">
                 <div class="footer-bottom-inner">
                     <div>
-                        © {{ date('Y') }} <strong>HALO SULBAR</strong>. Suara Sulbar, Untuk Semua. Hak Cipta Dilindungi.
+                        © {{ date('Y') }} <strong>KATA SULBAR</strong>. Suara Sulbar, Untuk Semua. Hak Cipta Dilindungi.
                     </div>
                     <div class="footer-legal-links">
                         <a href="{{ route('page.privasi') }}">Kebijakan Privasi</a>
@@ -379,7 +379,7 @@
         <div class="mobile-drawer-header">
             <div class="brand-logo-wrap">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 44px; width: auto; object-fit: contain;">
+                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 44px; width: auto; object-fit: contain;">
                 </a>
             </div>
             <button class="mobile-drawer-close"><i class="fas fa-times"></i></button>

@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Edit Iklan: ' . $ad->title . ' - HALO SULBAR Admin')
+@section('title', 'Edit Iklan: ' . $ad->title . ' - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
@@ -35,7 +35,7 @@
                     <select name="position" class="form-control" required>
                         <option value="horizontal_top" {{ old('position', $ad->position) === 'horizontal_top' ? 'selected' : '' }}>Horizontal Atas (728 × 90)</option>
                         <option value="sidebar_right" {{ old('position', $ad->position) === 'sidebar_right' ? 'selected' : '' }}>Sidebar Kanan (300 × 600)</option>
-                        <option value="home_bottom" {{ old('position', $ad->position) === 'home_bottom' ? 'selected' : '' }}>Bawah Beranda (970 × 250)</option>
+                        <option value="home_bottom" {{ old('position', $ad->position) === 'home_bottom' ? 'selected' : '' }}>Bawah Beranda (970 × 100)</option>
                         <option value="in_article" {{ old('position', $ad->position) === 'in_article' ? 'selected' : '' }}>Dalam Artikel Berita</option>
                         <option value="article_middle" {{ old('position', $ad->position) === 'article_middle' ? 'selected' : '' }}>Tengah Halaman (728 × 90)</option>
                     </select>

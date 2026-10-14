@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', $video->title . ' - Galeri Video HALO SULBAR')
+@section('title', $video->title . ' - Galeri Video KATA SULBAR')
 @section('meta_description', Str::limit($video->description, 160))
 @section('og_type', 'video.other')
 @section('og_image', $video->thumbnail ?: 'https://img.youtube.com/vi/' . $video->youtube_id . '/maxresdefault.jpg')
@@ -67,7 +67,7 @@
                 <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2.5rem;">
                     <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy-blue); margin-bottom: 0.75rem;">Deskripsi Video</h3>
                     <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
-                        {{ $video->description ?: 'Liputan video eksklusif persembahan tim redaksi multimedia HALO SULBAR.' }}
+                        {{ $video->description ?: 'Liputan video eksklusif persembahan tim redaksi multimedia KATA SULBAR.' }}
                     </p>
                 </div>
 

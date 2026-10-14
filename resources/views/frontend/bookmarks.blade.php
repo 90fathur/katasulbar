@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Berita Tersimpan (Bookmarks) - HALO SULBAR')
+@section('title', 'Berita Tersimpan (Bookmarks) - KATA SULBAR')
 
 @section('content')
 <div class="container">

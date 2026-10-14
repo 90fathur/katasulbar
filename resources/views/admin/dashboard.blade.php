@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard Redaksi & Statistik - HALO SULBAR')
+@section('title', 'Dashboard Redaksi & Statistik - KATA SULBAR')
 
 @section('content')
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Dashboard Redaksi</h1>
         <p class="admin-page-subtitle">
-            Selamat datang kembali, <strong>{{ Auth::user()->name }}</strong> ({{ Auth::user()->role_label }}). Berikut ringkasan performa portal Halo Sulbar hari ini.
+            Selamat datang kembali, <strong>{{ Auth::user()->name }}</strong> ({{ Auth::user()->role_label }}). Berikut ringkasan performa portal Kata Sulbar hari ini.
         </p>
     </div>
     <div style="display: flex; gap: 0.5rem;">

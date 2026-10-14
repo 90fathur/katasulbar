@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Edit Pengguna: ' . $user->name . ' - HALO SULBAR Admin')
+@section('title', 'Edit Pengguna: ' . $user->name . ' - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">

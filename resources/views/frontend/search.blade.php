@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Pencarian: ' . ($query ?: 'Semua') . ' - HALO SULBAR')
+@section('title', 'Pencarian: ' . ($query ?: 'Semua') . ' - KATA SULBAR')
 
 @section('content')
 <div class="container">

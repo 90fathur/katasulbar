@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Redaksi & Admin - HALO SULBAR</title>
+    <title>Login Redaksi & Admin - KATA SULBAR</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,7 @@
 
     <div class="login-box">
         <div class="login-header">
-            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="HALO SULBAR" style="height: 52px; width: auto; object-fit: contain; margin-bottom: 0.5rem;">
+            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 52px; width: auto; object-fit: contain; margin-bottom: 0.5rem;">
             <div style="font-size: 0.75rem; font-weight: 600; color: #CBD5E1;">
                 Sistem Manajemen Portal Berita
             </div>
@@ -101,7 +101,7 @@
             </form>
 
             <div style="margin-top: 1.5rem; text-align: center; font-size: 0.75rem; color: var(--admin-text-muted);">
-                © {{ date('Y') }} Halo Sulbar. Suara Sulbar, Untuk Semua.
+                © {{ date('Y') }} Kata Sulbar. Suara Sulbar, Untuk Semua.
             </div>
         </div>
     </div>

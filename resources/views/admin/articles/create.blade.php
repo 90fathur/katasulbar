@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Tulis Berita Baru - HALO SULBAR Admin')
+@section('title', 'Tulis Berita Baru - KATA SULBAR Admin')
 
 @push('styles')
 {{-- Summernote Lite WYSIWYG Editor --}}
@@ -23,7 +23,7 @@
     <div>
         <h1 class="admin-page-title">Tulis Berita Baru</h1>
         <p style="font-size: 0.8125rem; color: var(--admin-text-muted);">
-            Lengkapi formulir di bawah ini untuk menerbitkan liputan berita terbaru di Halo Sulbar.
+            Lengkapi formulir di bawah ini untuk menerbitkan liputan berita terbaru di Kata Sulbar.
         </p>
     </div>
     <a href="{{ route('admin.articles.index') }}" class="admin-btn admin-btn-secondary">

@@ -1,13 +1,13 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Pelanggan Newsletter - HALO SULBAR Admin')
+@section('title', 'Pelanggan Newsletter - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">Pelanggan Newsletter</h1>
         <p class="admin-page-subtitle">
-            Daftar alamat email pembaca yang berlangganan kabar berita Halo Sulbar.
+            Daftar alamat email pembaca yang berlangganan kabar berita Kata Sulbar.
         </p>
     </div>
     <a href="{{ route('admin.newsletters.export') }}" class="admin-btn admin-btn-navy">

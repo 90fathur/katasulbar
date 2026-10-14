@@ -87,7 +87,7 @@ class InteractionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Email Anda sudah terdaftar dalam newsletter Halo Sulbar.',
+                'message' => 'Email Anda sudah terdaftar dalam newsletter Kata Sulbar.',
             ]);
         }
 

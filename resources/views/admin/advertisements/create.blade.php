@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Pasang Iklan Baru - HALO SULBAR Admin')
+@section('title', 'Pasang Iklan Baru - KATA SULBAR Admin')
 
 @section('content')
 <div class="admin-page-header">
@@ -34,7 +34,7 @@
                     <select name="position" id="adPosition" class="form-control" required>
                         <option value="horizontal_top">Horizontal Atas (728 × 90)</option>
                         <option value="sidebar_right">Sidebar Kanan (300 × 600)</option>
-                        <option value="home_bottom">Bawah Beranda (970 × 250)</option>
+                        <option value="home_bottom">Bawah Beranda (970 × 100)</option>
                         <option value="in_article">Dalam Artikel Berita</option>
                         <option value="article_middle">Tengah Halaman (728 × 90)</option>
                     </select>
