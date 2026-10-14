@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua | Portal Berita Terkini Sulawesi Barat')
+@section('og_image', asset('assets/images/logo.png'))
 
 @section('schema_markup')
 <script type="application/ld+json">
