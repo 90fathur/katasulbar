@@ -24,7 +24,9 @@ use App\Http\Controllers\VideoController;
 use App\Services\WeatherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 /*
 |--------------------------------------------------------------------------
@@ -186,16 +188,32 @@ Route::get('/cpanel-setup', function (Request $request) {
 
     // 2. Clear & optimize cache
     try {
+        @unlink(base_path('bootstrap/cache/config.php'));
+        @unlink(base_path('bootstrap/cache/routes.php'));
+        @unlink(base_path('bootstrap/cache/services.php'));
+        @unlink(base_path('bootstrap/cache/packages.php'));
         Artisan::call('optimize:clear');
-        $results['cache_cleared'] = 'Cache berhasil dibersihkan';
+        $results['cache_cleared'] = 'Cache dan config bootstrap berhasil dibersihkan';
     } catch (Throwable $e) {
         $results['cache_cleared'] = $e->getMessage();
+    }
+
+    // 3. Auto-fix table sessions column id length if exists
+    try {
+        if (Schema::hasTable('sessions')) {
+            DB::statement('ALTER TABLE `sessions` MODIFY `id` VARCHAR(255) NOT NULL');
+            DB::table('sessions')->truncate();
+            $results['sessions_table'] = 'Tabel sessions berhasil diperbaiki menjadi VARCHAR(255) dan dibersihkan';
+        }
+    } catch (Throwable $e) {
+        $results['sessions_table'] = 'Catatan sessions: '.$e->getMessage();
     }
 
     return response()->json([
         'status' => 'success',
         'message' => 'Konfigurasi cPanel Kata Sulbar selesai!',
         'details' => $results,
+        'session_driver' => config('session.driver'),
         'app_env' => config('app.env'),
         'app_url' => config('app.url'),
     ]);
