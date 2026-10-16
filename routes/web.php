@@ -236,6 +236,25 @@ Route::get('/cpanel-setup', function (Request $request) {
         $results['images_optimized'] = $e->getMessage();
     }
 
+    // 5. Auto-sync branding logos to public_html/assets/images
+    try {
+        $brandingDir = storage_path('app/public/branding');
+        $publicHtmlAssets = base_path('../public_html/assets/images');
+        if (is_dir($brandingDir)) {
+            if (! is_dir($publicHtmlAssets)) {
+                @mkdir($publicHtmlAssets, 0755, true);
+            }
+            $synced = 0;
+            foreach (glob($brandingDir.'/*.*') as $file) {
+                @copy($file, $publicHtmlAssets.'/'.basename($file));
+                $synced++;
+            }
+            $results['branding_synced'] = "{$synced} file branding berhasil disinkronkan ke public_html/assets/images";
+        }
+    } catch (Throwable $e) {
+        $results['branding_synced'] = $e->getMessage();
+    }
+
     return response()->json([
         'status' => 'success',
         'message' => 'Konfigurasi cPanel Kata Sulbar selesai!',

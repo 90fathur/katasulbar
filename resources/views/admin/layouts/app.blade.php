@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-transparent.png') }}">
+    <link rel="icon" type="image/png" href="{{ !empty($siteSettings['site_favicon']) ? $siteSettings['site_favicon'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png')) }}">
 
     {{-- Admin CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}?v={{ file_exists(public_path('assets/css/admin.css')) ? filemtime(public_path('assets/css/admin.css')) : time() }}">
@@ -31,7 +31,7 @@
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="admin-sidebar-brand">
                 <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
-                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 26px; width: auto; object-fit: contain;">
+                    <img src="{{ !empty($siteSettings['site_logo_dark']) ? $siteSettings['site_logo_dark'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-dark-bg.png')) }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" style="height: 26px; width: auto; object-fit: contain;">
                 </a>
                 <div style="display: flex; align-items: center; gap: 0.4rem;">
                     <span class="admin-badge-panel">ADMIN</span>
@@ -151,7 +151,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <a href="{{ route('admin.dashboard') }}" style="display: flex; align-items: center; gap: 0.45rem; text-decoration: none;">
-                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="KATA SULBAR" style="height: 22px; width: auto; object-fit: contain;">
+                        <img src="{{ !empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png') }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" style="height: 22px; width: auto; object-fit: contain;">
                         <span class="admin-topbar-title">Admin Panel</span>
                     </a>
                 </div>

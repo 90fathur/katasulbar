@@ -1,4 +1,4 @@
-﻿@extends('admin.layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'Pengaturan Website & SEO - KATA SULBAR Admin')
 
@@ -31,32 +31,51 @@
                     <div class="admin-card-title"><i class="fas fa-globe" style="color:var(--admin-red)"></i> Identitas Portal & Branding</div>
                 </div>
                 <div class="admin-card-body">
+                    @php
+                        $currentLogoLight = !empty($settings['site_logo']) ? $settings['site_logo'] : asset('assets/images/logo-transparent.png');
+                        $currentLogoDark  = !empty($settings['site_logo_dark']) ? $settings['site_logo_dark'] : (!empty($settings['site_logo']) ? $settings['site_logo'] : asset('assets/images/logo-dark-bg.png'));
+                        $currentFavicon   = !empty($settings['site_favicon']) ? $settings['site_favicon'] : asset('assets/images/logo-transparent.png');
+                    @endphp
+
                     {{-- Logo Upload & Preview --}}
-                    <div class="form-group" style="border: 1px solid var(--admin-border); border-radius: 6px; padding: 0.75rem; background: #FAFBFD; margin-bottom: 1rem;">
+                    <div class="form-group" style="border: 1px solid var(--admin-border); border-radius: 6px; padding: 0.85rem; background: #FAFBFD; margin-bottom: 1.25rem;">
                         <label class="form-label" style="font-weight: 700; color: var(--admin-navy); margin-bottom: 0.5rem;">
                             <i class="fas fa-image" style="color: var(--admin-red);"></i> Logo Portal Berita
                         </label>
 
-                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap;">
                             {{-- Preview Light BG --}}
                             <div style="background: #FFFFFF; border: 1px solid var(--admin-border); border-radius: 4px; padding: 0.5rem 0.75rem; text-align: center;">
                                 <div style="font-size: 0.6rem; color: var(--admin-text-muted); margin-bottom: 0.25rem;">Preview Latar Terang</div>
-                                <img src="{{ asset('assets/images/logo-transparent.png') }}?v={{ time() }}" alt="Logo Light" style="height: 38px; width: auto; object-fit: contain; max-width: 150px;">
+                                <img id="previewLogoLight" src="{{ $currentLogoLight }}" alt="Logo Light" style="height: 38px; width: auto; object-fit: contain; max-width: 160px;">
                             </div>
 
                             {{-- Preview Dark BG --}}
                             <div style="background: var(--admin-navy-dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 0.5rem 0.75rem; text-align: center;">
                                 <div style="font-size: 0.6rem; color: #94A3B8; margin-bottom: 0.25rem;">Preview Latar Gelap</div>
-                                <img src="{{ asset('assets/images/logo-dark-bg.png') }}?v={{ time() }}" alt="Logo Dark" style="height: 38px; width: auto; object-fit: contain; max-width: 150px;">
+                                <img id="previewLogoDark" src="{{ $currentLogoDark }}" alt="Logo Dark" style="height: 38px; width: auto; object-fit: contain; max-width: 160px;">
                             </div>
                         </div>
 
-                        <div>
-                            <label class="form-label" style="font-size: 0.65rem;">Ganti Logo Baru (PNG, JPG, WebP)</label>
-                            <input type="file" name="site_logo" accept="image/*" class="form-control" style="height: 32px; padding: 0.2rem 0.5rem;">
-                            <small style="font-size: 0.625rem; color: var(--admin-text-muted); display: block; margin-top: 0.25rem;">
-                                Sistem akan otomatis meng-crop dan menghasilkan varian transparan serta varian mode gelap secara otomatis.
+                        <div style="margin-bottom: 0.75rem;">
+                            <label class="form-label" style="font-size: 0.7rem; font-weight: 600;">Ganti Logo Utama (PNG, JPG, WebP, SVG)</label>
+                            <input type="file" name="site_logo" id="inputSiteLogo" accept="image/*" class="form-control" style="height: 34px; padding: 0.25rem 0.5rem;">
+                            <small style="font-size: 0.65rem; color: var(--admin-text-muted); display: block; margin-top: 0.25rem;">
+                                Format disarankan: PNG transparan resolusi tinggi (misal: 600x150 px).
                             </small>
+                        </div>
+
+                        <div style="margin-bottom: 0.75rem;">
+                            <label class="form-label" style="font-size: 0.7rem; font-weight: 600;">Ganti Logo Khusus Latar Gelap / Header Gelap (Opsional)</label>
+                            <input type="file" name="site_logo_dark" id="inputSiteLogoDark" accept="image/*" class="form-control" style="height: 34px; padding: 0.25rem 0.5rem;">
+                            <small style="font-size: 0.65rem; color: var(--admin-text-muted); display: block; margin-top: 0.25rem;">
+                                Jika logo utama teksnya berwarna gelap, unggah varian teks putih di sini agar kontras di sidebar & footer.
+                            </small>
+                        </div>
+
+                        <div>
+                            <label class="form-label" style="font-size: 0.7rem; font-weight: 600;">Ganti Favicon Browser Tab (Opsional, PNG / ICO / SVG)</label>
+                            <input type="file" name="site_favicon" accept="image/x-icon,image/png,image/svg+xml" class="form-control" style="height: 34px; padding: 0.25rem 0.5rem;">
                         </div>
                     </div>
 
@@ -182,6 +201,45 @@
             </div>
         </div>
 
-    </div>
 </form>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputSiteLogo = document.getElementById('inputSiteLogo');
+    const inputSiteLogoDark = document.getElementById('inputSiteLogoDark');
+    const previewLight = document.getElementById('previewLogoLight');
+    const previewDark = document.getElementById('previewLogoDark');
+
+    if (inputSiteLogo) {
+        inputSiteLogo.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    if (previewLight) previewLight.src = evt.target.result;
+                    if (previewDark && (!inputSiteLogoDark || !inputSiteLogoDark.files.length)) {
+                        previewDark.src = evt.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (inputSiteLogoDark) {
+        inputSiteLogoDark.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    if (previewDark) previewDark.src = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
+</script>
+@endpush
 @endsection

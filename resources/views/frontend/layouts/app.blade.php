@@ -23,26 +23,32 @@
         }
     </style>
 
+    @php
+        $logoLight = !empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png');
+        $logoDark  = !empty($siteSettings['site_logo_dark']) ? $siteSettings['site_logo_dark'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-dark-bg.png'));
+        $siteFavicon = !empty($siteSettings['site_favicon']) ? $siteSettings['site_favicon'] : $logoLight;
+    @endphp
+
     {{-- Open Graph / Facebook / WhatsApp --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua')">
+    <meta property="og:title" content="@yield('title', ($siteSettings['site_name'] ?? 'KATA SULBAR').' - '.($siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua'))">
     <meta property="og:description" content="@yield('meta_description', $siteSettings['site_description'] ?? '')">
-    <meta property="og:image" content="@yield('og_image', asset('assets/images/logo.png'))">
-    <meta property="og:image:secure_url" content="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta property="og:image" content="@yield('og_image', $logoLight)">
+    <meta property="og:image:secure_url" content="@yield('og_image', $logoLight)">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="@yield('title', 'KATA SULBAR')">
-    <meta property="og:site_name" content="KATA SULBAR">
-    <link rel="image_src" href="@yield('og_image', asset('assets/images/logo.png'))">
-    <meta itemprop="image" content="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta property="og:image:alt" content="@yield('title', $siteSettings['site_name'] ?? 'KATA SULBAR')">
+    <meta property="og:site_name" content="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}">
+    <link rel="image_src" href="@yield('og_image', $logoLight)">
+    <meta itemprop="image" content="@yield('og_image', $logoLight)">
 
     {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', 'KATA SULBAR - Suara Sulbar, Untuk Semua')">
+    <meta name="twitter:title" content="@yield('title', ($siteSettings['site_name'] ?? 'KATA SULBAR').' - '.($siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua'))">
     <meta name="twitter:description" content="@yield('meta_description', $siteSettings['site_description'] ?? '')">
-    <meta name="twitter:image" content="@yield('og_image', asset('assets/images/logo.png'))">
+    <meta name="twitter:image" content="@yield('og_image', $logoLight)">
 
     {{-- Google Fonts: Plus Jakarta Sans --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +59,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo-transparent.png') }}">
+    <link rel="icon" type="image/png" href="{{ $siteFavicon }}">
 
     {{-- Core Stylesheet --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?v={{ file_exists(public_path('assets/css/style.css')) ? filemtime(public_path('assets/css/style.css')) : time() }}">
@@ -194,9 +200,9 @@
         <div class="container">
             <div class="branding-header-inner">
                 <div class="brand-logo-wrap">
-                    <a href="{{ route('home') }}" class="brand-logo-img-link" title="KATA SULBAR - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
-                        <img src="{{ asset('assets/images/logo-transparent.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-light">
-                        <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" class="main-site-logo logo-dark">
+                    <a href="{{ route('home') }}" class="brand-logo-img-link" title="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }} - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
+                        <img src="{{ $logoLight }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" class="main-site-logo logo-light">
+                        <img src="{{ $logoDark }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" class="main-site-logo logo-dark">
                     </a>
                 </div>
             </div>
@@ -362,7 +368,7 @@
                 <div class="footer-col">
                     <div class="brand-logo-wrap" style="margin-bottom: 0.85rem;">
                         <a href="{{ route('home') }}" class="brand-logo-img-link">
-                            <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR - Suara Sulbar, Untuk Semua" style="height: 52px; width: auto; object-fit: contain;">
+                            <img src="{{ $logoDark }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" style="height: 52px; width: auto; object-fit: contain;">
                         </a>
                     </div>
                     <p class="footer-about-text">
@@ -438,7 +444,7 @@
         <div class="mobile-drawer-header">
             <div class="brand-logo-wrap">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('assets/images/logo-dark-bg.png') }}" alt="KATA SULBAR" style="height: 44px; width: auto; object-fit: contain;">
+                    <img src="{{ $logoDark }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" style="height: 44px; width: auto; object-fit: contain;">
                 </a>
             </div>
             <button class="mobile-drawer-close"><i class="fas fa-times"></i></button>

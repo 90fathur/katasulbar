@@ -31,28 +31,31 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
-        View::composer('frontend.*', function ($view) {
+        View::composer(['frontend.*', 'admin.*'], function ($view) {
             try {
                 if (Schema::hasTable('settings')) {
                     $settings = Setting::pluck('value', 'key')->all();
-                    $navCategories = Category::where('is_active', true)->orderBy('order')->get();
-                    $navMenus = Schema::hasTable('menu_items')
-                        ? MenuItem::active()->parents()->with(['activeChildren.category', 'category'])->orderBy('order')->get()
-                        : collect();
-                    $breakingNews = BreakingNews::active()->get();
-                    $ads = Advertisement::active()->get()->groupBy('position');
-                    $sidebarVideos = Video::standard()->orderByDesc('views')->take(4)->get();
-                    $currentWeather = WeatherService::getSulbarWeather();
+                    $view->with('siteSettings', $settings);
 
-                    $view->with([
-                        'siteSettings' => $settings,
-                        'navCategories' => $navCategories,
-                        'navMenus' => $navMenus,
-                        'breakingNews' => $breakingNews,
-                        'ads' => $ads,
-                        'sidebarVideos' => $sidebarVideos,
-                        'currentWeather' => $currentWeather,
-                    ]);
+                    if (str_starts_with($view->getName(), 'frontend.')) {
+                        $navCategories = Category::where('is_active', true)->orderBy('order')->get();
+                        $navMenus = Schema::hasTable('menu_items')
+                            ? MenuItem::active()->parents()->with(['activeChildren.category', 'category'])->orderBy('order')->get()
+                            : collect();
+                        $breakingNews = BreakingNews::active()->get();
+                        $ads = Advertisement::active()->get()->groupBy('position');
+                        $sidebarVideos = Video::standard()->orderByDesc('views')->take(4)->get();
+                        $currentWeather = WeatherService::getSulbarWeather();
+
+                        $view->with([
+                            'navCategories' => $navCategories,
+                            'navMenus' => $navMenus,
+                            'breakingNews' => $breakingNews,
+                            'ads' => $ads,
+                            'sidebarVideos' => $sidebarVideos,
+                            'currentWeather' => $currentWeather,
+                        ]);
+                    }
                 }
             } catch (\Throwable $e) {
                 $view->with([
