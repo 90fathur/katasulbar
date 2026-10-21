@@ -112,6 +112,206 @@
                 </div>
             </div>
 
+            {{-- Card: Gambar di Samping Logo (Header Panorama / Banner) --}}
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <div class="admin-card-title">
+                        <i class="fas fa-image" style="color:var(--admin-red)"></i> Gambar di Samping Logo (Header Panorama / Banner)
+                    </div>
+                </div>
+                <div class="admin-card-body">
+                    @php
+                        $currentHeaderBg = !empty($settings['header_bg_image']) ? $settings['header_bg_image'] : asset('assets/images/sulbar_panorama.jpg');
+                        $isCustomHeaderBg = !empty($settings['header_bg_image']);
+                        $currentHeaderHeight = !empty($settings['header_height']) ? (int)$settings['header_height'] : 105;
+                        $currentBannerWidth = !empty($settings['header_banner_width']) ? $settings['header_banner_width'] : '60%';
+                        $currentBannerOpacity = !empty($settings['header_banner_opacity']) ? $settings['header_banner_opacity'] : '0.85';
+                        $currentBannerPos = !empty($settings['header_banner_pos']) ? $settings['header_banner_pos'] : 'center right';
+                        $currentBannerUrl = $settings['header_banner_url'] ?? '';
+                        $currentBannerTarget = $settings['header_banner_url_target'] ?? '_blank';
+                    @endphp
+
+                    {{-- Panduan & Ketentuan Ukuran Resmi --}}
+                    <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-left: 4px solid #16A34A; border-radius: 6px; padding: 0.85rem; margin-bottom: 1rem;">
+                        <div style="font-weight: 700; color: #166534; font-size: 0.8125rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-ruler-combined"></i> Ketentuan & Rekomendasi Ukuran Gambar:
+                        </div>
+                        <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.75rem; color: #14532D; line-height: 1.55;">
+                            <li><strong>Rekomendasi Resolusi:</strong> <code>1920 × 250 px</code> s/d <code>1920 × 300 px</code> (Rasio panorama horizontal <code>16:3</code>).</li>
+                            <li><strong>Ukuran Minimal:</strong> <code>1200 × 160 px</code> agar gambar tetap tajam pada monitor laptop / desktop.</li>
+                            <li><strong>Format File:</strong> JPG, JPEG, PNG, atau WebP (Maksimal 10 MB).</li>
+                            <li><strong>Tips Desain Visual:</strong> Fokus gambar utama (seperti pemandangan, panorama kota/pantai, atau visual sponsor) disarankan berada di <em>sisi kanan tengah</em>, karena sisi kiri otomatis dipadukan dengan gradien halus logo Kata Sulbar.</li>
+                        </ul>
+                    </div>
+
+                    {{-- Live Mockup Preview Box --}}
+                    <div style="margin-bottom: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span style="font-size: 0.75rem; font-weight: 700; color: var(--admin-navy);">
+                                <i class="fas fa-eye" style="color: #6366F1;"></i> Live Preview Tampilan Header:
+                            </span>
+                            <span id="headerBgStatusBadge" class="badge" style="background: {{ $isCustomHeaderBg ? '#10B981' : '#64748B' }}; color: #fff; font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px;">
+                                {{ $isCustomHeaderBg ? 'Gambar Kustom Aktif' : 'Default Panorama Sulbar' }}
+                            </span>
+                        </div>
+
+                        {{-- Mockup Container --}}
+                        <div id="headerMockupContainer" style="
+                            position: relative;
+                            width: 100%;
+                            height: {{ $currentHeaderHeight }}px;
+                            background: #FFFFFF;
+                            border: 2px dashed #CBD5E1;
+                            border-radius: 6px;
+                            overflow: hidden;
+                            display: flex;
+                            align-items: center;
+                            padding: 0 1rem;
+                            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+                            transition: height 0.25s ease;
+                        ">
+                            {{-- Background image layer --}}
+                            <div id="mockupBgLayer" style="
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                bottom: 0;
+                                width: {{ $currentBannerWidth }};
+                                background-image: url('{{ $currentHeaderBg }}');
+                                background-size: cover;
+                                background-position: {{ $currentBannerPos }};
+                                opacity: {{ $currentBannerOpacity }};
+                                transition: all 0.25s ease;
+                            "></div>
+
+                            {{-- Gradient overlay layer --}}
+                            <div style="
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                background: linear-gradient(to right, #FFFFFF 0%, rgba(255, 255, 255, 0.75) 40%, rgba(255, 255, 255, 0.1) 100%);
+                                pointer-events: none;
+                            "></div>
+
+                            {{-- Logo representation on left --}}
+                            <div style="position: relative; z-index: 2; display: flex; align-items: center;">
+                                <img id="previewLogoInMockup" src="{{ $currentLogoLight }}" alt="Logo" style="height: 48px; width: auto; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Upload Input & Reset Option --}}
+                    <div class="form-group" style="border: 1px solid var(--admin-border); border-radius: 6px; padding: 0.85rem; background: #FAFBFD; margin-bottom: 1.25rem;">
+                        <label class="form-label" style="font-weight: 700; color: var(--admin-navy); margin-bottom: 0.35rem;">
+                            <i class="fas fa-upload" style="color: var(--admin-red);"></i> Unggah Gambar Pengganti Baru
+                        </label>
+                        <input type="file" name="header_bg_image" id="inputHeaderBgImage" accept="image/png,image/jpeg,image/webp,image/jpg" class="form-control" style="height: 36px; padding: 0.3rem 0.5rem; margin-bottom: 0.5rem;">
+                        <small style="font-size: 0.68rem; color: var(--admin-text-muted); display: block; margin-bottom: 0.65rem;">
+                            Pilih file gambar panorama baru untuk menggantikan gambar di samping logo. Format: PNG, JPG, JPEG, WebP (Maks 10 MB).
+                        </small>
+
+                        @if($isCustomHeaderBg)
+                            <div style="padding-top: 0.5rem; border-top: 1px dashed var(--admin-border);">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #DC2626; cursor: pointer;">
+                                    <input type="checkbox" name="reset_header_bg" value="1">
+                                    <strong>Reset ke Gambar Bawaan (Default Panorama Sulbar)</strong>
+                                </label>
+                            </div>
+                        @endif
+                    </div>
+
+                    {{-- Pengaturan Ukuran & Dimensi Tampilan (Kontrol Dinamis) --}}
+                    <div style="font-weight: 700; font-size: 0.78rem; color: var(--admin-navy); margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.4rem;">
+                        <i class="fas fa-sliders-h" style="color: #2563EB;"></i> Penentuan Ukuran & Posisi Tampilan:
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+                        {{-- 1. Tinggi Header --}}
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 0.72rem; font-weight: 600;">
+                                Tinggi Header (Pixel)
+                            </label>
+                            <div style="display: flex; gap: 0.4rem;">
+                                <input type="number" name="header_height" id="inputHeaderHeight" class="form-control" min="70" max="250" value="{{ $currentHeaderHeight }}" style="font-size: 0.78rem;">
+                                <span style="display: inline-flex; align-items: center; padding: 0 0.5rem; background: #F1F5F9; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.72rem; color: #64748B;">px</span>
+                            </div>
+                            <div style="display: flex; gap: 0.3rem; margin-top: 0.35rem; flex-wrap: wrap;">
+                                <button type="button" class="btn-preset-height" data-height="85" style="font-size: 0.62rem; padding: 0.15rem 0.4rem; border: 1px solid #CBD5E1; background: #fff; border-radius: 3px; cursor: pointer;">Ringkas (85px)</button>
+                                <button type="button" class="btn-preset-height" data-height="105" style="font-size: 0.62rem; padding: 0.15rem 0.4rem; border: 1px solid #CBD5E1; background: #fff; border-radius: 3px; cursor: pointer;">Standar (105px)</button>
+                                <button type="button" class="btn-preset-height" data-height="130" style="font-size: 0.62rem; padding: 0.15rem 0.4rem; border: 1px solid #CBD5E1; background: #fff; border-radius: 3px; cursor: pointer;">Luas (130px)</button>
+                            </div>
+                        </div>
+
+                        {{-- 2. Lebar Cakupan Gambar --}}
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 0.72rem; font-weight: 600;">
+                                Lebar Cakupan Banner
+                            </label>
+                            <select name="header_banner_width" id="selectBannerWidth" class="form-control" style="font-size: 0.78rem;">
+                                <option value="45%" {{ $currentBannerWidth === '45%' ? 'selected' : '' }}>45% - Sisi Kanan Ringkas</option>
+                                <option value="55%" {{ $currentBannerWidth === '55%' ? 'selected' : '' }}>55% - Menengah</option>
+                                <option value="60%" {{ $currentBannerWidth === '60%' ? 'selected' : '' }}>60% - Standar (Rekomendasi)</option>
+                                <option value="70%" {{ $currentBannerWidth === '70%' ? 'selected' : '' }}>70% - Luas & Elegan</option>
+                                <option value="80%" {{ $currentBannerWidth === '80%' ? 'selected' : '' }}>80% - Dominan Kanan</option>
+                                <option value="100%" {{ $currentBannerWidth === '100%' ? 'selected' : '' }}>100% - Penuh Sepanjang Header</option>
+                            </select>
+                            <small style="font-size: 0.62rem; color: var(--admin-text-muted); display: block; margin-top: 0.35rem;">
+                                Menentukan seberapa lebar area gambar membentang dari kanan ke kiri.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+                        {{-- 3. Opasitas / Transparansi --}}
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 0.72rem; font-weight: 600;">
+                                Kejernihan / Opasitas Foto
+                            </label>
+                            <select name="header_banner_opacity" id="selectBannerOpacity" class="form-control" style="font-size: 0.78rem;">
+                                <option value="1.0" {{ $currentBannerOpacity === '1.0' || $currentBannerOpacity === '1' ? 'selected' : '' }}>100% - Sangat Tajam & Pekat</option>
+                                <option value="0.85" {{ $currentBannerOpacity === '0.85' ? 'selected' : '' }}>85% - Standar Seimbang (Rekomendasi)</option>
+                                <option value="0.70" {{ $currentBannerOpacity === '0.70' ? 'selected' : '' }}>70% - Lembut & Elegan</option>
+                                <option value="0.50" {{ $currentBannerOpacity === '0.50' ? 'selected' : '' }}>50% - Transparan / Samar</option>
+                            </select>
+                        </div>
+
+                        {{-- 4. Posisi Fokus Gambar --}}
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" style="font-size: 0.72rem; font-weight: 600;">
+                                Posisi Fokus Gambar
+                            </label>
+                            <select name="header_banner_pos" id="selectBannerPos" class="form-control" style="font-size: 0.78rem;">
+                                <option value="center right" {{ $currentBannerPos === 'center right' ? 'selected' : '' }}>Kanan Tengah (Rekomendasi Panorama)</option>
+                                <option value="center center" {{ $currentBannerPos === 'center center' ? 'selected' : '' }}>Tengah Presisi (Center)</option>
+                                <option value="top right" {{ $currentBannerPos === 'top right' ? 'selected' : '' }}>Kanan Atas</option>
+                                <option value="bottom right" {{ $currentBannerPos === 'bottom right' ? 'selected' : '' }}>Kanan Bawah</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- 5. Tautan Banner Opsional --}}
+                    <div style="border-top: 1px dashed var(--admin-border); padding-top: 0.75rem; margin-top: 0.75rem;">
+                        <div class="form-group" style="margin-bottom: 0.5rem;">
+                            <label class="form-label" style="font-size: 0.72rem; font-weight: 600;">
+                                <i class="fas fa-link" style="color: #6366F1;"></i> Tautan Banner / Gambar Samping Logo (Opsional)
+                            </label>
+                            <div style="display: grid; grid-template-columns: 8fr 4fr; gap: 0.5rem;">
+                                <input type="url" name="header_banner_url" placeholder="https://contoh.com/info-wisata" value="{{ $currentBannerUrl }}" class="form-control" style="font-size: 0.78rem;">
+                                <select name="header_banner_url_target" class="form-control" style="font-size: 0.78rem;">
+                                    <option value="_blank" {{ $currentBannerTarget === '_blank' ? 'selected' : '' }}>Tab Baru (_blank)</option>
+                                    <option value="_self" {{ $currentBannerTarget === '_self' ? 'selected' : '' }}>Tab Sama (_self)</option>
+                                </select>
+                            </div>
+                            <small style="font-size: 0.62rem; color: var(--admin-text-muted); display: block; margin-top: 0.25rem;">
+                                Jika diisi, pengunjung yang mengeklik area gambar samping logo akan diarahkan ke tautan ini.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="admin-card">
                 <div class="admin-card-header">
                     <div class="admin-card-title"><i class="fas fa-sliders-h" style="color:var(--admin-navy)"></i> Konfigurasi Fitur & Interaksi</div>
@@ -210,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputSiteLogoDark = document.getElementById('inputSiteLogoDark');
     const previewLight = document.getElementById('previewLogoLight');
     const previewDark = document.getElementById('previewLogoDark');
+    const previewLogoInMockup = document.getElementById('previewLogoInMockup');
 
     if (inputSiteLogo) {
         inputSiteLogo.addEventListener('change', function(e) {
@@ -218,6 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const reader = new FileReader();
                 reader.onload = function(evt) {
                     if (previewLight) previewLight.src = evt.target.result;
+                    if (previewLogoInMockup) previewLogoInMockup.src = evt.target.result;
                     if (previewDark && (!inputSiteLogoDark || !inputSiteLogoDark.files.length)) {
                         previewDark.src = evt.target.result;
                     }
@@ -237,6 +439,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 reader.readAsDataURL(file);
             }
+        });
+    }
+
+    // Live Preview for Header Panorama / Banner Beside Logo
+    const inputHeaderBg = document.getElementById('inputHeaderBgImage');
+    const mockupBgLayer = document.getElementById('mockupBgLayer');
+    const headerMockupContainer = document.getElementById('headerMockupContainer');
+    const inputHeaderHeight = document.getElementById('inputHeaderHeight');
+    const selectBannerWidth = document.getElementById('selectBannerWidth');
+    const selectBannerOpacity = document.getElementById('selectBannerOpacity');
+    const selectBannerPos = document.getElementById('selectBannerPos');
+    const badgeStatus = document.getElementById('headerBgStatusBadge');
+
+    if (inputHeaderBg && mockupBgLayer) {
+        inputHeaderBg.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    mockupBgLayer.style.backgroundImage = 'url(' + evt.target.result + ')';
+                    if (badgeStatus) {
+                        badgeStatus.textContent = 'Gambar Baru Dipilih (Belum Disimpan)';
+                        badgeStatus.style.background = '#F59E0B';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (inputHeaderHeight && headerMockupContainer) {
+        inputHeaderHeight.addEventListener('input', function() {
+            const h = Math.max(60, parseInt(this.value) || 105);
+            headerMockupContainer.style.height = h + 'px';
+        });
+
+        document.querySelectorAll('.btn-preset-height').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const h = this.getAttribute('data-height');
+                inputHeaderHeight.value = h;
+                headerMockupContainer.style.height = h + 'px';
+            });
+        });
+    }
+
+    if (selectBannerWidth && mockupBgLayer) {
+        selectBannerWidth.addEventListener('change', function() {
+            mockupBgLayer.style.width = this.value;
+        });
+    }
+
+    if (selectBannerOpacity && mockupBgLayer) {
+        selectBannerOpacity.addEventListener('change', function() {
+            mockupBgLayer.style.opacity = this.value;
+        });
+    }
+
+    if (selectBannerPos && mockupBgLayer) {
+        selectBannerPos.addEventListener('change', function() {
+            mockupBgLayer.style.backgroundPosition = this.value;
         });
     }
 });

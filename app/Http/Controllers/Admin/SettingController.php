@@ -27,6 +27,8 @@ class SettingController extends Controller
             'facebook_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'twitter_url', 'telegram_url', 'whatsapp_channel',
             'footer_about',
             'enable_dark_mode', 'enable_comments', 'auto_approve_comments',
+            'header_height', 'header_banner_width', 'header_banner_opacity',
+            'header_banner_pos', 'header_banner_url', 'header_banner_url_target',
         ];
 
         foreach ($fields as $field) {
@@ -86,9 +88,26 @@ class SettingController extends Controller
             self::syncFileToPublicAssets($absFavSource, ['favicon.png', 'favicon.ico']);
         }
 
-        ActivityLog::log('Ubah Pengaturan', 'Memperbarui konfigurasi website, identitas logo, dan SEO');
+        // Handle Header Banner / Panorama Image Upload (Samping Logo)
+        if ($request->hasFile('header_bg_image')) {
+            $request->validate([
+                'header_bg_image' => 'image|mimes:png,jpg,jpeg,webp|max:10240',
+            ]);
 
-        return back()->with('success', 'Pengaturan website dan logo berhasil diperbarui.');
+            $headerPath = $request->file('header_bg_image')->store('branding', 'public');
+            $headerUrl = asset('storage/'.$headerPath).'?v='.time();
+            Setting::set('header_bg_image', $headerUrl);
+
+            // Sync to public assets for backward compatibility and cPanel hosting
+            $absHeaderSource = storage_path('app/public/'.$headerPath);
+            self::syncFileToPublicAssets($absHeaderSource, ['header_panorama.jpg', 'header_panorama.png', 'header_bg.jpg']);
+        } elseif ($request->boolean('reset_header_bg')) {
+            Setting::set('header_bg_image', '');
+        }
+
+        ActivityLog::log('Ubah Pengaturan', 'Memperbarui konfigurasi website, identitas logo, gambar samping logo, dan SEO');
+
+        return back()->with('success', 'Pengaturan website, logo, dan gambar samping logo berhasil diperbarui.');
     }
 
     /**

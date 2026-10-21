@@ -27,6 +27,15 @@
         $logoLight = !empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png');
         $logoDark  = !empty($siteSettings['site_logo_dark']) ? $siteSettings['site_logo_dark'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-dark-bg.png'));
         $siteFavicon = !empty($siteSettings['site_favicon']) ? $siteSettings['site_favicon'] : $logoLight;
+
+        // Dynamic Header Panorama / Banner Beside Logo
+        $headerBgImage = !empty($siteSettings['header_bg_image']) ? $siteSettings['header_bg_image'] : asset('assets/images/sulbar_panorama.jpg');
+        $headerHeight = !empty($siteSettings['header_height']) ? (int)$siteSettings['header_height'] : 105;
+        $headerBannerWidth = !empty($siteSettings['header_banner_width']) ? $siteSettings['header_banner_width'] : '60%';
+        $headerBannerOpacity = !empty($siteSettings['header_banner_opacity']) ? $siteSettings['header_banner_opacity'] : '0.85';
+        $headerBannerPos = !empty($siteSettings['header_banner_pos']) ? $siteSettings['header_banner_pos'] : 'center right';
+        $headerBannerUrl = $siteSettings['header_banner_url'] ?? '';
+        $headerBannerTarget = $siteSettings['header_banner_url_target'] ?? '_blank';
     @endphp
 
     {{-- Open Graph / Facebook / WhatsApp --}}
@@ -195,10 +204,24 @@
     </div>
 
     {{-- 2. BRANDING HEADER --}}
-    <header class="branding-header">
-        <div class="branding-header-bg"></div>
+    <header class="branding-header" style="min-height: {{ $headerHeight }}px;">
+        <div class="branding-header-bg" style="
+            background-image: url('{{ $headerBgImage }}');
+            width: {{ $headerBannerWidth }};
+            opacity: {{ $headerBannerOpacity }};
+            background-position: {{ $headerBannerPos }};
+        "></div>
+        @if(!empty($headerBannerUrl))
+            <a href="{{ $headerBannerUrl }}" 
+               target="{{ $headerBannerTarget }}" 
+               rel="noopener noreferrer" 
+               class="branding-header-banner-link" 
+               title="Kunjungi Banner" 
+               style="position: absolute; top: 0; right: 0; bottom: 0; width: {{ $headerBannerWidth }}; z-index: 2; cursor: pointer;">
+            </a>
+        @endif
         <div class="container">
-            <div class="branding-header-inner">
+            <div class="branding-header-inner" style="min-height: {{ $headerHeight }}px;">
                 <div class="brand-logo-wrap">
                     <a href="{{ route('home') }}" class="brand-logo-img-link" title="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }} - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
                         <img src="{{ $logoLight }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" class="main-site-logo logo-light">
