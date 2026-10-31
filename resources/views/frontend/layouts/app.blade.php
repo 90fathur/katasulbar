@@ -218,7 +218,7 @@
                 </div>
 
                 @if(!empty($headerBgImage))
-                    <div class="header-right-banner-wrap" style="height: {{ $headerHeight - 20 }}px;">
+                    <div class="header-right-banner-wrap" style="height: {{ $headerHeight - 20 }}px; max-width: {{ $headerBannerWidth }};">
                         @if(!empty($headerBannerUrl))
                             <a href="{{ $headerBannerUrl }}" 
                                target="{{ $headerBannerTarget }}" 
