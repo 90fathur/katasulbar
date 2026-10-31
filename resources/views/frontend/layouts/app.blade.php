@@ -21,15 +21,19 @@
             user-select: none;
             /* Standard */
         }
-        .branding-header-bg, .branding-header-bg::before {
+
+        .branding-header-bg,
+        .branding-header-bg::before {
             display: none !important;
         }
+
         .branding-header-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1.5rem;
         }
+
         .header-right-banner-wrap {
             flex: 1;
             display: flex;
@@ -38,6 +42,7 @@
             min-width: 0;
             margin-left: 1.5rem;
         }
+
         .header-right-banner-card {
             display: block;
             width: 100%;
@@ -47,6 +52,7 @@
             background-position: center right;
             border-radius: 4px;
         }
+
         @media (max-width: 768px) {
             .header-right-banner-wrap {
                 display: none !important;
@@ -55,22 +61,22 @@
     </style>
 
     @php
-        $logoLight = !empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png');
-        $logoDark  = !empty($siteSettings['site_logo_dark']) ? $siteSettings['site_logo_dark'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-dark-bg.png'));
-        $siteFavicon = !empty($siteSettings['site_favicon']) ? $siteSettings['site_favicon'] : $logoLight;
+    $logoLight = !empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-transparent.png');
+    $logoDark = !empty($siteSettings['site_logo_dark']) ? $siteSettings['site_logo_dark'] : (!empty($siteSettings['site_logo']) ? $siteSettings['site_logo'] : asset('assets/images/logo-dark-bg.png'));
+    $siteFavicon = !empty($siteSettings['site_favicon']) ? $siteSettings['site_favicon'] : $logoLight;
 
-        // Dynamic Header Panorama / Banner Beside Logo
-        $headerBgImage = !empty($siteSettings['header_bg_image']) ? $siteSettings['header_bg_image'] : asset('assets/images/sulbar_panorama.jpg');
-        $headerHeight = !empty($siteSettings['header_height']) ? (int)$siteSettings['header_height'] : 105;
-        $headerBannerWidth = !empty($siteSettings['header_banner_width']) ? $siteSettings['header_banner_width'] : '60%';
-        $headerBannerOpacity = !empty($siteSettings['header_banner_opacity']) ? $siteSettings['header_banner_opacity'] : '1';
-        $headerBannerPos = !empty($siteSettings['header_banner_pos']) ? $siteSettings['header_banner_pos'] : 'center right';
-        $headerBannerUrl = $siteSettings['header_banner_url'] ?? '';
-        $headerBannerTarget = $siteSettings['header_banner_url_target'] ?? '_blank';
+    // Dynamic Header Panorama / Banner Beside Logo
+    $headerBgImage = !empty($siteSettings['header_bg_image']) ? $siteSettings['header_bg_image'] : asset('assets/images/sulbar_panorama.jpg');
+    $headerHeight = !empty($siteSettings['header_height']) ? (int)$siteSettings['header_height'] : 105;
+    $headerBannerWidth = !empty($siteSettings['header_banner_width']) ? $siteSettings['header_banner_width'] : '60%';
+    $headerBannerOpacity = !empty($siteSettings['header_banner_opacity']) ? $siteSettings['header_banner_opacity'] : '1';
+    $headerBannerPos = !empty($siteSettings['header_banner_pos']) ? $siteSettings['header_banner_pos'] : 'center right';
+    $headerBannerUrl = $siteSettings['header_banner_url'] ?? '';
+    $headerBannerTarget = $siteSettings['header_banner_url_target'] ?? '_blank';
 
-        $headerStyle = 'min-height: ' . $headerHeight . 'px;';
-        $bannerWrapStyle = 'flex: 1; max-width: ' . $headerBannerWidth . '; height: ' . ($headerHeight - 20) . 'px; min-height: 60px; min-width: 0; margin-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end;';
-        $bannerCardStyle = 'display: block; width: 100%; height: 100%; min-height: 60px; background-image: url(\'' . $headerBgImage . '\'); background-size: cover; background-repeat: no-repeat; background-position: ' . $headerBannerPos . '; opacity: ' . $headerBannerOpacity . '; border-radius: 4px;';
+    $headerStyle = 'min-height: ' . $headerHeight . 'px;';
+    $bannerWrapStyle = 'flex: 1; max-width: ' . $headerBannerWidth . '; height: ' . ($headerHeight - 20) . 'px; min-height: 60px; min-width: 0; margin-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end;';
+    $bannerCardStyle = 'display: block; width: 100%; height: 100%; min-height: 60px; background-image: url(\'' . $headerBgImage . '\'); background-size: cover; background-repeat: no-repeat; background-position: ' . $headerBannerPos . '; opacity: ' . $headerBannerOpacity . '; border-radius: 4px;';
     @endphp
 
     {{-- Open Graph / Facebook / WhatsApp --}}
@@ -115,7 +121,24 @@
 
     {{-- Anti-Copy & Hak Cipta Protection Styling --}}
     <style>
-        body, .site-wrapper, main, article, section, p, h1, h2, h3, h4, h5, h6, span, div, a, li, ul, ol {
+        body,
+        .site-wrapper,
+        main,
+        article,
+        section,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        span,
+        div,
+        a,
+        li,
+        ul,
+        ol {
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
             -ms-user-select: none !important;
@@ -136,7 +159,10 @@
         }
 
         /* Izinkan seleksi & pengetikan normal pada input form (pencarian, komentar, newsletter) */
-        input, textarea, select, [contenteditable="true"] {
+        input,
+        textarea,
+        select,
+        [contenteditable="true"] {
             -webkit-user-select: text !important;
             -moz-user-select: text !important;
             -ms-user-select: text !important;
@@ -250,21 +276,21 @@
                 </div>
 
                 @if(!empty($headerBgImage))
-                    <div class="header-right-banner-wrap" {!! 'style="' . $bannerWrapStyle . '"' !!}>
-                        @if(!empty($headerBannerUrl))
-                            <a href="{{ $headerBannerUrl }}" 
-                               target="{{ $headerBannerTarget }}" 
-                               rel="noopener noreferrer" 
-                               class="header-right-banner-card" 
-                               title="Kunjungi Banner"
-                               {!! 'style="' . $bannerCardStyle . '"' !!}>
-                            </a>
-                        @else
-                            <div class="header-right-banner-card"
-                                 {!! 'style="' . $bannerCardStyle . '"' !!}>
-                            </div>
-                        @endif
+                <div class="header-right-banner-wrap" {!! 'style="' . $bannerWrapStyle . '"' !!}>
+                    @if(!empty($headerBannerUrl))
+                    <a href="{{ $headerBannerUrl }}"
+                        target="{{ $headerBannerTarget }}"
+                        rel="noopener noreferrer"
+                        class="header-right-banner-card"
+                        title="Kunjungi Banner"
+                        {!! 'style="' . $bannerCardStyle . '"' !!}>
+                    </a>
+                    @else
+                    <div class="header-right-banner-card"
+                        {!! 'style="' . $bannerCardStyle . '"' !!}>
                     </div>
+                    @endif
+                </div>
                 @endif
             </div>
         </div>
@@ -619,6 +645,7 @@
     <script>
         (function() {
             let toastTimer = null;
+
             function showCopyAlert(message) {
                 const toast = document.getElementById('antiCopyToast');
                 const msg = document.getElementById('antiCopyToastMsg');
@@ -634,7 +661,9 @@
                 toastTimer = setTimeout(function() {
                     toast.style.opacity = '0';
                     toast.style.transform = 'translateX(-50%) translateY(10px)';
-                    setTimeout(function() { toast.style.display = 'none'; }, 250);
+                    setTimeout(function() {
+                        toast.style.display = 'none';
+                    }, 250);
                 }, 2500);
             }
 
