@@ -125,7 +125,7 @@
                         $isCustomHeaderBg = !empty($settings['header_bg_image']);
                         $currentHeaderHeight = !empty($settings['header_height']) ? (int)$settings['header_height'] : 105;
                         $currentBannerWidth = !empty($settings['header_banner_width']) ? $settings['header_banner_width'] : '60%';
-                        $currentBannerOpacity = !empty($settings['header_banner_opacity']) ? $settings['header_banner_opacity'] : '0.85';
+                        $currentBannerOpacity = !empty($settings['header_banner_opacity']) ? $settings['header_banner_opacity'] : '1.0';
                         $currentBannerPos = !empty($settings['header_banner_pos']) ? $settings['header_banner_pos'] : 'center right';
                         $currentBannerUrl = $settings['header_banner_url'] ?? '';
                         $currentBannerTarget = $settings['header_banner_url_target'] ?? '_blank';
@@ -140,7 +140,7 @@
                             <li><strong>Rekomendasi Resolusi:</strong> <code>1920 × 250 px</code> s/d <code>1920 × 300 px</code> (Rasio panorama horizontal <code>16:3</code>).</li>
                             <li><strong>Ukuran Minimal:</strong> <code>1200 × 160 px</code> agar gambar tetap tajam pada monitor laptop / desktop.</li>
                             <li><strong>Format File:</strong> JPG, JPEG, PNG, atau WebP (Maksimal 10 MB).</li>
-                            <li><strong>Tips Desain Visual:</strong> Fokus gambar utama (seperti pemandangan, panorama kota/pantai, atau visual sponsor) disarankan berada di <em>sisi kanan tengah</em>, karena sisi kiri otomatis dipadukan dengan gradien halus logo Kata Sulbar.</li>
+                            <li><strong>Tips Desain Visual:</strong> Gambar ditampilkan utuh tanpa lapisan gradasi buatan dari kode. Anda dapat mengunggah file gambar/banner yang sudah didesain memiliki gradasi atau transparansi menyatu sendiri di sisi kirinya.</li>
                         </ul>
                     </div>
 
@@ -170,7 +170,7 @@
                             box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
                             transition: height 0.25s ease;
                         ">
-                            {{-- Background image layer --}}
+                            {{-- Background image layer (tanpa gradasi penutup) --}}
                             <div id="mockupBgLayer" style="
                                 position: absolute;
                                 top: 0;
@@ -182,17 +182,6 @@
                                 background-position: {{ $currentBannerPos }};
                                 opacity: {{ $currentBannerOpacity }};
                                 transition: all 0.25s ease;
-                            "></div>
-
-                            {{-- Gradient overlay layer --}}
-                            <div style="
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
-                                background: linear-gradient(to right, #FFFFFF 0%, rgba(255, 255, 255, 0.75) 40%, rgba(255, 255, 255, 0.1) 100%);
-                                pointer-events: none;
                             "></div>
 
                             {{-- Logo representation on left --}}
@@ -270,8 +259,8 @@
                                 Kejernihan / Opasitas Foto
                             </label>
                             <select name="header_banner_opacity" id="selectBannerOpacity" class="form-control" style="font-size: 0.78rem;">
-                                <option value="1.0" {{ $currentBannerOpacity === '1.0' || $currentBannerOpacity === '1' ? 'selected' : '' }}>100% - Sangat Tajam & Pekat</option>
-                                <option value="0.85" {{ $currentBannerOpacity === '0.85' ? 'selected' : '' }}>85% - Standar Seimbang (Rekomendasi)</option>
+                                <option value="1.0" {{ $currentBannerOpacity === '1.0' || $currentBannerOpacity === '1' ? 'selected' : '' }}>100% - Tajam & Penuh (Standar)</option>
+                                <option value="0.85" {{ $currentBannerOpacity === '0.85' ? 'selected' : '' }}>85% - Sedikit Halus</option>
                                 <option value="0.70" {{ $currentBannerOpacity === '0.70' ? 'selected' : '' }}>70% - Lembut & Elegan</option>
                                 <option value="0.50" {{ $currentBannerOpacity === '0.50' ? 'selected' : '' }}>50% - Transparan / Samar</option>
                             </select>

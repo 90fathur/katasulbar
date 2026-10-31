@@ -21,6 +21,9 @@
             user-select: none;
             /* Standard */
         }
+        .branding-header-bg::before {
+            display: none !important;
+        }
     </style>
 
     @php
@@ -32,7 +35,7 @@
         $headerBgImage = !empty($siteSettings['header_bg_image']) ? $siteSettings['header_bg_image'] : asset('assets/images/sulbar_panorama.jpg');
         $headerHeight = !empty($siteSettings['header_height']) ? (int)$siteSettings['header_height'] : 105;
         $headerBannerWidth = !empty($siteSettings['header_banner_width']) ? $siteSettings['header_banner_width'] : '60%';
-        $headerBannerOpacity = !empty($siteSettings['header_banner_opacity']) ? $siteSettings['header_banner_opacity'] : '0.85';
+        $headerBannerOpacity = !empty($siteSettings['header_banner_opacity']) ? $siteSettings['header_banner_opacity'] : '1';
         $headerBannerPos = !empty($siteSettings['header_banner_pos']) ? $siteSettings['header_banner_pos'] : 'center right';
         $headerBannerUrl = $siteSettings['header_banner_url'] ?? '';
         $headerBannerTarget = $siteSettings['header_banner_url_target'] ?? '_blank';
