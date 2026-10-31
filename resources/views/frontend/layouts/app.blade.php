@@ -21,8 +21,36 @@
             user-select: none;
             /* Standard */
         }
-        .branding-header-bg::before {
+        .branding-header-bg, .branding-header-bg::before {
             display: none !important;
+        }
+        .branding-header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+        .header-right-banner-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            min-width: 0;
+            margin-left: 1.5rem;
+        }
+        .header-right-banner-card {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center right;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .header-right-banner-wrap {
+                display: none !important;
+            }
         }
     </style>
 
@@ -218,18 +246,18 @@
                 </div>
 
                 @if(!empty($headerBgImage))
-                    <div class="header-right-banner-wrap" style="height: {{ $headerHeight - 20 }}px; max-width: {{ $headerBannerWidth }};">
+                    <div class="header-right-banner-wrap" style="flex: 1; max-width: {{ $headerBannerWidth }}; height: {{ $headerHeight - 20 }}px; min-height: 60px; min-width: 0; margin-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end;">
                         @if(!empty($headerBannerUrl))
                             <a href="{{ $headerBannerUrl }}" 
                                target="{{ $headerBannerTarget }}" 
                                rel="noopener noreferrer" 
                                class="header-right-banner-card" 
                                title="Kunjungi Banner"
-                               style="background-image: url('{{ $headerBgImage }}'); background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                               style="display: block; width: 100%; height: 100%; min-height: 60px; background-image: url('{{ $headerBgImage }}'); background-size: cover; background-repeat: no-repeat; background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }}; border-radius: 4px;">
                             </a>
                         @else
                             <div class="header-right-banner-card"
-                                 style="background-image: url('{{ $headerBgImage }}'); background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                                 style="display: block; width: 100%; height: 100%; min-height: 60px; background-image: url('{{ $headerBgImage }}'); background-size: cover; background-repeat: no-repeat; background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }}; border-radius: 4px;">
                             </div>
                         @endif
                     </div>

@@ -187,6 +187,13 @@ Route::get('/cpanel-setup', function (Request $request) {
         }
     }
 
+    // 1.5 Sync CSS and assets to public_html if exists
+    $publicHtmlCss = base_path('../public_html/assets/css/style.css');
+    if (file_exists($publicHtmlCss) && file_exists(public_path('assets/css/style.css'))) {
+        @copy(public_path('assets/css/style.css'), $publicHtmlCss);
+        $results['css_synced'] = 'style.css berhasil disinkronkan ke public_html';
+    }
+
     // 2. Clear & optimize cache
     try {
         @unlink(base_path('bootstrap/cache/config.php'));
