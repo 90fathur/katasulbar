@@ -33,7 +33,13 @@ class Category extends Model
     {
         static::creating(function (Category $category) {
             if (empty($category->slug)) {
-                $category->slug = Str::slug($category->name);
+                $base = Str::slug($category->name) ?: 'kategori';
+                $slug = $base;
+                $count = 1;
+                while (static::where('slug', $slug)->exists()) {
+                    $slug = $base.'-'.$count++;
+                }
+                $category->slug = $slug;
             }
         });
     }
