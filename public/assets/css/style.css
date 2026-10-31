@@ -438,27 +438,25 @@ button, input, textarea, select {
 .header-right-banner-wrap {
     flex: 1;
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     overflow: hidden;
+    min-width: 0;
+    margin-left: 1.5rem;
 }
 
-.header-right-banner-link {
+.header-right-banner-card {
     display: block;
     width: 100%;
-    text-align: right;
-    line-height: 0;
-}
-
-.header-right-banner-img {
-    display: block;
-    max-width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center right;
     border-radius: 4px;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.header-right-banner-link:hover .header-right-banner-img {
-    transform: scale(1.01);
+.header-right-banner-card:hover {
+    transform: scale(1.005);
 }
 
 @media (max-width: 768px) {

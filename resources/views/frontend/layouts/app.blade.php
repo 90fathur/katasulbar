@@ -218,23 +218,19 @@
                 </div>
 
                 @if(!empty($headerBgImage))
-                    <div class="header-right-banner-wrap" style="max-width: {{ $headerBannerWidth }};">
+                    <div class="header-right-banner-wrap" style="height: {{ $headerHeight - 20 }}px;">
                         @if(!empty($headerBannerUrl))
                             <a href="{{ $headerBannerUrl }}" 
                                target="{{ $headerBannerTarget }}" 
                                rel="noopener noreferrer" 
-                               class="header-right-banner-link" 
-                               title="Kunjungi Banner">
-                                <img src="{{ $headerBgImage }}" 
-                                     alt="Header Banner" 
-                                     class="header-right-banner-img" 
-                                     style="height: {{ $headerHeight - 20 }}px; width: 100%; object-fit: cover; object-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                               class="header-right-banner-card" 
+                               title="Kunjungi Banner"
+                               style="background-image: url('{{ $headerBgImage }}'); background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
                             </a>
                         @else
-                            <img src="{{ $headerBgImage }}" 
-                                 alt="Header Banner" 
-                                 class="header-right-banner-img" 
-                                 style="height: {{ $headerHeight - 20 }}px; width: 100%; object-fit: cover; object-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                            <div class="header-right-banner-card"
+                                 style="background-image: url('{{ $headerBgImage }}'); background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                            </div>
                         @endif
                     </div>
                 @endif
