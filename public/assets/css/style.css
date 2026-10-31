@@ -412,34 +412,59 @@ button, input, textarea, select {
 }
 
 .branding-header-bg {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 60%;
-    background-image: url('/assets/images/sulbar_panorama.jpg');
-    background-size: cover;
-    background-position: center right;
-    opacity: 1;
-    pointer-events: none;
+    display: none !important;
 }
 
 .branding-header-bg::before {
-    display: none;
+    display: none !important;
 }
 
 .branding-header-inner {
     position: relative;
     z-index: 2;
-    padding: 1.25rem 0;
+    padding: 0.75rem 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1.5rem;
 }
 
 .brand-logo-wrap {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
+}
+
+.header-right-banner-wrap {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+}
+
+.header-right-banner-link {
+    display: block;
+    width: 100%;
+    text-align: right;
+    line-height: 0;
+}
+
+.header-right-banner-img {
+    display: block;
+    max-width: 100%;
+    border-radius: 4px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.header-right-banner-link:hover .header-right-banner-img {
+    transform: scale(1.01);
+}
+
+@media (max-width: 768px) {
+    .header-right-banner-wrap {
+        display: none !important;
+    }
 }
 
 .brand-logo-img-link {

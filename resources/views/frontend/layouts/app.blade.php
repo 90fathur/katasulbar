@@ -208,21 +208,6 @@
 
     {{-- 2. BRANDING HEADER --}}
     <header class="branding-header" style="min-height: {{ $headerHeight }}px;">
-        <div class="branding-header-bg" style="
-            background-image: url('{{ $headerBgImage }}');
-            width: {{ $headerBannerWidth }};
-            opacity: {{ $headerBannerOpacity }};
-            background-position: {{ $headerBannerPos }};
-        "></div>
-        @if(!empty($headerBannerUrl))
-            <a href="{{ $headerBannerUrl }}" 
-               target="{{ $headerBannerTarget }}" 
-               rel="noopener noreferrer" 
-               class="branding-header-banner-link" 
-               title="Kunjungi Banner" 
-               style="position: absolute; top: 0; right: 0; bottom: 0; width: {{ $headerBannerWidth }}; z-index: 2; cursor: pointer;">
-            </a>
-        @endif
         <div class="container">
             <div class="branding-header-inner" style="min-height: {{ $headerHeight }}px;">
                 <div class="brand-logo-wrap">
@@ -231,6 +216,28 @@
                         <img src="{{ $logoDark }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" class="main-site-logo logo-dark">
                     </a>
                 </div>
+
+                @if(!empty($headerBgImage))
+                    <div class="header-right-banner-wrap" style="max-width: {{ $headerBannerWidth }};">
+                        @if(!empty($headerBannerUrl))
+                            <a href="{{ $headerBannerUrl }}" 
+                               target="{{ $headerBannerTarget }}" 
+                               rel="noopener noreferrer" 
+                               class="header-right-banner-link" 
+                               title="Kunjungi Banner">
+                                <img src="{{ $headerBgImage }}" 
+                                     alt="Header Banner" 
+                                     class="header-right-banner-img" 
+                                     style="height: {{ $headerHeight - 20 }}px; width: 100%; object-fit: cover; object-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                            </a>
+                        @else
+                            <img src="{{ $headerBgImage }}" 
+                                 alt="Header Banner" 
+                                 class="header-right-banner-img" 
+                                 style="height: {{ $headerHeight - 20 }}px; width: 100%; object-fit: cover; object-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }};">
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </header>

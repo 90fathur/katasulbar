@@ -166,27 +166,36 @@
                             overflow: hidden;
                             display: flex;
                             align-items: center;
+                            justify-content: space-between;
                             padding: 0 1rem;
+                            gap: 1.5rem;
                             box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
                             transition: height 0.25s ease;
                         ">
-                            {{-- Background image layer (tanpa gradasi penutup) --}}
-                            <div id="mockupBgLayer" style="
-                                position: absolute;
-                                top: 0;
-                                right: 0;
-                                bottom: 0;
-                                width: {{ $currentBannerWidth }};
-                                background-image: url('{{ $currentHeaderBg }}');
-                                background-size: cover;
-                                background-position: {{ $currentBannerPos }};
-                                opacity: {{ $currentBannerOpacity }};
-                                transition: all 0.25s ease;
-                            "></div>
-
                             {{-- Logo representation on left --}}
-                            <div style="position: relative; z-index: 2; display: flex; align-items: center;">
+                            <div style="flex-shrink: 0; display: flex; align-items: center;">
                                 <img id="previewLogoInMockup" src="{{ $currentLogoLight }}" alt="Logo" style="height: 48px; width: auto; object-fit: contain;">
+                            </div>
+
+                            {{-- Banner layer on right (di samping kanan logo) --}}
+                            <div id="mockupBannerWrap" style="
+                                flex: 1;
+                                max-width: {{ $currentBannerWidth }};
+                                height: calc(100% - 16px);
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-end;
+                            ">
+                                <div id="mockupBgLayer" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background-image: url('{{ $currentHeaderBg }}');
+                                    background-size: cover;
+                                    background-position: {{ $currentBannerPos }};
+                                    opacity: {{ $currentBannerOpacity }};
+                                    border-radius: 4px;
+                                    transition: all 0.25s ease;
+                                "></div>
                             </div>
                         </div>
                     </div>
@@ -473,9 +482,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (selectBannerWidth && mockupBgLayer) {
+    const mockupBannerWrap = document.getElementById('mockupBannerWrap');
+    if (selectBannerWidth) {
         selectBannerWidth.addEventListener('change', function() {
-            mockupBgLayer.style.width = this.value;
+            if (mockupBannerWrap) mockupBannerWrap.style.maxWidth = this.value;
+            if (mockupBgLayer) mockupBgLayer.style.width = '100%';
         });
     }
 
