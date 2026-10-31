@@ -67,6 +67,10 @@
         $headerBannerPos = !empty($siteSettings['header_banner_pos']) ? $siteSettings['header_banner_pos'] : 'center right';
         $headerBannerUrl = $siteSettings['header_banner_url'] ?? '';
         $headerBannerTarget = $siteSettings['header_banner_url_target'] ?? '_blank';
+
+        $headerStyle = 'min-height: ' . $headerHeight . 'px;';
+        $bannerWrapStyle = 'flex: 1; max-width: ' . $headerBannerWidth . '; height: ' . ($headerHeight - 20) . 'px; min-height: 60px; min-width: 0; margin-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end;';
+        $bannerCardStyle = 'display: block; width: 100%; height: 100%; min-height: 60px; background-image: url(\'' . $headerBgImage . '\'); background-size: cover; background-repeat: no-repeat; background-position: ' . $headerBannerPos . '; opacity: ' . $headerBannerOpacity . '; border-radius: 4px;';
     @endphp
 
     {{-- Open Graph / Facebook / WhatsApp --}}
@@ -235,9 +239,9 @@
     </div>
 
     {{-- 2. BRANDING HEADER --}}
-    <header class="branding-header" style="min-height: {{ $headerHeight }}px;">
+    <header class="branding-header" {!! 'style="' . $headerStyle . '"' !!}>
         <div class="container">
-            <div class="branding-header-inner" style="min-height: {{ $headerHeight }}px;">
+            <div class="branding-header-inner" {!! 'style="' . $headerStyle . '"' !!}>
                 <div class="brand-logo-wrap">
                     <a href="{{ route('home') }}" class="brand-logo-img-link" title="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }} - {{ $siteSettings['site_tagline'] ?? 'Suara Sulbar, Untuk Semua' }}">
                         <img src="{{ $logoLight }}" alt="{{ $siteSettings['site_name'] ?? 'KATA SULBAR' }}" class="main-site-logo logo-light">
@@ -246,18 +250,18 @@
                 </div>
 
                 @if(!empty($headerBgImage))
-                    <div class="header-right-banner-wrap" style="flex: 1; max-width: {{ $headerBannerWidth }}; height: {{ $headerHeight - 20 }}px; min-height: 60px; min-width: 0; margin-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end;">
+                    <div class="header-right-banner-wrap" {!! 'style="' . $bannerWrapStyle . '"' !!}>
                         @if(!empty($headerBannerUrl))
                             <a href="{{ $headerBannerUrl }}" 
                                target="{{ $headerBannerTarget }}" 
                                rel="noopener noreferrer" 
                                class="header-right-banner-card" 
                                title="Kunjungi Banner"
-                               style="display: block; width: 100%; height: 100%; min-height: 60px; background-image: url('{{ $headerBgImage }}'); background-size: cover; background-repeat: no-repeat; background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }}; border-radius: 4px;">
+                               {!! 'style="' . $bannerCardStyle . '"' !!}>
                             </a>
                         @else
                             <div class="header-right-banner-card"
-                                 style="display: block; width: 100%; height: 100%; min-height: 60px; background-image: url('{{ $headerBgImage }}'); background-size: cover; background-repeat: no-repeat; background-position: {{ $headerBannerPos }}; opacity: {{ $headerBannerOpacity }}; border-radius: 4px;">
+                                 {!! 'style="' . $bannerCardStyle . '"' !!}>
                             </div>
                         @endif
                     </div>
